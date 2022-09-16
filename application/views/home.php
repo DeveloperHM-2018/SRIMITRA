@@ -17,7 +17,7 @@
                         <div class="slider-content">
                             <span data-animation="fadeInUp" data-delay=".3s">Mission</span>
                             <h2 data-animation="fadeInUp" data-delay=".6s" style="font-size: 40px;">
-                                No Child Hungry sagar
+                                No Child Hungry  
                             </h2>
                             <p data-animation="fadeInUp" data-delay=".9s">
                                 Put the food on the Table of Children Living in Child Care Home
