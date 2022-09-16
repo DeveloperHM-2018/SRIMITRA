@@ -234,7 +234,7 @@ class Index extends CI_Controller
 
 
 
-                $message = forgotPassword($login_data['password'], base_url());
+                $message = forgotPassword($login_data['password'], base_url(), $data['contactdetails'][0]['facebook'], $data['contactdetails'][0]['instagram'], $data['contactdetails'][0]['linkedin'], $data['contactdetails'][0]['twitter']);
                 sendmail($email, 'Forgot Password  | From SriMitra', $message);
 
                 $this->session->set_userdata('forget', '<span class="text-success">Check your mail ID for Password</span>');
@@ -323,7 +323,7 @@ class Index extends CI_Controller
                         $formdata['password'] =   substr($formdata['name'], 0, 3) . substr($formdata['number'], 0, 3);
                         print_r($formdata['password']);
                         md5($formdata['password']);
-                        
+
                         $this->CommonModal->insertRowReturnId($table, $formdata);
 
                         // $message = 'Dear  '.$formdata['name'].',<br><br>
@@ -376,7 +376,7 @@ class Index extends CI_Controller
         $data['logo'] = 'assets/logo.png';
         $this->load->view('thankyou', $data);
     }
-
+    
     public function changePassword()
     {
         extract($this->input->post());

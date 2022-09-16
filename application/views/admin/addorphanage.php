@@ -118,16 +118,28 @@
                                                     <input type="file" class="form-control" name="profile" accept="image/*,.pdf" />
                                                     <p style="color:#9F0B0B;"> Maximum File Size Limit is 5MB. </p>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Demography Section</label>
+                                                     <select class="form-control" name="demography" id="demography">
+                                                     <option>Select demography</option>
+                                                     <?php foreach ($demography as $row) {
+                                                     ?>
+                                                     <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
+                                                     <?php
+                                                     }
+                                                     ?>
+                                                     </select>
+                                                </div>
 
 
                                                 <!-- <h5> </br> </h5> -->
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label class="form-label">Gallery</label>
                                                     <input class="form-control pd-r-80" type="file" name="img[]" multiple accept="image/*,.pdf">
                                                     <p style="color:#9F0B0B;"> Maximum File Size Limit is 5MB. </p>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label class="form-label">Tagline</label>
                                                     <input type="text" class="form-control" name="tagline" value="Congratulations for becoming a part of extended family !!" />
                                                 </div>

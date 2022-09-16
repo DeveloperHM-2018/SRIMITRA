@@ -116,7 +116,18 @@
                                                     <label class="form-label">Address GEO Codeing</label>
                                                     <input type="text" class="form-control" name="geo_coding" value="<?= $orphane[0]['geo_coding'] ?>" />
                                                 </div>
-
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Demography Section</label>
+                                                     <select class="form-control" name="demography" id="demography">
+                                                     <option>Select demography</option>
+                                                     <?php foreach ($demography as $row) {
+                                                     ?>
+                                                     <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
+                                                     <?php
+                                                     }
+                                                     ?>
+                                                     </select>
+                                                </div>
 
                                                 <div class="col-md-3">
                                                     <label class="form-label">Trust Name </label>

@@ -98,6 +98,7 @@
                                             <a class="btn  btn-info  m-2 savecart pink-btn" id="savecart" style="display:none">Proceed as guest</a>
                                         </li><br>
                                     </ul>
+                                    <div></div>
                                 </div>
                             </div>
                         </div>
@@ -175,9 +176,8 @@
                                     console.log(coderesult);
                                     if (response == '1') {
                                     alert("You have registered successfully. Enter OTP sent to your mobile for login ");
-                                    }else if (response == '4') {{
+                                    }else if (response == '4') {
                                         alert("You are already a member. Enter OTP sent to your mobile for login ");
-                                    
                                     }
                                     $('.otp').show();
                                     $('#number').attr('readonly', true);

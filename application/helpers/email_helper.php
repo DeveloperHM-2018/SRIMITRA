@@ -653,7 +653,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         margin-top: 30px;
      
     }">
-          <a href="'.base_url().'child_care_homes" target="_blank" style="background: #006573;
+          <a href="' . base_url() . 'child_care_homes" target="_blank" style="background: #006573;
           border: none;
           padding: 10px 50px;
     
@@ -675,7 +675,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         padding: 4px;
         color: #5892FF;
         font-family: Source Sans Pro;
-        letter-spacing: 1px;"> <a href="'.base_url().'" style="text-decoration: none;
+        letter-spacing: 1px;"> <a href="' . base_url() . '" style="text-decoration: none;
       color: #006573;
       font-weight: 600;">SriMitra</a>
         </p>
@@ -746,8 +746,8 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         font-family: Source Sans Pro;
         letter-spacing: 1px;">We just Wanted to say Thanks for Being a Valued Customer<br>
 
-           Your tax Benefit Certificate has been available on your Dashboard <br> please download on by this link  - <a href="'.base_url().'my_donation" style=" color: #ffa800;
-          font-weight: 700;">'.base_url().'my_donation</a> <br>
+           Your tax Benefit Certificate has been available on your Dashboard <br> please download on by this link  - <a href="' . base_url() . 'my_donation" style=" color: #ffa800;
+          font-weight: 700;">' . base_url() . 'my_donation</a> <br>
 
            </p>
           <br> <br>
@@ -759,7 +759,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         margin-top: 30px;
      
     }">
-          <a href="'.base_url().'child_care_homes" target="_blank" style="background: #006573;
+          <a href="' . base_url() . 'child_care_homes" target="_blank" style="background: #006573;
           border: none;
           padding: 10px 50px;
     
@@ -781,7 +781,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         padding: 4px;
         color: #5892FF;
         font-family: Source Sans Pro;
-        letter-spacing: 1px;"> <a href="'.base_url().'" style="text-decoration: none;
+        letter-spacing: 1px;"> <a href="' . base_url() . '" style="text-decoration: none;
       color: #006573;
       font-weight: 600;">SriMitra</a>
         </p>
@@ -799,7 +799,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
 
 
 
-function forgotPassword($password, $link)
+function forgotPassword($password, $link, $facebook, $instagram, $linkedin, $tweet)
 {
   return '<!DOCTYPE html>
 <html>
@@ -877,6 +877,28 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
            Login Now
           </a>
         </div>
+
+        <div class="go-home" style="text-align: center !important;
+        display: block !important;
+        margin: 30px 0; @media (min-width:360px) {
+      
+        margin-bottom: 20px;
+        margin-top: 30px;
+     
+    }"><p><b>Follow us on - 
+    <a href="' . $facebook . '">
+    <img src="' . base_url() . 'assets/img/icon/facebook.png" style="width:40px" />
+    </a>
+    <a href="' . $instagram . '">
+        <img src="' . base_url() . 'assets/img/icon/instagram.png" style="width:40px" />
+    </a>
+    <a href="' . $linkedin . '">
+        <img src="' . base_url() . 'assets/img/icon/linkedin.png" style="width:40px" />
+    </a>
+    <a href="' . $tweet . '">
+        <img src="' . base_url() . 'assets/img/icon/tweet.png" style="width:40px" />
+    </a></b></p>
+        </div>
       </div>
       
     </div>
@@ -889,24 +911,24 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
 
 </html>';
 
-// line no 881
-// <div class="footer-like" style=" margin-top: auto;
-//       background: #D7E6FE;
-//       padding: 6px;
-//       text-align: center;">
-//         <p style="margin: 0;
-//         padding: 4px;
-//         color: #5892FF;
-//         font-family: Source Sans Pro;
-//         letter-spacing: 1px;"> <a href="'.base_url().'" style="text-decoration: none;
-//       color: #006573;
-//       font-weight: 600;">SriMitra</a>
-//         </p>
-//       </div>
+  // line no 881
+  // <div class="footer-like" style=" margin-top: auto;
+  //       background: #D7E6FE;
+  //       padding: 6px;
+  //       text-align: center;">
+  //         <p style="margin: 0;
+  //         padding: 4px;
+  //         color: #5892FF;
+  //         font-family: Source Sans Pro;
+  //         letter-spacing: 1px;"> <a href="'.base_url().'" style="text-decoration: none;
+  //       color: #006573;
+  //       font-weight: 600;">SriMitra</a>
+  //         </p>
+  //       </div>
 }
 
 
-function common_mail_temp($title = null,$message = null, $message1 = null, $message2 = null,$link = null)
+function common_mail_temp($title = null, $message = null, $message1 = null, $message2 = null, $link = null)
 {
   $link = base_url();
   return '<!DOCTYPE html>
@@ -947,7 +969,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         margin-bottom: 30px;
         text-align: center;  @media (min-width:360px) {
        font-size: 3.5rem;
-      }">'.$title.'</h1>
+      }">' . $title . '</h1>
         <h6 style="margin: 0;
         font-size: 1.3em;
         color: rgb(80, 79, 79);
@@ -957,7 +979,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         font-size: 1.3em;
         color: rgb(80, 79, 79);
         font-family: Source Sans Pro;
-        letter-spacing: 1px;">'.$message.'
+        letter-spacing: 1px;">' . $message . '
 
            </p>
           <br> <br>
@@ -965,7 +987,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         font-size: 1.3em;
         color: rgb(80, 79, 79);
         font-family: Source Sans Pro;
-        letter-spacing: 1px;">'.$message1.'
+        letter-spacing: 1px;">' . $message1 . '
 
            </p>
           <br> <br>
@@ -973,7 +995,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         font-size: 1.3em;
         color: rgb(80, 79, 79);
         font-family: Source Sans Pro;
-        letter-spacing: 1px;">'.$message2.'
+        letter-spacing: 1px;">' . $message2 . '
 
            </p>
           <br> <br>
@@ -998,7 +1020,7 @@ background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%); height: 100%; m
         padding: 4px;
         color: #5892FF;
         font-family: Source Sans Pro;
-        letter-spacing: 1px;"> <a href="'.base_url().'" style="text-decoration: none;
+        letter-spacing: 1px;"> <a href="' . base_url() . '" style="text-decoration: none;
       color: #006573;
       font-weight: 600;">SriMitra</a>
         </p>

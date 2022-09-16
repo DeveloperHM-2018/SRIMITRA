@@ -204,7 +204,8 @@ class Admin_Dashboard extends CI_Controller
   {
     $data['title'] = 'Child Care Home';
     $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
-
+    $data['demography'] = $this->CommonModal->getAllRows('tbl_demography');
+    
     if (count($_POST) > 0) {
       $post_data = $this->input->post();
 
@@ -672,7 +673,7 @@ class Admin_Dashboard extends CI_Controller
 
     if (count($_POST) > 0) {
       $post = $this->input->post();
-      $post['m_photo'] = imageUpload('m_photo','uploads/merchant/');
+      $post['m_photo'] = imageUpload('m_photo', 'uploads/merchant/');
       $password = substr($post['shop_name'], 0, 3) . substr($post['number'], 0, 3);
       $pass = str_replace(' ', '', $password);
       $post['password'] = ($pass);
@@ -771,7 +772,7 @@ class Admin_Dashboard extends CI_Controller
     if (count($_POST) > 0) {
       // print_r($_POST);
 
-      $post = $this->input->post(); 
+      $post = $this->input->post();
       $m_photo = $post['m_photo'];
       if ($_FILES['m_photo_temp']['name'] != '') {
         $img8 = imageUpload('m_photo_temp', 'uploads/merchant/');
