@@ -1,6 +1,122 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <?php include('includes/home-head-link.php'); ?>
+<style>
+    .main-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+
+        border-collapse: collapse;
+        margin-bottom: 0.2rem;
+        padding: 5px;
+        color: #212529;
+        border-bottom: #212529 1px solid;
+        text-align: center;
+    }
+
+    /*
+	Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+	*/
+    @media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+
+        /* Force table to not be like tables anymore */
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+            display: block;
+            border-collapse: collapse;
+            margin-bottom: 0rem;
+            color: #212529;
+
+            text-align: left;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+
+        }
+
+        tr {
+            margin: 0 0 1rem 0;
+        }
+
+        tr:nth-child(odd) {
+            background: #ccc;
+        }
+
+        td {
+            /* Behave  like a "row" */
+            border: none;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 0;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            /* white-space: nowrap; */
+            line-height: 15px;
+            padding-top: 5px;
+            ;
+        }
+
+        /*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		*/
+        td:nth-of-type(1):before {
+            content: "Select here";
+        }
+
+        td:nth-of-type(2):before {
+            content: "Product";
+        }
+
+        td:nth-of-type(3):before {
+            content: "Quantity requested";
+        }
+
+        td:nth-of-type(4):before {
+            content: "Price/unit ";
+        }
+
+        td:nth-of-type(5):before {
+            content: "Use Button to customize";
+        }
+
+        td:nth-of-type(6):before {
+            content: "Total Amount";
+        }
+
+
+    }
+</style>
+
 
 <body>
 
@@ -17,7 +133,7 @@
                         <div class="slider-content">
                             <span data-animation="fadeInUp" data-delay=".3s">Mission</span>
                             <h2 data-animation="fadeInUp" data-delay=".6s" style="font-size: 40px;">
-                                No Child Hungry  
+                                No Child Hungry
                             </h2>
                             <p data-animation="fadeInUp" data-delay=".9s">
                                 Put the food on the Table of Children Living in Child Care Home
@@ -289,16 +405,18 @@
                                                         <div class="col-md-12 text-right text-info">
                                                             Use button to customize quantity
                                                         </div>
-                                                        <table class="table table-striped">
-                                                            <tr>
-                                                                <td># </td>
-                                                                <td>Product </td>
-                                                                <td>Quantity requested </td>
-                                                                <td>Price/unit </td>
-                                                                <td>Use Button to customize </td>
-                                                                <!-- <td>Total Amount </td> -->
-                                                            </tr>
-                                                            <tbody>
+                                                        <table class=" " role="table">
+                                                            <thead role="rowgroup">
+                                                                <tr role="row">
+                                                                    <th role="columnheader"># </th>
+                                                                    <th role="columnheader">Product </th>
+                                                                    <th role="columnheader">Quantity requested </th>
+                                                                    <th role="columnheader">Price/unit </th>
+                                                                    <th role="columnheader">Use Button to customize </th>
+                                                                    <th role="columnheader">Total Amount </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody role="rowgroup">
                                                                 <?php
 
                                                                 $data = getRowById('tbl_orphange_order_product', 'o_id', $orderrow['oid']);
@@ -308,33 +426,34 @@
                                                                         $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
                                                                         $product = getSingleRowById('products', array('product_id' => $merchant['product_id']));
                                                                 ?>
-                                                                        <tr>
-                                                                            <td style="width:5% ;">
+
+                                                                        <tr role="row">
+                                                                            <td role="cell">
                                                                                 <input type="checkbox" name="checkbox_check[]" class="add-cart" data-id="<?= $merchant['id'] ?>" data-orpahneid="<?= $mar[0]['id'] ?>">
                                                                             </td>
 
-                                                                            <td style="width:25% ;">
+                                                                            <td role="cell">
                                                                                 <p>
                                                                                     <?= $product['pro_name'] ?>
                                                                                 </p>
                                                                             </td>
-                                                                            <td style="width:25% ;">
+                                                                            <td role="cell">
                                                                                 <p>
 
                                                                                     <?= ($merchant['quantity'] * $datarow['quantity']) ?> <?= $merchant['quantity_type'] ?>
                                                                                 </p>
                                                                             </td>
-                                                                            <td style="width:30% ;">
+                                                                            <td role="cell">
                                                                                 <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
                                                                             </td>
-                                                                            <td style="width:40% ;">
+                                                                            <td role="cell">
                                                                                 <!-- <button id="dec<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-minus pull-left dec"></button> -->
-                                                                                <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 col-md-4" id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>">
+                                                                                <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>" style="width:70px">
                                                                                 <!-- <button id="inc<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-plus pull-right inc"></button> -->
                                                                             </td>
-                                                                            <!-- <td style="width:30% ;">
-
-                                                                            </td> -->
+                                                                            <td role="cell">
+                                                                                &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
+                                                                            </td>
                                                                         </tr>
                                                                 <?php
                                                                         $i++;
@@ -384,7 +503,8 @@
 
                             </div>
                             <h6>Do you want to know how your contribution is making changes?<br>
-                                <a href="<?= base_url('Index/login_here') ?>" class="text-primary">Sign up  </a> with us today and become part of ever growing SriMitra family.</h6>
+                                <a href="<?= base_url('Index/login_here') ?>" class="text-primary">Sign up </a> with us today and become part of ever growing SriMitra family.
+                            </h6>
                         </div>
                     </div>
                     <div class="col-md-6 fact-area dflex" style="margin-top: -25px;">
@@ -560,19 +680,24 @@ background: url('<?= base_url() ?>assets/home/img/backgroundimg.jpg');
                                         <input type="email" id="email" name="email" placeholder="  Email" />
                                     </div>
                                     <div class="form-grp col-md-6">
-                                        <label for="location"> Location <span>*</span></label>
-                                        <select class="form-control" name="location" id="location" required>
-                                            <option value="">Select Location</option>
-                                            <?php
-
-                                            foreach ($city_list as $row) {
-                                            ?>
-                                                <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
-                                            <?php
-                                            }
-                                            ?>
+                                        <label class="form-label">State</label>
+                                        <select class="form-control" name="state" id="state" required>
+                                            <option value="">Select state </option>
+                                            <?php if ($state_list) {
+                                                foreach ($state_list
+                                                    as $state) { ?>
+                                                    <option value="<?= $state['state_name'] ?>"><?= $state['state_name'] ?></option>
+                                            <?php }
+                                            } ?>
                                         </select>
                                     </div>
+                                    <div class="form-grp col-md-6">
+                                        <label class="form-label">City</label>
+                                        <select name="location" class="form-control" id="location" required>
+                                            <option value="">Select city</option>
+                                        </select>
+                                    </div>
+
 
                                     <div class="form-grp col-md-12 f24" style="font-size: 44px">
                                         <input type="radio" id="childcarehome" name="type" value="Child Care Home" />
@@ -829,6 +954,24 @@ background: url('<?= base_url() ?>assets/home/img/backgroundimg.jpg');
         //         ]
         //     });
         // });
+    </script>
+    <script>
+        $(document).on('change', '#state', function() {
+
+            var state = $(this).val();
+            // console.log(state);
+            $.ajax({
+                method: "POST",
+                url: "<?= base_url('Ajax/getcity') ?>",
+                data: {
+                    state: state
+                },
+                success: function(response) {
+                    // console.log(response);
+                    $('#location').html(response);
+                }
+            });
+        });
     </script>
 </body>
 

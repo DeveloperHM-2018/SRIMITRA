@@ -16,6 +16,7 @@ class Index extends CI_Controller
         $data['city_list'] = $this->CommonModal->getAllRows('tbl_cities');
         $data['all_orphanage'] = $this->CommonModal->getAllRowsInOrder('tbl_orphanage', 'id', 'desc');
         $data['statelist'] = $this->CommonModal->getDistinctRow('tbl_orphanage', 'state');
+        $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
         $data['request'] = $this->CommonModal->getAllRows('order_request_template');
         $data['order'] = $this->CommonModal->getRowByMoreId('tbl_orphange_order', array('status' => '1'));
         if (count($_POST) > 0) {
@@ -261,7 +262,7 @@ class Index extends CI_Controller
             if (!empty($login_data)) {
 
 
-                $message = forgotPassword($login_data['password'], base_url() . 'childcare_homes_login');
+                $message = forgotPassword($login_data['password'], base_url() . 'childcare_homes_login', $data['contactdetails'][0]['facebook'], $data['contactdetails'][0]['instagram'], $data['contactdetails'][0]['linkedin'], $data['contactdetails'][0]['twitter']);
                 sendmail($login_data['email'], 'Forgot Password  | From SriMitra', $message);
 
                 $this->session->set_userdata('forget', '<span class="text-success">Check your mail ID for Password</span>');
@@ -289,7 +290,7 @@ class Index extends CI_Controller
 
 
 
-                $message = forgotPassword($login_data['password'], base_url() . 'merchant_login');
+                $message = forgotPassword($login_data['password'], base_url() . 'merchant_login', $data['contactdetails'][0]['facebook'], $data['contactdetails'][0]['instagram'], $data['contactdetails'][0]['linkedin'], $data['contactdetails'][0]['twitter']);
                 sendmail($login_data['email'], 'Forgot Password  | From SriMitra', $message);
                 $this->session->set_userdata('forget', '<span class="text-success">Check your mail ID for Password</span>');
                 // redirect(base_url('Index/forget_password'));
@@ -376,7 +377,7 @@ class Index extends CI_Controller
         $data['logo'] = 'assets/logo.png';
         $this->load->view('thankyou', $data);
     }
-    
+
     public function changePassword()
     {
         extract($this->input->post());

@@ -388,6 +388,38 @@ function imageUpload($imageName, $path)
 	}
 }
 
+function videoUpload($imageName, $path)
+{
+	$ci = &get_instance();
+	$config['file_name'] = date('dm') . round(microtime(true) * 1000);
+	$config['allowed_types'] = 'mp4';
+	$config['upload_path'] = $path;
+	$target_path = $path;
+	$config['remove_spaces'] = true;
+	$config['overwrite'] = false;
+	$ci->load->library('upload', $config);
+	$ci->upload->initialize($config);
+	if ($ci->upload->do_upload($imageName)) {
+		$data = array('upload_data' => $ci->upload->data());
+		$path = $data['upload_data']['full_path'];
+		$picture = $data['upload_data']['file_name'];
+		// $configi['image_library'] = 'gd2';
+		// $config['quality'] = '50%';
+		// $config['create_thumb'] = FALSE;
+		// $configi['source_image'] = $path;
+		// $configi['new_image'] = $target_path;
+		// $configi['maintain_ratio'] = TRUE;
+		// $configi['width'] = 380;
+		// $configi['height'] = 260;
+		// $ci->load->library('image_lib');
+		// $ci->image_lib->initialize($configi);
+		// $ci->image_lib->resize();
+		return $picture;
+	} else {
+		return false;
+	}
+}
+
 function imageUploadWithRatio($imageName, $path, $width, $height)
 {
 	$ci = &get_instance();
@@ -487,65 +519,65 @@ function sendNotificationUser($device_id, $title, $message)
 
 function sendmail($to, $subject, $message)
 {
- 
-	require 'php/class/class.phpmailer.php';
-	$mail = new PHPMailer;
-	$mail->IsSMTP();
-	$mail->Host = 'mail.srimitraindia.com';
-	$mail->Port = '587';
-	$mail->SMTPAuth = true;
-	$mail->Username = 'info@srimitraindia.com';
-	$mail->Password = "?}4@;97P}o2T";
-	$mail->SMTPSecure = '';
-	$mail->From = 'info@srimitraindia.com';
-	$mail->FromName = 'Srimitra';
-	$mail->AddAddress($to);
-	$mail->WordWrap = 50;
-	$mail->IsHTML(true);
-	$mail->Subject = $subject;
-	$mail->Body = $message;
-// 	print_R($mail);
-	if ($mail->Send()) {
-		return true;
-	} else {
-		return false;
-	}
+
+	// require 'php/class/class.phpmailer.php';
+	// $mail = new PHPMailer;
+	// $mail->IsSMTP();
+	// $mail->Host = 'mail.srimitraindia.com';
+	// $mail->Port = '587';
+	// $mail->SMTPAuth = true;
+	// $mail->Username = 'info@srimitraindia.com';
+	// $mail->Password = "?}4@;97P}o2T";
+	// $mail->SMTPSecure = '';
+	// $mail->From = 'info@srimitraindia.com';
+	// $mail->FromName = 'Srimitra';
+	// $mail->AddAddress($to);
+	// $mail->WordWrap = 50;
+	// $mail->IsHTML(true);
+	// $mail->Subject = $subject;
+	// $mail->Body = $message;
+	// // 	print_R($mail);
+	// if ($mail->Send()) {
+	// 	return true;
+	// } else {
+	// 	return false;
+	// }
 
 
 	// Always set content-type when sending HTML email
-	// $headers = "MIME-Version: 1.0" . "\r\n";
-	// $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-	// // More headers
-	// $headers .= 'From: webangelte
-	// chnologies@gmail.com' . "\r\n";
-	// $headers .= 'Cc: '. $to . "\r\n";
+	// More headers
+	$headers .= 'From: webangelte
+	chnologies@gmail.com' . "\r\n";
+	$headers .= 'Cc: '. $to . "\r\n";
 
-	// $send = mail($to, $subject, $message, $headers);
-	// return $send;
+	$send = mail($to, $subject, $message, $headers);
+	return $send;
 
-// 	$ci = &get_instance();
-	
-// // 	$ci->email->protocol('smtp');
-// // 	$ci->email->smtp_host('mail.srimitraindia.com');
-// // 	$ci->email->smtp_user('info@srimitraindia.com');
-// // 	$ci->email->smtp_pass('?}4@;97P}o2T');
-// // 	$ci->email->smtp_port('465');
-// // 	$ci->email->smtp_keepalive(TRUE);
-// // 	$ci->email->smtp_crypto('ssl');
-// // 	$ci->email->mailtype('html');
-// // 	$ci->email->priority('2');
-	
-// 	$ci->email->from('info@srimitraindia.com', 'Srimitra');
-// 	$ci->email->to($to);
-// // 	$ci->email->cc($to);
-// // 	$ci->email->bcc($to);
-	
-// 	$ci->email->subject($subject);
-// 	$ci->email->message($message);
+	// 	$ci = &get_instance();
 
-// 	$ci->email->send();
-// 	print_r($ci->email);
+	// // 	$ci->email->protocol('smtp');
+	// // 	$ci->email->smtp_host('mail.srimitraindia.com');
+	// // 	$ci->email->smtp_user('info@srimitraindia.com');
+	// // 	$ci->email->smtp_pass('?}4@;97P}o2T');
+	// // 	$ci->email->smtp_port('465');
+	// // 	$ci->email->smtp_keepalive(TRUE);
+	// // 	$ci->email->smtp_crypto('ssl');
+	// // 	$ci->email->mailtype('html');
+	// // 	$ci->email->priority('2');
+
+	// 	$ci->email->from('info@srimitraindia.com', 'Srimitra');
+	// 	$ci->email->to($to);
+	// // 	$ci->email->cc($to);
+	// // 	$ci->email->bcc($to);
+
+	// 	$ci->email->subject($subject);
+	// 	$ci->email->message($message);
+
+	// 	$ci->email->send();
+	// 	print_r($ci->email);
 }
 
 function sendWhatsapp($contact_no, $message_content)

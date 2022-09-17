@@ -39,16 +39,22 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-4 col-sm-6 col-6">
-                                        <label>Name</label>
-                                            <input type="text" id="direct_name" name="name" placeholder=" Name *" value="<?php if($this->session->has_userdata('login_user_name')){ echo $this->session->userdata('login_user_name'); } ?>" required />
+                                            <label>Name</label>
+                                            <input type="text" id="direct_name" name="name" placeholder=" Name *" value="<?php if ($this->session->has_userdata('login_user_name')) {
+                                                                                                                                echo $this->session->userdata('login_user_name');
+                                                                                                                            } ?>" required />
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
-                                        <label>Contact no.</label>
-                                            <input type="text" id="direct_number" name="number" placeholder=" Number *" value="<?php if($this->session->has_userdata('login_user_contact')){ echo $this->session->userdata('login_user_contact'); } ?>" required />
+                                            <label>Contact no.</label>
+                                            <input type="text" id="direct_number" name="number" placeholder=" Number *" value="<?php if ($this->session->has_userdata('login_user_contact')) {
+                                                                                                                                    echo $this->session->userdata('login_user_contact');
+                                                                                                                                } ?>" required />
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
-                                        <label>Email</label>
-                                            <input type="email" id="direct_email" name="email" placeholder=" Email *" value="<?php if($this->session->has_userdata('login_user_emailid')){ echo $this->session->userdata('login_user_emailid'); } ?>" required />
+                                            <label>Email</label>
+                                            <input type="email" id="direct_email" name="email" placeholder=" Email *" value="<?php if ($this->session->has_userdata('login_user_emailid')) {
+                                                                                                                                    echo $this->session->userdata('login_user_emailid');
+                                                                                                                                } ?>" required />
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
                                             <label>Choose the occasion</label>
@@ -65,12 +71,12 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
-                                            <label>Occation  date</label>
+                                            <label>Occation date</label>
                                             <input type="date" id="occ_date" name="occ_date" required />
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
                                             <label> Budget</label>
-                                            <select class="form-control" id="budget"  name="budget" required>
+                                            <select class="form-control" id="budget" name="budget" required>
                                                 <option>Select budget</option>
                                                 <?php
                                                 $bugdet = getAllRow('tbl_budget');
@@ -82,14 +88,18 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        
+
                                         <div class="col-md-12">
                                             <label>Share how you want to do it </label>
-                                            <textarea name="how_want_to_do" id="how_want_to_do"  row="4" class="form-control"   required></textarea>
+                                            <textarea name="how_want_to_do" id="how_want_to_do" row="4" class="form-control" required>I want to celebrate my special day by donating clothes,groceries,stationary,necessities with love and kindness and loads of blessings.
+I want to have special lunch with kids of child care home and my family.
+I want to propose my special person and celebrate new beginning with lunch/Donation/Party
+                                            
+                                            </textarea>
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
                                             <label>Any Child care home in mind ?</label>
-                                            <select class="form-control" id="cch_id"  name="cch_id" required>
+                                            <select class="form-control" id="cch_id" name="cch_id" required>
                                                 <option>Select CCH</option>
                                                 <?php
                                                 $cch = getAllRow('tbl_orphanage');
@@ -103,7 +113,7 @@
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-6">
                                             <label>Advance Payment (min. &#x20b9;500)</label>
-                                            <input type="number" value="500" name="min_adv"  id="min_adv" class="form-control" min="500" required />
+                                            <input type="number" value="500" name="min_adv" id="min_adv" class="form-control" min="500" required />
                                         </div>
 
                                         <div class="col-md-12">
@@ -431,7 +441,7 @@ background: url('<?= base_url() ?>assets/home/img/backgroundimg.jpg');
                     <div class="col-md-8">
                         <div class="section-title white-title pt-40 mb-40">
                             <!-- <span class="sub-title">Advantages</span> -->
-                            <h2 style="color: #fff;">SriMitra India is a Contribution  Platform to support childrens shelter
+                            <h2 style="color: #fff;">SriMitra India is a Contribution Platform to support childrens shelter
                                 homes</h2>
                             <p style="color: #fff; font-size: 15px;">It Aims to facilitate regular in-kind Contributions
                                 towards children's shelter home basic Requirement through need-based and transparent

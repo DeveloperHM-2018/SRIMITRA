@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="en">
 <?php include('includes/head-link.php'); ?>
-<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="http://code.ionicframework.com/ion$mar[0]/2.0.1/css/ion$mar[0].min.css">
 <style>
     div.stars {
         /* width: 100%; */
@@ -134,6 +134,150 @@
         margin: 0;
         grid-column-gap: 30px;
     }
+
+    .container>a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+    }
+
+    .containerhm>a>img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        box-shadow: 0 2px 16px var(--shadow);
+    }
+
+    .containerhm {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        grid-auto-rows: 120px;
+        grid-auto-flow: dense;
+    }
+
+    .horizontal {
+        grid-column: span 2;
+    }
+
+    .vertical {
+        grid-row: span 2;
+    }
+
+    .big {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+table{
+    width: 100%;
+}
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+
+        border-collapse: collapse;
+        margin-bottom: 0.2rem;
+        padding: 5px;
+        color: #212529;
+        border-bottom: #212529 1px solid;
+        text-align: center;
+    }
+
+    /*
+	Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+	*/
+    @media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+
+        /* Force table to not be like tables anymore */
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+            display: block;
+            border-collapse: collapse;
+            margin-bottom: 0rem;
+            color: #212529;
+
+            text-align: left;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+
+        }
+
+        tr {
+            margin: 0 0 1rem 0;
+        }
+
+        tr:nth-child(odd) {
+            background: #ccc;
+        }
+
+        td {
+            /* Behave  like a "row" */
+            border: none;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 0;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            /* white-space: nowrap; */
+            line-height: 15px;
+            padding-top: 5px;
+            ;
+        }
+
+        /*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		*/
+        td:nth-of-type(1):before {
+            content: "Select here";
+        }
+
+        td:nth-of-type(2):before {
+            content: "Product";
+        }
+
+        td:nth-of-type(3):before {
+            content: "Quantity requested";
+        }
+
+        td:nth-of-type(4):before {
+            content: "Price/unit ";
+        }
+
+        td:nth-of-type(5):before {
+            content: "Use Button to customize";
+        }
+
+        td:nth-of-type(6):before {
+            content: "Total Amount";
+        }
+
+
+    }
 </style>
 
 <body>
@@ -153,15 +297,42 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-7 col-md-9 inventory-list-item1">
                         <div class="inventory-list-item wrap inventory-list-item2">
-                            <div class="inventory-list-thumb">
-                                <img src="<?= (($mar[0]['profile'] != '') ? base_url('uploads/orphange/documents/' . $mar[0]['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img" alt="">
-                                <ul class="inv-thumb-meta">
+                            <?php
+                            if ($mar[0]['profile_type'] == '0') {
+                            ?>
+                                <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                    <img src="<?= (($mar[0]['profile'] != '') ? base_url('uploads/orphange/profile/' . $mar[0]['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img shadow" alt="">
+                                </div>
+                                <?php
+                            } else {
+                                if ($mar[0]['profile_video'] != '') {
+                                    if (file_exists(FCPATH . 'uploads/orphange/profile/' . $mar[0]['profile_video'])) {
+                                ?>
+                                        <div class="inventory-list-video text-center" style="background: #f7f7f7;">
+                                            <video height="200" controls>
+                                                <source src="<?= base_url() ?>uploads/orphange/profile/<?= $mar[0]['profile_video'] ?>" type="video/mp4">
+                                            </video>
+                                        </div>
 
-                                    <!--<li><a href="#" data-toggle="tooltip" data-placement="top"-->
-                                    <!--        data-original-title="Add to Favorite"><i class="fas fa-star"></i></a></li>-->
+                                    <?php } else {
+                                    ?>
+                                        <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                            <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                        </div>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                        <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                    </div>
+                                <?php
+                                } ?>
 
-                                </ul>
-                            </div>
+                            <?php
+                            }
+                            ?>
+
                             <div class="inventory-list-content">
                                 <div class="row">
 
@@ -357,62 +528,62 @@
                                         <?= convertDatedmy($orderrow['create_date']); ?>
                                     </div>
                                     <div class="col-md-12 text-right text-info">Use button to customize quantity</div>
-                                    <table class="table table-striped">
+                                    <table class=" " role="table">
+                                        <thead role="rowgroup">
+                                            <tr role="row">
+                                                <th role="columnheader"># </th>
+                                                <th role="columnheader">Product </th>
+                                                <th role="columnheader">Quantity requested </th>
+                                                <th role="columnheader">Price/unit </th>
+                                                <th role="columnheader">Use Button to customize </th>
+                                                <th role="columnheader">Total Amount </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody role="rowgroup">
+                                            <?php
 
-                                        <tr>
-                                            <td># </td>
-                                            <td>Product </td>
-                                            <td>Quantity requested </td>
-                                            <td>Price/unit </td>
-                                            <td>Use Button to customize </td>
-                                            <!-- <td>Total Amount </td> -->
-                                        </tr>
+                                            $data = getRowById('tbl_orphange_order_product', 'o_id', $orderrow['oid']);
+                                            if (!empty($data)) {
+                                                $i = 1;
+                                                foreach ($data as $datarow) {
+                                                    $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
+                                                    $product = getSingleRowById('products', array('product_id' => $merchant['product_id']));
+                                            ?>
+                                                    <tr role="row">
+                                                        <td role="cell">
+                                                            <input type="checkbox" name="checkbox_check[]" class="add-cart" data-id="<?= $merchant['id'] ?>" data-orpahneid="<?= $mar[0]['id'] ?>">
+                                                        </td>
 
-                                        <?php
+                                                        <td role="cell">
+                                                            <p>
+                                                                <?= $product['pro_name'] ?>
+                                                            </p>
+                                                        </td>
+                                                        <td role="cell">
+                                                            <p>
 
-                                        $data = getRowById('tbl_orphange_order_product', 'o_id', $orderrow['oid']);
-                                        if (!empty($data)) {
-                                            $i = 1;
-                                            foreach ($data as $datarow) {
-                                                $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
-                                                $product = getSingleRowById('products', array('product_id' => $merchant['product_id']));
-                                        ?>
-                                                <tr>
-                                                    <td style="width:5% ;">
-                                                        <input type="checkbox" name="checkbox_check[]" class="add-cart" data-id="<?= $merchant['id'] ?>" data-orpahneid="<?= $mar[0]['id'] ?>">
-                                                    </td>
+                                                                <?= ($merchant['quantity'] * $datarow['quantity']) ?> <?= $merchant['quantity_type'] ?>
+                                                            </p>
+                                                        </td>
+                                                        <td role="cell">
+                                                            <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
+                                                        </td>
+                                                        <td role="cell">
+                                                            <!-- <button id="dec<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-minus pull-left dec"></button> -->
+                                                            <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>" style="width:70px">
+                                                            <!-- <button id="inc<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-plus pull-right inc"></button> -->
+                                                        </td>
+                                                        <td role="cell">
+                                                            &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
+                                                        </td>
+                                                    </tr>
 
-                                                    <td style="width:25% ;">
-                                                        <p>
-                                                            <?= $product['pro_name'] ?>
-                                                        </p>
-                                                    </td>
-                                                    <td style="width:25% ;">
-                                                        <p>
-                                                            <?= ($merchant['quantity'] * $datarow['quantity']) ?> <?= $merchant['quantity_type'] ?>
-                                                        </p>
-                                                    </td>
-                                                    <td style="width:30% ;">
-                                                        <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
-                                                    </td>
-
-
-                                                    <td style="width:40% ;">
-                                                        <!-- <button id="dec<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-minus pull-left dec"></button> -->
-                                                        <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 col-md-4" id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>">
-                                                        <!-- <button id="inc<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-plus pull-right inc"></button> -->
-                                                    </td>
-                                                    <!-- <td style="width:30% ;">
-                                                        
-                                                    </td> -->
-                                                </tr>
-
-                                        <?php
-                                                $i++;
+                                            <?php
+                                                    $i++;
+                                                }
                                             }
-                                        }
 
-                                        ?>
+                                            ?>
 
 
                                     </table>
@@ -628,21 +799,41 @@
 
                             <!--<div class="inventory-details-slide">-->
                             <div class="container-fluid p-0 fix">
-                                <div class="row no-gutters ">
-                                    <!--inv-details-active-->
-
+                                <div class="containerhm">
                                     <?php if ($gallery != '') {
                                         foreach ($gallery as $img) {
                                     ?>
-                                            <div class="col-lg-4">
-                                                <!--<div class="inv-details-slide-item">-->
-                                                <img src="<?= base_url('uploads/orphange/gallery/') . $img['img'] ?>" alt=" <?= $mar[0]['name']; ?>" class="gheight">
-                                                <!--</div>-->
-                                            </div>
+                                            <a href="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" data-lightbox="homePortfolio">
+
+
+                                                <?php
+                                                if ($img['type'] == '0') {
+                                                ?>
+                                                    <img src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" />
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <video controls>
+                                                        <source src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" type="video/mp4">
+                                                    </video>
+
+                                                <?php
+                                                }
+                                                ?>
+
+                                            </a>
                                     <?php
                                         }
+                                    } else {
+                                        echo 'No gallery found';
                                     }
                                     ?>
+
+                                </div>
+                                <div class="row no-gutters ">
+                                    <!--inv-details-active-->
+
+
 
                                 </div>
                             </div>
@@ -753,21 +944,21 @@
                                         </div>
                                         <div class="form-grp text-left">
                                             <label>Rating</label>
-                                            <div class="col-md-12"  >
-                                            <div class="stars"  >
+                                            <div class="col-md-12">
+                                                <div class="stars">
 
-                                                <input class="star star-5" id="star-5" type="radio" name="star" value="5" />
-                                                <label class="star star-5" for="star-5"></label>
-                                                <input class="star star-4" id="star-4" type="radio" name="star" value="4" />
-                                                <label class="star star-4" for="star-4"></label>
-                                                <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
-                                                <label class="star star-3" for="star-3"></label>
-                                                <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
-                                                <label class="star star-2" for="star-2"></label>
-                                                <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
-                                                <label class="star star-1" for="star-1"></label>
+                                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" />
+                                                    <label class="star star-5" for="star-5"></label>
+                                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" />
+                                                    <label class="star star-4" for="star-4"></label>
+                                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                                                    <label class="star star-3" for="star-3"></label>
+                                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
+                                                    <label class="star star-2" for="star-2"></label>
+                                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
+                                                    <label class="star star-1" for="star-1"></label>
 
-                                            </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-grp">

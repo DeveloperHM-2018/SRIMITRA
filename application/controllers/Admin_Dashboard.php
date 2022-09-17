@@ -205,7 +205,7 @@ class Admin_Dashboard extends CI_Controller
     $data['title'] = 'Child Care Home';
     $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
     $data['demography'] = $this->CommonModal->getAllRows('tbl_demography');
-    
+
     if (count($_POST) > 0) {
       $post_data = $this->input->post();
 
@@ -243,15 +243,24 @@ class Admin_Dashboard extends CI_Controller
       $post['bank_address'] = $this->input->post('bank_address');
       $post['description'] = $this->input->post('description');
       $post['profile'] = imageUpload('profile', 'uploads/orphange/profile/');
-
+      $post['profile_video'] = videoUpload('profile_video', 'uploads/orphange/profile/');
+      $post['profile_type'] = $this->input->post('profile_type');
 
       $insert = $this->CommonModal->insertRowReturnId('tbl_orphanage', $post);
 
-
       $countImg = count($_FILES['img']);
+      $type = 0;
       for ($i = 0; $i <= $countImg; $i++) {
         $no = rand();
+
         if (!empty($_FILES["img"]["name"][$i])) {
+          // $mime = mime_content_type($_FILES["img"]["tmp_name"][$i]);
+          if (strstr($_FILES["img"]["type"][$i], "video/")) {
+            $type = 1;
+          } else if (strstr($_FILES["img"]["type"][$i], "image/")) {
+            $type = 0;
+          }
+
           $folder = "uploads/orphange/gallery/";
           move_uploaded_file(
             $_FILES["img"]["tmp_name"][$i],
@@ -261,6 +270,7 @@ class Admin_Dashboard extends CI_Controller
           $this->CommonModal->insertRowReturnId('tbl_orphanage_gallery', [
             'orphanage_id' => $insert,
             'img' => $file_name1,
+            'type' => $type,
           ]);
         }
       }
@@ -349,6 +359,16 @@ class Admin_Dashboard extends CI_Controller
         $post['profile']  = $data['orphane'][0]['profile'];
       }
 
+      if ($_FILES['profile_video_temp']['name'] != '') {
+        $post['profile_video']  = videoUpload('profile_video_temp', 'uploads/orphange/profile/');
+        if ($data['orphane'][0]['profile_video'] != "") {
+          unlink('uploads/orphange/profile/' . $data['orphane'][0]['profile_video']);
+        }
+      } else {
+        $post['profile_video']  = $data['orphane'][0]['profile_video'];
+      }
+
+
       $update = $this->CommonModal->updateRowById(
         'tbl_orphanage',
         'id',
@@ -379,9 +399,18 @@ class Admin_Dashboard extends CI_Controller
   {
     if (count($_FILES) > 0) {
       $countImg = count($_FILES['img']);
+      $type = 0;
       for ($i = 0; $i <= $countImg; $i++) {
         $no = rand();
+
         if (!empty($_FILES["img"]["name"][$i])) {
+          // $mime = mime_content_type($_FILES["img"]["tmp_name"][$i]);
+          if (strstr($_FILES["img"]["type"][$i], "video/")) {
+            $type = 1;
+          } else if (strstr($_FILES["img"]["type"][$i], "image/")) {
+            $type = 0;
+          }
+
           $folder = "uploads/orphange/gallery/";
           move_uploaded_file(
             $_FILES["img"]["tmp_name"][$i],
@@ -391,6 +420,7 @@ class Admin_Dashboard extends CI_Controller
           $this->CommonModal->insertRowReturnId('tbl_orphanage_gallery', [
             'orphanage_id' => $id,
             'img' => $file_name1,
+            'type' => $type,
           ]);
         }
       }

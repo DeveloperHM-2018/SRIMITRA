@@ -7,10 +7,45 @@ if (!empty($all_data)) {
         $city = getSingleRowById('tbl_cities', array('id' => $cons['city']));
 
 ?>
-        <div class="col-md-6 inventory-list-item">
-            <div class="inventory-list-thumb">
-                <img src="<?= (($cons['profile'] != '') ? base_url('uploads/orphange/documents/' . $cons['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img" alt="">
-            </div>
+        <div class="col-md-6 inventory-list-item p-2">
+
+            <?php
+            if ($cons['profile_type'] == '0') {
+            ?>
+                <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                    <img src="<?= (($cons['profile'] != '') ? base_url('uploads/orphange/profile/' . $cons['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img shadow" alt="">
+                </div>
+                <?php
+            } else {
+                if ($cons['profile_video'] != '') {
+                    if (file_exists(FCPATH . 'uploads/orphange/profile/' . $cons['profile_video'])) {
+                ?>
+                        <div class="inventory-list-video text-center" style="background: #f7f7f7;">
+                            <video height="200" controls>
+                                <source src="<?= base_url() ?>uploads/orphange/profile/<?= $cons['profile_video'] ?>" type="video/mp4">
+                            </video>
+                        </div>
+ 
+                    <?php } else {
+                    ?>
+                        <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                            <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                        <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                    </div>
+                <?php
+                } ?>
+
+            <?php
+            }
+            ?>
+
+
             <div class="inventory-list-content">
                 <h6><a target="_blank" href="<?= base_url() ?>child_care_home_profile/<?= encryptId($cons['id']) ?>/<?= url_title($cons['name']) ?>"><?= $cons['name'] ?> </a></h6>
                 <p class="location">

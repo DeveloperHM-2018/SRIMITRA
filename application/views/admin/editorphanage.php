@@ -118,15 +118,15 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label class="form-label">Demography Section</label>
-                                                     <select class="form-control" name="demography" id="demography">
-                                                     <option>Select demography</option>
-                                                     <?php foreach ($demography as $row) {
-                                                     ?>
-                                                     <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
-                                                     <?php
-                                                     }
-                                                     ?>
-                                                     </select>
+                                                    <select class="form-control" name="demography" id="demography">
+                                                        <option>Select demography</option>
+                                                        <?php foreach ($demography as $row) {
+                                                        ?>
+                                                            <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
 
                                                 <div class="col-md-3">
@@ -137,30 +137,57 @@
                                                     <label class="form-label">Trustee Name</label>
                                                     <input type="text" class="form-control" name="trustee_name" value="<?= $orphane[0]['trustee_name'] ?>" />
                                                 </div>
+
                                                 <div class="col-md-3">
+                                                    <label class="form-label">Select profile type</label>
+                                                    <select class="form-control" name="profile_type" id="profile_type">
+                                                        <option value="0" <?= $orphane[0]['profile_type'] ==
+                                                                                '0'
+                                                                                ? 'selected'
+                                                                                : '' ?>>Image</option>
+                                                        <option value="1" <?= $orphane[0]['profile_type'] ==
+                                                                                '1'
+                                                                                ? 'selected'
+                                                                                : '' ?>>Video</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3" id="profile_img" <?= (($orphane[0]['profile_type'] == '0') ? '' : 'style="display:none"') ?>>
                                                     <label class="form-label">Profile Image</label>
                                                     <input type="file" accept="image/*,.pdf" class="form-control" name="profile_temp" />
-                                                    <input type="hidden" class="form-control" name="profile" value="<?= $orphane[0]['govt_regis_cert'] ?>" />
-                                                    <?php if (
+                                                    <input type="hidden" class="form-control" name="profile" value="<?= $orphane[0]['profile'] ?>" />
+                                                    <?php
+                                                    if (
                                                         $orphane[0]['profile'] !=
                                                         '' &&
                                                         $orphane[0]['profile'] !=
                                                         0
                                                     ) {
-                                                        if (
-                                                            file_exists(
-                                                                base_url(
-                                                                    'uploads/orphange/profile/' .
-                                                                        $mar[0]['profile']
-                                                                )
-                                                            )
-                                                        ) { ?>
+                                                        if (file_exists(FCPATH . 'uploads/orphange/profile/' . $orphane[0]['profile'])) { ?>
                                                             <img src="<?= base_url() ?>uploads/orphange/profile/<?= $orphane[0]['profile'] ?>" width="100px" />
                                                     <?php }
                                                     } ?>
                                                     <p style="color:#9F0B0B;"> Maximum File Size Limit is 5MB. </p>
                                                 </div>
+                                                <div class="col-md-3" id="profile_video" <?= (($orphane[0]['profile_type'] == '1') ? '' : 'style="display:none"') ?>>
+                                                    <label class="form-label">Profile Video</label>
+                                                    <input type="file" class="form-control" name="profile_video_temp" accept="video/*" />
+                                                    <input type="hidden" class="form-control" name="profile_video" value="<?= $orphane[0]['profile_video'] ?>" />
+                                                    <?php
+                                                    if (
+                                                        $orphane[0]['profile_video'] !=
+                                                        '' &&
+                                                        $orphane[0]['profile_video'] !=
+                                                        0
+                                                    ) {
+                                                        if (file_exists(FCPATH . 'uploads/orphange/profile/' . $orphane[0]['profile_video'])) { ?>
+                                                            <video width="100%" controls>
+                                                                <source src="<?= base_url() ?>uploads/orphange/profile/<?= $orphane[0]['profile_video'] ?>" type="video/mp4">
+                                                            </video>
 
+                                                    <?php }
+                                                    } ?>
+                                                    <p style="color:#9F0B0B;"> Maximum File Size Limit is 1MB. </p>
+                                                </div>
                                                 <!-- <h5> </br>Gallery </h5> -->
 
 
@@ -356,7 +383,7 @@
                                                     <h5> </br>Gallery Section <span style="color:#9F0B0B;">(Please uploads small than 5MB File)</span></h5>
                                                     <div class="col-md-6">
                                                         <label class="form-label">Gallery</label>
-                                                        <input class="form-control pd-r-80" type="file" name="img[]" multiple accept="image/*,.pdf" />
+                                                        <input class="form-control pd-r-80" type="file" name="img[]" multiple accept="image/*,video/*" />
                                                         <p style="color:#FF0000;"> Maximum File Size Limit is 5MB. </p>
                                                     </div>
                                                 </div>
@@ -374,10 +401,21 @@
                                                             foreach ($gallery
                                                                 as $img) { ?>
                                                                 <div class="col-sm-3">
-                                                                    <img src="<?= base_url(
-                                                                                    '/uploads/orphange/gallery/'
-                                                                                ) .
-                                                                                    $img['img'] ?>" style="width: 100%;" class="shadow" />
+                                                                    <?php
+                                                                    if ($img['type'] == '0') {
+                                                                    ?>
+                                                                        <img src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" style="width: 100%;height:200px;object-fit:cover" class="shadow" />
+                                                                    <?php
+                                                                    } else {
+                                                                    ?>
+                                                                        <video height="200" controls>
+                                                                            <source src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" type="video/mp4">
+                                                                        </video>
+
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+
                                                                     <a href="<?php echo base_url(); ?>admin_Dashboard/deleteorphaneimg/<?= $img['gid'] ?>" class="btn btn-danger delete" onclick="return confirm('Are you sure to delete this image?')"><i class="fas fa-trash-alt"></i></a>
                                                                 </div>
                                                         <?php }
@@ -546,5 +584,18 @@
             function() {
                 $(this).parents(".fieldGroup").remove();
             });
+    });
+    $('#profile_type').change(function() {
+        var profile_type = $('#profile_type').val();
+
+        if (profile_type == 0) {
+
+            $('#profile_img').show();
+            $('#profile_video').hide();
+        } else {
+
+            $('#profile_img').hide();
+            $('#profile_video').show();
+        }
     });
 </script>

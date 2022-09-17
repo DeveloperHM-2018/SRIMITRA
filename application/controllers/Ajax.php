@@ -231,6 +231,7 @@ class Ajax extends CI_Controller
         $data['city'] = $this->CommonModal->getRowByIdInOrder('tbl_cities', array('state_id' => $state), 'name', 'asc');
         $this->load->view('admin/dropdown', $data);
     }
+ 
 
     public function getcchcontact()
     {

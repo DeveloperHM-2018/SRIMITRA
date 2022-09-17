@@ -25,8 +25,8 @@
                             </div>
                             <div class="col-md-3 text-right">
                                 <a href="<?= base_url(
-                                  'admin_Dashboard/child_care_home'
-                                ) ?>" class="btn btn-light"> View <?= $title ?> </a>
+                                                'admin_Dashboard/child_care_home'
+                                            ) ?>" class="btn btn-light"> View <?= $title ?> </a>
 
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                                 <div class="col-md-3">
                                                     <label class="form-label">Organisation Name</label>
                                                     <input type="text" class="form-control" name="fullname" required />
-                                                </div> 
+                                                </div>
                                                 <div class="col-md-3">
                                                     <label class="form-label">Contact No.</label>
                                                     <input type="text" class="form-control phoneval" name="number" maxlength="10" data-parsley-type="number" required />
@@ -70,15 +70,9 @@
                                                     <select class="form-control" name="state" id="state" required>
                                                         <option value="">Select state </option>
                                                         <?php if ($state_list) {
-                                                          foreach (
-                                                            $state_list
-                                                            as $state
-                                                          ) { ?>
-                                                                <option value="<?= $state[
-                                                                  'state_id'
-                                                                ] ?>"><?= $state[
-  'state_name'
-] ?></option>
+                                                            foreach ($state_list
+                                                                as $state) { ?>
+                                                                <option value="<?= $state['state_id'] ?>"><?= $state['state_name'] ?></option>
                                                         <?php }
                                                         } ?>
                                                     </select>
@@ -94,7 +88,7 @@
                                                     <input type="text" class="form-control" name="pincode" />
                                                 </div>
 
-                                              
+
                                                 <div class="col-md-3">
                                                     <label class="form-label">Address</label>
                                                     <input type="text" class="form-control" name="address" />
@@ -114,32 +108,44 @@
                                                     <input type="text" class="form-control" name="trustee_name" />
                                                 </div>
                                                 <div class="col-md-3">
+                                                    <label class="form-label">Select profile type</label>
+                                                    <select class="form-control" name="profile_type" id="profile_type">
+                                                        <option value="0">Image</option>
+                                                        <option value="1">Video</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3" id="profile_img">
                                                     <label class="form-label">Profile Image</label>
                                                     <input type="file" class="form-control" name="profile" accept="image/*,.pdf" />
                                                     <p style="color:#9F0B0B;"> Maximum File Size Limit is 5MB. </p>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3" id="profile_video" style="display:none">
+                                                    <label class="form-label">Profile Video</label>
+                                                    <input type="file" class="form-control" name="profile_video" accept="video/*" />
+                                                    <p style="color:#9F0B0B;"> Maximum File Size Limit is 1MB. </p>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <label class="form-label">Demography Section</label>
-                                                     <select class="form-control" name="demography" id="demography">
-                                                     <option>Select demography</option>
-                                                     <?php foreach ($demography as $row) {
-                                                     ?>
-                                                     <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
-                                                     <?php
-                                                     }
-                                                     ?>
-                                                     </select>
+                                                    <select class="form-control" name="demography" id="demography">
+                                                        <option>Select demography</option>
+                                                        <?php foreach ($demography as $row) {
+                                                        ?>
+                                                            <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
 
 
                                                 <!-- <h5> </br> </h5> -->
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label class="form-label">Gallery</label>
                                                     <input class="form-control pd-r-80" type="file" name="img[]" multiple accept="image/*,.pdf">
                                                     <p style="color:#9F0B0B;"> Maximum File Size Limit is 5MB. </p>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label class="form-label">Tagline</label>
                                                     <input type="text" class="form-control" name="tagline" value="Congratulations for becoming a part of extended family !!" />
                                                 </div>
@@ -176,7 +182,7 @@
                                                 <h5>
                                                     <br>Account Details
                                                 </h5>
-                                                
+
                                                 <div class="col-md-3">
                                                     <label class="form-label">Bank</label>
                                                     <input type="text" class="form-control" name="bank" />
@@ -201,7 +207,7 @@
                                                     <input type="text" class="form-control" name="bank_address" />
                                                 </div>
 
-                                               
+
 
 
                                                 <div class="col-md-12">
@@ -211,7 +217,7 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                <h5> </br>Document Section <span style="color:#9F0B0B;">(Please uploads small than 5MB File)</span></h5>
+                                                    <h5> </br>Document Section <span style="color:#9F0B0B;">(Please uploads small than 5MB File)</span></h5>
                                                     <div class="fieldGroup row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -219,7 +225,7 @@
                                                                 <input type="text" class="form-control" name="document_title[]" placeholder="Document Name">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label>Document Image</label>
                                                                 <input type="file" class="form-control" name="document_file[]" placeholder="Document Image">
@@ -237,7 +243,7 @@
                                                                 <input type="text" class="form-control" name="document_title[]" placeholder="Document Name">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label>Document Image</label>
                                                                 <input type="file" class="form-control" name="document_file[]" placeholder="Document Image">
@@ -338,7 +344,21 @@
             evt.preventDefault();
         }
     });
+    $('#profile_type').change(function() {
+        var profile_type = $('#profile_type').val();
+
+        if (profile_type == 0) {
+
+            $('#profile_img').show();
+            $('#profile_video').hide();
+        } else {
+
+            $('#profile_img').hide();
+            $('#profile_video').show();
+        }
+    });
 </script>
+
 <script>
     $(document).ready(function() {
         //group add limit
