@@ -54,6 +54,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                     <th>Title </th>
                                                     <th>Price </th>
                                                     <th>Products</th>
@@ -73,6 +74,7 @@
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
+                                                            <td><?= $orderrow['create_date']; ?></td>
                                                             <td><?= $orderrow['product_title']; ?></td>
                                                             <td><?= $orderrow['combo_price']; ?></td>
                                                             <td> <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<?= $orderrow['ortid']; ?>" aria-expanded="false" aria-controls="collapseExample<?= $orderrow['ortid']; ?>">
@@ -81,30 +83,34 @@
                                                                 <div class="collapse  " id="collapseExample<?= $orderrow['ortid']; ?>">
                                                                     <div class="card card-body mb-0 p-0">
                                                                         <table class="table mb-0">
-
                                                                             <thead class="table-light">
                                                                                 <tr>
                                                                                     <th>#</th>
                                                                                     <th>Product</th>
+                                                                                    <th>Price.</th>
                                                                                     <th>Qty.</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 <?php
-                                                                                $i = 1;
+                                                                                $j = 1;
                                                                                 $data = getRowById('order_request_template_product', 'ort_id', $orderrow['ortid']);
                                                                                 if (!empty($data)) {
                                                                                     foreach ($data as $datarow) {
-                                                                                        $data = getSingleRowById('products', array('product_id' => $datarow['product']));
+                                                                                        $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
+                                                                                        $data = getSingleRowById('products', array('product_id' => $merchant['product_id']));
                                                                                 ?>
                                                                                         <tr>
-                                                                                            <th scope="row"><?= $i ?></th>
-                                                                                            <td><?= $data['pro_name']; ?></td>
-                                                                                            <td><?= $datarow['quantity']; ?> <?= $data['quantity_type']; ?></td>
+                                                                                            <th scope="row"><?= $j ?></th>
+                                                                                            <td><?= $data['pro_name']; ?>
+                                                                                                <br>(<?= $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?>)
+                                                                                            </td>
+                                                                                            <td> MP: Rs. <?= $merchant['product_price']; ?> <br> SP: Rs. <?= $merchant['srimitra_price']; ?></td>
+                                                                                            <td> <?= $datarow['quantity']; ?></td>
 
                                                                                         </tr>
                                                                                 <?php
-                                                                                        $i++;
+                                                                                        $j++;
                                                                                     }
                                                                                 }
                                                                                 ?>
@@ -113,7 +119,7 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td><img src="<?= base_url('uploads/ordercover/'.$orderrow['cover']) ?>" width="50px"/></td>
+                                                            <td><img src="<?= base_url('uploads/ordercover/' . $orderrow['cover']) ?>" width="50px" /></td>
                                                             <td> <a href="<?= base_url('admin_Dashboard/edit_order_request_template/' . encryptId($orderrow['ortid'])) ?>">
                                                                     <button class="btn btn-success float-right mt-1 ml-1" type="button">
                                                                         <i class="fa fa-edit"></i> Edit
@@ -128,7 +134,7 @@
                                                 }
                                                 ?>
                                             </tbody>
-                                             
+
                                         </table>
                                     </div>
                                 </div>
@@ -142,8 +148,8 @@
 
                 <?php include 'template/footer_link.php'; ?>
                 <script>
-                $(document).on('click', '.status', function(){
-                  //  $('.status').click(function() {
+                    $(document).on('click', '.status', function() {
+                        //  $('.status').click(function() {
                         var id = $(this).data('id');
                         var status = $(this).data('status');
                         console.log(id);

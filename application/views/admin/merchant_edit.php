@@ -234,7 +234,7 @@
                                                                                             '/uploads/orphange/documents/'
                                                                                         ) .
                                                                                             $img['document_link'] ?>" download="">Download</a></td>
-                                                                        <td> <a href="<?php echo base_url(); ?>admin_Dashboard/deleteorphanedocument/<?= $img['id'] ?>" onclick="return confirm('Are you sure to delete this file?')" class="btn btn-danger  "><i class="fas fa-trash-alt"></i></a></td>
+                                                                        <td> <a href="<?php echo base_url(); ?>admin_Dashboard/deletemerchantdocument/<?= $img['id'] ?>" onclick="return confirm('Are you sure to delete this file?')" class="btn btn-danger  "><i class="fas fa-trash-alt"></i></a></td>
 
                                                                     </tr>
 

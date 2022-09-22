@@ -51,7 +51,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th> 
-                                                    <th>Req. date</th>
+                                                     
+                                                    <th>Create date</th>
                                                     <th>User</th>
                                                     <th>CCH</th>
                                                     <th>Occasion</th>

@@ -56,6 +56,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
+                                                    <th>Create Date</th>
                                                     <th>Name</th>
                                                     <th>Number</th>
                                                     <th>Email</th>
@@ -65,20 +66,16 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
-
                                                 <?php
                                                 $i = 1;
                                                 if (!empty($user)) {
                                                     foreach ($user as $cons) {
-
                                                 ?>
-
                                                         <tr>
                                                             <td><?= $i ?></td>
+                                                            <td><?= convertDatedmy($cons['create_date']) ?><br>
                                                             <td><?= $cons['name'] ?></td>
-
                                                             <td><?= $cons['number'] ?></td>
                                                             <td><?= $cons['email'] ?></td>
                                                             <td><?php if ($cons['img'] != '' && $cons['img'] != 0) { ?><img src="<?= base_url('uploads/user/') ?><?= $cons['img'] ?>" style="height: 80px;"><?php } ?></td>
@@ -87,30 +84,23 @@
                                                                 </a>
                                                                 <a href="<?php base_url() . $cons['insta'] ?>" class="btn" target="_blank"><i class="fab fa-instagram"></i>
                                                                 </a>
-
                                                                 <a href="<?php base_url() . $cons['whatsapp'] ?>" class="btn" target="_blank"><i class="fab fa-whatsapp"></i>
                                                                 </a>
-
                                                                 <a href="<?php base_url() . $cons['twitter'] ?>" class="btn" target="_blank"><i class="fab fa-twitter"></i>
                                                                 </a>
-
                                                                 <a href="<?php base_url() . $cons['linkedin'] ?>" class="btn" target="_blank"><i class="fab fa-linkedin"></i>
                                                                 </a>
                                                                 <a href="<?php base_url() . $cons['google_plus'] ?>" class="btn" target="_blank"><i class="fab fa-google-plus"></i>
                                                                 </a>
                                                             </td>
 
-                                                            <td><a href="<?php echo base_url() ?>admin_Dashboard/user_order_info/<?= encryptId($cons['uid']) ?>" class="btn btn-info">Contribution  List</a></td>
+                                                            <td><a href="<?php echo base_url() ?>admin_Dashboard/user_order_info/<?= encryptId($cons['uid']) ?>" class="btn btn-info">Contribution List</a></td>
                                                             <td>
                                                                 <a href="<?php echo base_url() ?>admin_Dashboard/user_edit/<?= encryptId($cons['uid']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i>
                                                                 </a>
-
-
                                                                 <a href="<?php echo base_url() . 'admin_Dashboard/user_registration?BdID=' . $cons['uid']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
-
                                                         </tr>
-
                                                 <?php
                                                         $i++;
                                                     }
@@ -123,11 +113,8 @@
                             </div>
                             <!-- end col -->
                         </div>
-
                     </div>
                 </div>
-
-
             </div>
         </div>
 

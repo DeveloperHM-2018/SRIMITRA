@@ -52,6 +52,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                     <th>Subscriber</th>
                                                     <th>Delete</th>
                                                 </tr>
@@ -65,6 +66,7 @@
 
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
+                                                            <td><?= $row['create_date']; ?></td>
                                                             <td><?php echo $row['email']; ?></td>
                                                             <td>
                                                                 <a href="<?php echo base_url() . 'admin_Dashboard/deletesub/' . $row['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>

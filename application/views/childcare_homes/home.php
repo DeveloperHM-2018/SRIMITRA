@@ -219,7 +219,7 @@
                                   <th>#</th>
                                   <th>Product</th>
                                   <th>Qty.</th>
-                                  <th>Qty. Type</th>
+                                  <th>Total Req.</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -235,6 +235,7 @@
                                             <th scope="row"><?= $j ?></th>
                                             <td><?= $product['pro_name']; ?><br>(<?= $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?>)</td>
                                             <td><?= $datarow['quantity']; ?></td>
+                                            <td><?= $datarow['quantity']* $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?></td>
 
                                         </tr>
                                 <?php

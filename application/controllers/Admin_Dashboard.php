@@ -223,7 +223,7 @@ class Admin_Dashboard extends CI_Controller
         substr($post_data['fullname'], 0, 3) .
         substr($post_data['number'], 0, 3);
       $pass = str_replace(' ', '', $password);
-      $post['password'] = $pass;
+      $post['password'] = encryptId($pass);
 
       $post['name'] = $this->input->post('fullname');
       $post['number'] = $this->input->post('number');
@@ -616,7 +616,18 @@ class Admin_Dashboard extends CI_Controller
     $delete = $this->CommonModal->deleteRowById('tbl_orphanage_documents', [
       'id' => $id,
     ]);
-    redirect('admin_Dashboard/child_care_home');
+    redirect($_SERVER['HTTP_REFERER']);
+  }
+  public function deletemerchantdocument($id)
+  {
+    $data = $this->CommonModal->getRowById('tbl_merchant_documents', 'id', $id);
+    if (file_exists("uploads/orphange/documents/" . $data[0]['document_link'])) {
+      unlink('uploads/orphange/documents/' . $data[0]['document_link']);
+    }
+    $delete = $this->CommonModal->deleteRowById('tbl_merchant_documents', [
+      'id' => $id,
+    ]);
+    redirect($_SERVER['HTTP_REFERER']);
   }
 
   public function merchant()
@@ -706,10 +717,12 @@ class Admin_Dashboard extends CI_Controller
       $post['m_photo'] = imageUpload('m_photo', 'uploads/merchant/');
       $password = substr($post['shop_name'], 0, 3) . substr($post['number'], 0, 3);
       $pass = str_replace(' ', '', $password);
-      $post['password'] = ($pass);
-      $insert = $this->commonModal->insertRowReturnId(
+      $post['password'] = encryptId($pass);
+      $post_data = $post;
+      unset($post_data['document_title']);
+      $insert = $this->CommonModal->insertRowReturnId(
         'tbl_merchant_registration',
-        $post
+        $post_data
       );
       $document_file = count($_FILES['document_file']);
       for ($i = 0; $i <= $document_file; $i++) {
@@ -1170,9 +1183,9 @@ class Admin_Dashboard extends CI_Controller
         );
         $this->session->set_flashdata('msg_class', 'alert-danger');
       }
-      redirect(base_url('admin_Dashboard/add_subcategory'));
+      redirect(base_url('admin_Dashboard/view_category'));
     } else {
-      redirect(base_url('admin_Dashboard/add_subcategory'));
+      redirect(base_url('admin_Dashboard/view_category'));
     }
   }
 
@@ -2063,12 +2076,8 @@ class Admin_Dashboard extends CI_Controller
   {
     $data['favicon'] = base_url() . 'assets/images/favicon.png';
     $data['title'] = ' Order request template';
-    $data['products'] = $this->CommonModal->getRowById(
-      'products',
-      'is_delete',
-      '0'
-    );
     $data['cch'] = $this->CommonModal->getAllRows('tbl_orphanage');
+    $data['product'] = $this->CommonModal->getRowByMoreId('merchant_products', array('approved' => '1', 'is_delete' => '0'));
     if (count($_POST) > 0) {
       $postdata['date'] = $this->input->post('date');
       $postdata['product_title'] = $this->input->post('product_title');
@@ -2133,11 +2142,8 @@ class Admin_Dashboard extends CI_Controller
   {
     $data['favicon'] = base_url() . 'assets/images/favicon.png';
     $data['title'] = "Update order request";
-    $data['products'] = $this->CommonModal->getRowById(
-      'products',
-      'is_delete',
-      '0'
-    );
+    $data['product'] = $this->CommonModal->getRowByMoreId('merchant_products', array('approved' => '1', 'is_delete' => '0'));
+
     $data['order'] = $this->CommonModal->getRowById(
       'order_request_template',
       'ortid',
@@ -2166,6 +2172,9 @@ class Admin_Dashboard extends CI_Controller
       $product = $this->input->post('product');
       $quantity = $this->input->post('quantity');
       $orderpro = $this->input->post('orderpro');
+      echo '<pre>';
+      print_r($_POST);
+      exit();
       for ($j = 0; $j < count($product); $j++) {
         if ($product[$j] != '') {
           if ($orderpro[$j] != '') {

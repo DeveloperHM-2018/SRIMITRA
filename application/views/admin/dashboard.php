@@ -264,7 +264,7 @@
                                                 }
                                                 ?>
                                             </tbody>
-                                             
+
                                         </table>
                                     </div>
                                 </div>
@@ -554,7 +554,7 @@
                                                 }
                                                 ?>
                                             </tbody>
-                                            
+
                                         </table>
                                     </div>
                                 </div>
@@ -578,14 +578,15 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
-                                                    
+                                                    <th>Create date</th>
+
                                                     <th>Merchant</th>
                                                     <th>Product</th>
                                                     <th>Merchant price</th>
                                                     <th>Quantity</th>
                                                     <th>Srimitra Price</th>
                                                     <th>Action</th>
-                                                    
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -601,14 +602,19 @@
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-                                                            <td><?= $merchant['shop_name']; ?><br><i>Add. <?= wordwrap($merchant['address'],40,'<br>'); ?></i></td>
+                                                            <td><?= $pro['create_date']; ?></td>
+                                                            <td><?= $merchant['shop_name']; ?><br><i>Add. <?= wordwrap($merchant['address'], 40, '<br>'); ?></i></td>
                                                             <td><?= $product['pro_name']; ?><br><?= $pro['description']; ?></td>
                                                             <td>MRP- Rs. <?= $pro['product_price']; ?><br>
-                                                            Sale Pr.- Rs. <?= $pro['sale_price']; ?><br>
-                                                            Pur. Pr.- Rs. <?= $pro['purchase_price']; ?></td>
+                                                                Sale Pr.- Rs. <?= $pro['sale_price']; ?><br>
+                                                                Pur. Pr.- Rs. <?= $pro['purchase_price']; ?></td>
                                                             <td><?= $pro['quantity']; ?> <?= $pro['quantity_type']; ?></td>
-                                                            <td> <form action="<?= base_url('Admin_Dashboard/') ?>update_srimitra_price" method="POST"><input type="hidden" name="mpid" value="<?= $pro['id'] ?>" class="form-control"/><br><input type="text" name="srimitra_price" value="" class="form-control"/><br><input type="submit" class="btn btn-info" value="Save" /></form></td>
-<td> <form action="<?= base_url('Admin_Dashboard/') ?>update_status" method="POST"><input type="hidden" name="mpid" value="<?= $pro['id'] ?>" class="form-control"/><br><input type="submit" class="btn btn-danger" value="Decline" /></form></td>
+                                                            <td>
+                                                                <form action="<?= base_url('Admin_Dashboard/') ?>update_srimitra_price" method="POST"><input type="hidden" name="mpid" value="<?= $pro['id'] ?>" class="form-control" /><br><input type="text" name="srimitra_price" value="" class="form-control" /><br><input type="submit" class="btn btn-info" value="Save" /></form>
+                                                            </td>
+                                                            <td>
+                                                                <form action="<?= base_url('Admin_Dashboard/') ?>update_status" method="POST"><input type="hidden" name="mpid" value="<?= $pro['id'] ?>" class="form-control" /><br><input type="submit" class="btn btn-danger" value="Decline" /></form>
+                                                            </td>
 
 
                                                         </tr>

@@ -27,11 +27,11 @@
                         </div>
                     </div>
                     <div class="page-content-wrapper">
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                    <div class="card-body"> 
-                                        <form action="" method="post" enctype="multipart/form-data"> 
+                                    <div class="card-body">
+                                        <form action="" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -55,7 +55,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Cover Image</label>
-                                                        <input type="file" class="form-control" name="cover" value=""  >
+                                                        <input type="file" class="form-control" name="cover" value="">
                                                     </div>
                                                 </div>
                                                 <?php
@@ -70,18 +70,18 @@
 
 
                                                             <div class="fieldGroup row">
-                                                            <div class="col-md-6 col-5">
+                                                                <div class="col-md-6 col-5">
                                                                     <div class="form-group">
                                                                         <label>Product</label>
                                                                         <input type="hidden" class="form-control" name="orderpro[]" value="<?= $datarow['id']; ?>">
                                                                         <select class="form-control" name="product[]">
                                                                             <option value="">Select product</option>
                                                                             <?php
-                                                                            if (!empty($products)) {
-                                                                                foreach ($products as $row) {
-
+                                                                            if (!empty($product)) {
+                                                                                foreach ($product as $row) {
+                                                                                    $products = getRowById('products', 'product_id', $row['product_id']);
                                                                             ?>
-                                                                                    <option value="<?= $row['product_id']; ?>" <?= (($row['product_id'] == $datarow['product']) ? 'selected' : '') ?>><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                                    <option value="<?= $row['id']; ?>" <?= (($row['id'] == $datarow['product']) ? 'selected' : '') ?>><?= $products[0]['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>) (MP: Rs. <?= $row['srimitra_price']; ?> ) (SP: Rs. <?= $row['srimitra_price']; ?>)</option>
                                                                             <?php
                                                                                 }
                                                                             }
@@ -117,11 +117,11 @@
                                                             <select class="form-control" name="product[]">
                                                                 <option value="">Select product</option>
                                                                 <?php
-                                                                if (!empty($products)) {
-                                                                    foreach ($products as $row) {
-
+                                                                if (!empty($product)) {
+                                                                    foreach ($product as $row) {
+                                                                        $products = getRowById('products', 'product_id', $row['product_id']);
                                                                 ?>
-                                                                        <option value="<?= $row['product_id']; ?>"><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                        <option value="<?= $row['id']; ?>"><?= $products[0]['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>) (MP: Rs. <?= $row['srimitra_price']; ?> ) (SP: Rs. <?= $row['srimitra_price']; ?>)</option>
                                                                 <?php
                                                                     }
                                                                 }
@@ -129,13 +129,13 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-4 col-4">
+                                                    <div class="col-md-4 col-4">
                                                         <div class="form-group">
                                                             <label>Qty.</label>
                                                             <input type="number" class="form-control" name="quantity[]" value="1">
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-2 col-3">
+                                                    <div class="col-md-2 col-3">
                                                         <label> ADD</label>
                                                         <a href="javascript:void(0)" class="form-control btn btn-success addMore">+ </a>
                                                     </div>
@@ -148,11 +148,11 @@
                                                             <select class="form-control" name="product[]">
                                                                 <option value="">Select product</option>
                                                                 <?php
-                                                                if (!empty($products)) {
-                                                                    foreach ($products as $row) {
-
+                                                                if (!empty($product)) {
+                                                                    foreach ($product as $row) {
+                                                                        $products = getRowById('products', 'product_id', $row['product_id']);
                                                                 ?>
-                                                                        <option value="<?= $row['product_id']; ?>"><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                        <option value="<?= $row['id']; ?>"><?= $products[0]['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>) (MP: Rs. <?= $row['srimitra_price']; ?> ) (SP: Rs. <?= $row['srimitra_price']; ?>)</option>
                                                                 <?php
                                                                     }
                                                                 }
@@ -160,13 +160,13 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-4 col-4">
+                                                    <div class="col-md-4 col-4">
                                                         <div class="form-group">
                                                             <label>Qty.</label>
                                                             <input type="number" class="form-control" name="quantity[]" value="1">
                                                         </div>
                                                     </div>
-                                                     <div class="col-md-2 col-3">
+                                                    <div class="col-md-2 col-3">
                                                         </br>
                                                         <a href="javascript:void(0)" class="form-control btn btn-primary remove"> - </a>
                                                     </div>
@@ -180,7 +180,7 @@
                                                     <?php foreach ($cch as $cchrow) {
                                                     ?>
                                                         <div class="col-md-4">
-                                                            <input type="checkbox" name="cch[]" value="<?= $cchrow['id']; ?>" <?= ((is_array($cchstr))? ((in_array($cchrow['id'],$cchstr))? 'checked':''):'') ?>> <?= $cchrow['name']; ?>
+                                                            <input type="checkbox" name="cch[]" value="<?= $cchrow['id']; ?>" <?= ((is_array($cchstr)) ? ((in_array($cchrow['id'], $cchstr)) ? 'checked' : '') : '') ?>> <?= $cchrow['name']; ?>
                                                         </div>
                                                     <?php
                                                     }
@@ -210,8 +210,8 @@
                         //group add limit
                         var maxGroup = 200;
                         //add more fields group
-                        $(document).on('click', '.addMore', function(){
-                        //$(".addMore").click(function() {
+                        $(document).on('click', '.addMore', function() {
+                            //$(".addMore").click(function() {
                             if ($('body').find('.fieldGroup').length < maxGroup) {
                                 var fieldHTML = '<div class="fieldGroup row">' + $(".fieldGroupCopy").html() + '</div>';
                                 $('body').find('.fieldGroup:last').after(fieldHTML);

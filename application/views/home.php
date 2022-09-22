@@ -426,33 +426,29 @@
                                                                         $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
                                                                         $product = getSingleRowById('products', array('product_id' => $merchant['product_id']));
                                                                 ?>
-
                                                                         <tr role="row">
                                                                             <td role="cell">
-                                                                                <input type="checkbox" name="checkbox_check[]" class="add-cart" data-id="<?= $merchant['id'] ?>" data-orpahneid="<?= $mar[0]['id'] ?>">
-                                                                            </td>
-
-                                                                            <td role="cell">
                                                                                 <p>
-                                                                                    <?= $product['pro_name'] ?>
+                                                                                    <?= $product['pro_name'] ?><br>
+                                                                                    (<?= ($merchant['quantity']) ?> <?= $merchant['quantity_type'] ?>)
                                                                                 </p>
                                                                             </td>
                                                                             <td role="cell">
                                                                                 <p>
-
-                                                                                    <?= ($merchant['quantity'] * $datarow['quantity']) ?> <?= $merchant['quantity_type'] ?>
+                                                                                    <?= $datarow['quantity'] ?>
                                                                                 </p>
                                                                             </td>
                                                                             <td role="cell">
                                                                                 <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
                                                                             </td>
                                                                             <td role="cell">
-                                                                                <!-- <button id="dec<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-minus pull-left dec"></button> -->
-                                                                                <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>" style="width:70px">
-                                                                                <!-- <button id="inc<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-plus pull-right inc"></button> -->
+                                                                                &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
                                                                             </td>
                                                                             <td role="cell">
-                                                                                &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
+                                                                                <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $datarow['id'] ?>" style="width:70px">
+                                                                            </td>
+                                                                            <td role="cell">
+                                                                                <button class="btn btn-block savecart" data-or_id="<?= $datarow['id'] ?>" data-order_type="0" data-qty="">Add</button>
                                                                             </td>
                                                                         </tr>
                                                                 <?php
@@ -463,28 +459,7 @@
                                                             </tbody>
                                                         </table>
 
-                                                        <div class="row">
-                                                            <?php
-                                                            if ($this->session->has_userdata('login_user_id')) {
-                                                            ?>
-                                                                <div class="col-sm-6">
-                                                                    <button class="btn btn-block savecart" id="savecart" data-or_id="<?= $orderrow['oid'] ?>" data-order_type="0">Add to cart</button>
-                                                                </div>
-                                                            <?php
-                                                            } else {
-                                                            ?>
-                                                                <div class="col-sm-12 text-center">
-                                                                    <!--<button class="btn btn-block savecart" id="savecart" data-or_id="<?= $orderrow['oid'] ?>" data-order_type="0">Add to cart</button>-->
-                                                                    <button class="btn btn-block margint" data-toggle="modal" data-target="#myModalrequest">Add To Cart</button>
-                                                                    <!-- <button class="btn btn-block " id="requestlogin">Add To Cart</button> -->
-                                                                </div>
-                                                                <!-- <div class="col-sm-6">
-                                                                    <button class="btn btn-block" data-toggle="modal" data-target="#myModalinfo" style="background:#010101">Proceed as guest </button>
-                                                                </div> -->
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -495,9 +470,9 @@
                                     }
                                 } else {
                                     echo ' <div class="inventory-features mb-30">
-                            <div class="inv-details-title">
-                                <h5>There is no new request </h5>
-                                </div></div>';
+                                            <div class="inv-details-title">
+                                            <h5>There is no new request </h5>
+                                            </div></div>';
                                 }
                                 ?>
 

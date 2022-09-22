@@ -65,10 +65,7 @@
                                                                 <input class="form-control pd-r-80" required="" type="file" name="img" accept=".csv">
                                                                 <a href="<?= base_url() ?>uploads/import_format/product_format.csv">Click here to get CSV file format for product import</a>
                                                             </div>
-
                                                         </div>
-
-
                                                         <div class="form-group col-md-12">
                                                             <br>
                                                             <button class="btn  btn-primary ">Submit</button>

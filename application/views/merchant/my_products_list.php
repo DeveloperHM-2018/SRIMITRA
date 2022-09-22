@@ -54,6 +54,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                     <th>Product Name</th>
                                                     <th>Category/Subcategory Name</th>
                                                     <th>Quantity/ Quantity type</th>
@@ -85,16 +86,13 @@
                                                                         } else {
                                                                         } ?>
                                                                 </td>
-
+                                                                <td><?= convertDatedmy($fetchrow['create_date']); ?></td>
                                                                 <td>
                                                                     <?php echo wordwrap($fetch['pro_name'], 10, '<br>'); ?>
-
                                                                 </td>
-
                                                                 <td>
                                                                     <?= $cat[0]['cat_name']; ?>/<?= $subcat[0]['subcat_name'] ?>
                                                                 </td>
-
                                                                 <td>
                                                                     <?= $fetchrow['quantity']; ?>/<?= $fetchrow['quantity_type'] ?>
                                                                 </td>
@@ -106,10 +104,10 @@
                                                                 </td>
                                                                 <!-- <td> <a href="<?php echo base_url() . 'merchant/disable/' . $fetch['product_id'] . '/products/' . (($fetch['status'] == '1') ? '0' : '1'); ?>" class="btn btn-light"><?php if ($fetch['status'] == '0') { ?><i class="fas fa-eye"></i><?php } else { ?> <i class="fas fa-eye-slash"></i><?php } ?></a></td> -->
                                                                 <td>
-                                                                <!-- <a href="<?php echo base_url() . 'merchant/edit_products/' . $fetchrow['product_id']; ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>
-  -->
-                                                                <a href="<?php echo base_url() . 'merchant/deleteproducts/' . $fetchrow['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
-                                                          </td> 
+                                                                    <a href="<?php echo base_url() . 'merchant/edit_products/' . $fetchrow['id']; ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>
+
+                                                                    <a href="<?php echo base_url() . 'merchant/deleteproducts/' . $fetchrow['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                </td>
 
                                                             </tr>
 

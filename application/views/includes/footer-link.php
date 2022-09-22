@@ -35,15 +35,15 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '#mitralogin', function() {
-        // console.log('asd');
-        $('#myModal').modal('show');
-        $('#savecart').hide();
-    });
-    $(document).on('click', '#requestlogin', function() {
-        // console.log('asd');
-        $('#myModal').modal('show');
-        $('#savecart').show();
-    });
+            // console.log('asd');
+            $('#myModal').modal('show');
+            $('#savecart').hide();
+        });
+        $(document).on('click', '#requestlogin', function() {
+            // console.log('asd');
+            $('#myModal').modal('show');
+            $('#savecart').show();
+        });
         $(document).on('click', '.inc', function() {
             // $(".inc").click(function() {
             var id = $(this).data('timeid');
@@ -91,49 +91,41 @@
                     alert('Item removed');
                     load_product();
 
+
                 }
             });
         });
 
         $('.savecart').click(function() {
-            var pid = [];
-            var oid = [];
-            var qty = [];
-            var orphane_request = $(this).data('or_id');
+            var product_id = $(this).data('or_id');
+            var cchid = $(this).data('cchid');
             var order_type = $(this).data('order_type');
-
-            var ch = 0;
-            $(':checkbox:checked').each(function(i) {
-                ch++;
-            });
-            if (ch == 0) {
-                alert('Select Product')
+            if (order_type == 0) {
+                var quantity = $('#amt' + product_id).val();
             } else {
-
-                $(':checkbox:checked').each(function(i) {
-                    var rowid = $(this).data('id');
-                    // pid[i] = $(this).data('id');
-                    oid = $(this).data('orpahneid');
-                    qty = $('.qtysidecart' + rowid).val();
-
-                    $.ajax({
-                        method: "POST",
-                        url: "<?= base_url('Index/addToCart') ?>",
-                        data: {
-                            pid: rowid,
-                            oid: oid,
-                            orid: orphane_request,
-                            qty: qty,
-                            ortid: orphane_request,
-                            order_type: order_type
-                        },
-                        success: function(response) {
-
-                            window.location = "<?= base_url('Index/checkoutpay') ?>";
-                        }
-                    });
-                });
+                var quantity = $('#amts' + product_id).val();
             }
+
+            $.ajax({
+                method: "POST",
+                url: "<?= base_url('Index/addToCart') ?>",
+                data: {
+                    product_id: product_id,
+                    qty: quantity,
+                    order_type: order_type,
+                    cchid: cchid
+                },
+                success: function(response) {
+                    if (confirm('Continue to checkout ??')) {
+                        window.location = "<?= base_url('Index/cart') ?>";
+                    } else {
+                        // window.location = "<?= base_url('Index/checkoutpay') ?>";
+                        alert('Added to contribution list');
+                    }
+
+                }
+            });
+
         });
 
         $(document).on('click', '.saveincart', function() {
@@ -546,7 +538,7 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
-    
+
     //   $(document).on('click', '.requestlogin', function() {
     //       $('#myModal').show();
     //       $('#savecart').show();

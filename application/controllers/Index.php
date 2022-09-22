@@ -137,7 +137,7 @@ class Index extends CI_Controller
         }
 
         $this->load->view('orphanage_profile', $data);
-        $this->cart->destroy();
+        // $this->cart->destroy();
     }
 
     public function login_here()
@@ -1055,27 +1055,42 @@ class Index extends CI_Controller
     }
     public function addToCart()
     {
-        $product_id = $this->input->post('pid');
-        $orphan_id = $this->input->post('oid');
-        $order_request_id = $this->input->post('orid');
+        $product_id = $this->input->post('product_id');
         $order_type = $this->input->post('order_type');
         $qty = $this->input->post('qty');
 
-        $product = $this->CommonModal->getRowById('merchant_products', 'id', $product_id);
-        $product_details = $this->CommonModal->getRowById('products', 'product_id', $product[0]['product_id']);
-        $data = array(
-            'id'                => $product[0]['id'],
-            'qty'               => $qty,
-            'price'             => $product[0]['srimitra_price'],
-            'name'              => clean($product_details[0]['pro_name']),
-            'orphane'           => $orphan_id,
-            'product_status'    => 1,
-            'image'             => $product[0]['img']
-        );
+        $cchid = $this->input->post('cchid');
+
+
+        if ($order_type == 0) {
+            $product = $this->CommonModal->getRowById('merchant_products', 'id',  $product_id);
+            $product_details = $this->CommonModal->getRowById('products', 'product_id', $product[0]['product_id']);
+            $data = array(
+                'id'                => $cchid . '-1-' . $product_id,
+                'qty'               => (int)$qty,
+                'price'             => (float)$product[0]['srimitra_price'],
+                'name'              => clean($product_details[0]['pro_name']),
+                'orphane'           => $cchid,
+                'product_status'    => 1,
+                'image'             => $product[0]['img']
+            );
+        } else {
+            $product = $this->CommonModal->getRowById('order_request_template', 'ortid', $product_id);
+            $data = array(
+                'id'      => $cchid . '-0-' . $product_id,
+                'qty'     => (int)1,
+                'price'   => (float)$product[0]['combo_price'],
+                'name'    => clean($product[0]['product_title']),
+                'orphane'    => $cchid,
+                'product_status'    => 0,
+                'image'    => $product[0]['cover']
+            );
+        }
+
 
         $this->cart->insert($data);
-        $this->session->set_userdata('order_request', $order_request_id);
-        $this->session->set_userdata('order_type', $order_type);
+        // $this->session->set_userdata('order_request', $order_request_id);
+        // $this->session->set_userdata('order_type', $order_type);
     }
 
     public function addInToCart()
@@ -1237,11 +1252,14 @@ class Index extends CI_Controller
     }
     public function cart()
     {
-
+        // $this->cart->destroy();
         $data['title'] = 'Cart List';
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-
-        $this->load->view('cart',  $data);
+        echo '<pre>';
+        // $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
+        foreach ($this->cart->contents() as $items) {
+            print_r($items);
+        }
+        // $this->load->view('cart',  $data);
     }
     public function cartAjax()
     {

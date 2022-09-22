@@ -169,9 +169,11 @@
         grid-column: span 2;
         grid-row: span 2;
     }
-table{
-    width: 100%;
-}
+
+    table {
+        width: 100%;
+    }
+
     table,
     thead,
     tbody,
@@ -285,12 +287,6 @@ table{
 
     <main>
 
-        <!-- <div class="kelebeks">
-            <div class="kelebek">
-                <img src="<?= base_url() ?>assets/img/butterfly.png" width="75" alt="kelebeklerr" />
-            </div>
-        </div> -->
-
 
         <section class="breadcrumb-area breadcrumb-bg new" style="background: #ffffff !important;">
             <div class="container">
@@ -342,167 +338,15 @@ table{
 
                                         <p class="location"><i class="fas fa-map-marker-alt"></i> <?= $mar[0]['address'] ?> </p>
                                     </div>
-
-
-                                    <!-- <div class="inv-content-top mt-10 col-md-6">
-                                        <ul>
-                                            <li class="option">
-                                                <a href="#orderrequest_list">Product Request</a>
-                                                <?php
-                                                if (null !== sessionId('login_user_id')) {
-                                                ?>
-                                                    <a href="#" class="new orangebtn">Add To Cart</a>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <a class="new orangebtn" href="#" data-toggle="modal" data-target="#REGModal">Mitra's
-                                                        Signup</a>
-                                                <?php
-                                                }
-                                                ?>
-                                            </li>
-                                        </ul>
-                                    </div> -->
                                 </div>
 
-                                <!--  <div class="social-share-btns-container">-->
-
-                                <!--      <h6 class=""><a style="color: #6a6a6a;" href="">Share on:</a></h6>-->
-
-                                <!--    <div class="social-share-btns">-->
-                                <!--        <a class="share-btn share-btn-twitter" href="https://www.webangeltech.com/srimitraa/child_care_home_profile/Uz8=/Child-care-test-2" rel="nofollow" target="_blank">-->
-                                <!--             <i class="fa-brands fa-twitter"></i>-->
-                                <!--            Tweet-->
-                                <!--        </a>-->
-                                <!--        <a class="share-btn share-btn-facebook" href="https://www.webangeltech.com/srimitraa/child_care_home_profile/Uz8=/Child-care-test-2" rel="nofollow" target="_blank">-->
-                                <!--            <i class="fa-brands fa-facebook-f"></i>-->
-                                <!--            Share-->
-                                <!--        </a>-->
-                                <!--        <a class="share-btn share-btn-linkedin" href="https://www.webangeltech.com/srimitraa/child_care_home_profile/Uz8=/Child-care-test-2" rel="nofollow" target="_blank">-->
-                                <!--            <i class="fa-brands fa-linkedin-in"></i>-->
-                                <!--            Share-->
-                                <!--        </a>-->
 
 
-                                <!--    </div>-->
-
-                                <!--</div>-->
-                                <div class="row col-md-12 grid_graph">
-
-                                    <div class="card" style="border: none;">
-                                        <!--<div class="percent">-->
-                                        <!--    <svg>-->
-                                        <!--        <circle cx="70" cy="66" r="50"></circle>-->
-                                        <!--        <circle cx="70" cy="66" r="50" style="--percent: <?= (((int)($countrequest + 1) * 100) / (int)($totalrequest + 1)) ?>"></circle>-->
-                                        <!--    </svg>-->
-                                        <!--    <div class="number text-center">-->
-                                        <!--<h6><?= $countrequest . '/' . $totalrequest ?></span><br>-->
-                                        <!--No Of Children Living</h6>-->
-                                        <!--        <h6>50</span><br>-->
-                                        <!--            Children Living</h6>-->
-                                        <!--    </div>-->
-                                        <!--</div>-->
-
-
-                                    </div>
-
-
-                                    <div class="card" style="border: none;">
-                                        <!--<div class="percent">-->
-                                        <!--    <svg>-->
-                                        <!--        <circle cx="70" cy="66" r="50"></circle>-->
-                                        <!--        <circle cx="70" cy="66" r="50" style="--percent: <?= (((int)($countdonation + 1) * 100) / (int)($totaldonation + 1)) ?>"></circle>-->
-                                        <!--    </svg>-->
-                                        <!--    <div class="number text-center">-->
-
-                                        <!--        <h6>100<br>-->
-                                        <!--            Total Required </h6>-->
-                                        <!--    </div>-->
-                                        <!--</div>-->
-                                        <!--<div class="title">-->
-                                        <!--    <h4>CSS</h4>-->
-                                        <!--</div>-->
-                                    </div>
-
-
-                                    <div class="card" style="border: none;">
-                                        <!--<div class="percent">-->
-                                        <!--    <svg>-->
-                                        <!--        <circle cx="70" cy="66" r="50"></circle>-->
-                                        <!--        <circle cx="70" cy="66" r="50" style="--percent: 90"></circle>-->
-                                        <!--    </svg>-->
-                                        <!--    <div class="number text-center">-->
-                                        <!--<h6><?= $mar[0]['kid_fed'] ?><br>-->
-                                        <!--    Fulfilled</h6>-->
-
-                                        <!--        <h6>50<br>-->
-                                        <!--            Fulfilled</h6>-->
-
-                                        <!--    </div>-->
-                                        <!--</div>-->
-                                        <!--<div class="title">-->
-                                        <!--    <h4>JavaScript</h4>-->
-                                        <!--</div>-->
-                                    </div>
-
-                                    <div class="card" style="border: none;">
-                                        <!--<div class="percent">-->
-                                        <!--    <svg>-->
-                                        <!--        <circle cx="70" cy="66" r="50"></circle>-->
-                                        <!--        <circle cx="70" cy="66" r="50" style="--percent: 90"></circle>-->
-                                        <!--    </svg>-->
-                                        <!--    <div class="number text-center">-->
-                                        <!--<h6><?= $totaldoner ?><span> </span><br>-->
-                                        <!--    Users</h6>-->
-
-                                        <!--        <h6><span> 200 </span><br>-->
-                                        <!--            Users</h6>-->
-                                        <!--    </div>-->
-                                        <!--</div>-->
-                                        <!--<div class="title">-->
-                                        <!--    <h4>JavaScript</h4>-->
-                                        <!--</div>-->
-                                    </div>
-
-                                    <div class="card" style="border: none;">
-                                        <!--<div class="progress" role="progressbar">-->
-                                        <!--    <div class="progress-inner">-->
-                                        <!--        <div class="progress-indicator"></div>-->
-                                        <!--        <div class="progress-indicator"></div>-->
-                                        <!--    </div>-->
-                                        <!--    <span class="progress-label">-->
-                                        <!--        <strong>60</strong>-->
-                                        <!--        <span>%</span>-->
-                                        <!--    </span>-->
-                                        <!--</div>-->
-
-                                        <!--<div class="description">-->
-                                        <!--    <span>progress percentage is </span>-->
-                                        <!--    <input type="number" min="0" max="100" step="1" value="60" />-->
-                                        <!--    <span>%</span>-->
-                                        <!--</div>-->
-                                    </div>
-
-
-                                </div>
                                 <hr>
                                 <?= substr($mar[0]['description'], 0, 500); ?>...<a href="#descrip">Read more</a>
                             </div>
-
-
-
-
-
-
                         </div>
-
-
-
                     </div>
-
-
-
-
                 </div>
             </div>
         </section>
@@ -511,7 +355,6 @@ table{
         <section class="inventory-details-area gray-lite-bg pt-20 pb-60" id="orderrequest_list" style="background-image: url('<?= base_url() ?>assets/img/backgroundimg.jpg')">
             <div class="container">
                 <h3 class="text-center pb-4 c-blue"> <?= $mar[0]['tagline']; ?></h3>
-
                 <div class="row">
                     <div class="col-lg-8">
                         <?php if ($order != '') {
@@ -520,28 +363,22 @@ table{
                         ?>
                                 <div class="inventory-features mb-30 tbo">
                                     <div class="inv-details-title">
-
-                                        <!-- <h5>Product Request ID #
-                                            <?= $orderrow['timestamp']; ?>
-                                        </h5> -->
-                                        Date -
+                                        Requested on -
                                         <?= convertDatedmy($orderrow['create_date']); ?>
                                     </div>
-                                    <div class="col-md-12 text-right text-info">Use button to customize quantity</div>
                                     <table class=" " role="table">
                                         <thead role="rowgroup">
                                             <tr role="row">
-                                                <th role="columnheader"># </th>
                                                 <th role="columnheader">Product </th>
-                                                <th role="columnheader">Quantity requested </th>
+                                                <th role="columnheader">Qty requested </th>
                                                 <th role="columnheader">Price/unit </th>
-                                                <th role="columnheader">Use Button to customize </th>
                                                 <th role="columnheader">Total Amount </th>
+                                                <th role="columnheader">Contribute Qty </th>
+                                                <th role="columnheader">Add to cart</th>
                                             </tr>
                                         </thead>
                                         <tbody role="rowgroup">
                                             <?php
-
                                             $data = getRowById('tbl_orphange_order_product', 'o_id', $orderrow['oid']);
                                             if (!empty($data)) {
                                                 $i = 1;
@@ -551,68 +388,35 @@ table{
                                             ?>
                                                     <tr role="row">
                                                         <td role="cell">
-                                                            <input type="checkbox" name="checkbox_check[]" class="add-cart" data-id="<?= $merchant['id'] ?>" data-orpahneid="<?= $mar[0]['id'] ?>">
-                                                        </td>
-
-                                                        <td role="cell">
                                                             <p>
-                                                                <?= $product['pro_name'] ?>
+                                                                <?= $product['pro_name'] ?><br>
+                                                                (<?= ($merchant['quantity']) ?> <?= $merchant['quantity_type'] ?>)
                                                             </p>
                                                         </td>
                                                         <td role="cell">
                                                             <p>
-
-                                                                <?= ($merchant['quantity'] * $datarow['quantity']) ?> <?= $merchant['quantity_type'] ?>
+                                                                <?= $datarow['quantity'] ?>
                                                             </p>
                                                         </td>
                                                         <td role="cell">
                                                             <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
                                                         </td>
                                                         <td role="cell">
-                                                            <!-- <button id="dec<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-minus pull-left dec"></button> -->
-                                                            <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $orderrow['timestamp']; ?><?= $merchant['id'] ?>" style="width:70px">
-                                                            <!-- <button id="inc<?= $data['product_id'] ?>" data-id="<?= $data['product_id'] ?>" data-timeid="<?= $orderrow['timestamp']; ?><?= $data['product_id'] ?>" class="btn btn-info fa fa-plus pull-right inc"></button> -->
-                                                        </td>
-                                                        <td role="cell">
                                                             &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
                                                         </td>
+                                                        <td role="cell">
+                                                            <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $datarow['id'] ?>" style="width:70px">
+                                                        </td>
+                                                        <td role="cell">
+                                                            <button class="btn btn-block savecart" data-or_id="<?= $datarow['id'] ?>" data-order_type="0" data-cchid="<?= $mar[0]['id'] ?>" data-qty="">Add</button>
+                                                        </td>
                                                     </tr>
-
                                             <?php
                                                     $i++;
                                                 }
                                             }
-
                                             ?>
-
-
                                     </table>
-
-                                    <div class="row">
-
-                                        <?php
-                                        if ($this->session->has_userdata('login_user_id')) {
-                                        ?>
-                                            <div class="col-sm-6">
-                                                <button class="btn btn-block savecart" id="savecart" data-or_id="<?= $orderrow['oid'] ?>" data-order_type="0">Add To Cart</button>
-                                            </div>
-                                        <?php
-                                        } else {
-                                        ?>
-                                            <div class="col-sm-12 text-center">
-                                                <button class="btn btn-block" data-toggle="modal" data-target="#myModalrequest">Add to Cart</button>
-                                                <!-- <button class="btn btn-block " id="requestlogin"  >Add To Cart</button> -->
-                                                <!--<button class="btn btn-block savecart" id="savecart" data-or_id="<?= $orderrow['oid'] ?>" data-order_type="0">Add To Cart</button>-->
-                                            </div>
-                                            <!-- <div class="col-sm-6">
-                                                <button class="btn btn-block" data-toggle="modal" data-target="#myModalinfo" style="background:#010101">Proceed as guest </button>
-                                            </div> -->
-                                        <?php
-                                        }
-                                        ?>
-
-
-                                    </div>
                                 </div>
                         <?php
                                 $j++;
@@ -647,7 +451,7 @@ table{
                                 foreach ($request as $orderrow) {
 
                             ?>
-                                    <div class=" col-md-4 p-2">
+                                    <div class=" col-md-4  col-6 p-2">
                                         <div class="inventory-features mb-30 ">
                                             <div class="inv-details-title text-center">
 
@@ -668,121 +472,9 @@ table{
                                                     <?= $orderrow['combo_price']; ?>
                                                 </h6>
                                             </div>
-
                                             <div class="row">
-
-                                                <?php
-                                                if ($this->session->has_userdata('login_user_id')) {
-                                                ?>
-                                                    <div class="col-sm-12">
-                                                        <button class="btn btn-block saveincart" id="saveincart" data-rid="<?= $orderrow['ortid'] ?>" data-rorpahneid="<?= $mar[0]['id'] ?>" data-or_id="<?= $orderrow['ortid'] ?>" data-order_type="1">Add to cart</button>
-                                                    </div>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <div class="col-sm-12 mb-10">
-                                                        <button class="btn btn-block saveincart" id="saveincart" data-rid="<?= $orderrow['ortid'] ?>" data-rorpahneid="<?= $mar[0]['id'] ?>" data-or_id="<?= $orderrow['ortid'] ?>" data-order_type="1">Add to cart</button>
-                                                        <!-- <button class="btn btn-block " id="requestlogin"  >Add To Cart</button> -->
-                                                        <!--<button class="btn btn-block" data-toggle="modal" data-target="#myModaladminrequest<?= $orderrow['ortid'] ?>">Add To Cart</button>-->
-                                                        <div class="modal fade" id="myModaladminrequest<?= $orderrow['ortid'] ?>" role="dialog">
-                                                            <div class="modal-dialog">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h3 class="">Log in your <span>account</span></h3>
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <section class="login-register-area">
-                                                                            <div class="bg-white">
-                                                                                <div class="row no-gutters">
-                                                                                    <div class="col-lg-12">
-                                                                                        <div class="">
-                                                                                            <h5>To receive Tax benefit certificate, continue to sign up.</h5>
-                                                                                            <p><?php
-                                                                                                if ($this->session->has_userdata('loginmsg')) {
-                                                                                                    echo $this->session->userdata('loginmsg');
-                                                                                                    $this->session->unset_userdata('loginmsg');
-                                                                                                }
-                                                                                                ?>
-                                                                                            </p>
-                                                                                            <form action="<?= base_url('Index/login') ?>" method="post" class="login-form " id="login_form">
-                                                                                                <div class="row">
-                                                                                                    <div class="form-grp col-sm-6">
-                                                                                                        <label for="username">Contact no. <span>*</span></label>
-                                                                                                        <input type="text" class="form-control" name="email" placeholder=" Contact no.">
-                                                                                                    </div>
-                                                                                                    <div class="form-grp col-sm-6">
-                                                                                                        <label for="password">Password <span>*</span></label>
-                                                                                                        <input type="password" class="form-control" name="password" placeholder="*****">
-                                                                                                    </div>
-                                                                                                    <div class="form-grp col-sm-12 text-center">
-                                                                                                        <button class="btn    " type="submit">Login now</button><br>
-                                                                                                        <a href="<?= base_url('Index/forget_password') ?>" class="text-center"> Forget password ?? </a>
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                            </form>
-                                                                                            <br>
-                                                                                            <p class="text-center"><span class="or">OR</span></p>
-                                                                                            <ul class="action">
-                                                                                                <li class="text-center"><button id="regbutton" class="btn  m-2">Please Register With Us</button>
-                                                                                                    <a class="btn btn-primary m-2 saveincart" id="saveincart" data-rid="<?= $orderrow['ortid'] ?>" data-rorpahneid="<?= $mar[0]['id'] ?>" data-or_id="<?= $orderrow['ortid'] ?>" data-order_type="1">Continue anonymously</a>
-                                                                                                </li><br>
-
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                            </div>
-                                                                    </div>
-
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- <div class="col-sm-12">
-                                                            <button class="btn btn-block" data-toggle="modal" data-target="#myModalinfo<?= $orderrow['ortid'] ?>" style="background:#010101">Proceed as guest </button>
-                                                            <div class="modal fade" id="myModalinfo<?= $orderrow['ortid'] ?>" role="dialog">
-                                                                <div class="modal-dialog">
-
-
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <section class="login-register-area">
-                                                                                <div class="bg-white">
-                                                                                    <div class="row no-gutters">
-                                                                                        <div class="col-lg-12 text-center">
-                                                                                            <h4>To receive Tax benefit certificate, continue to sign up.</h4>
-                                                                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#REGModal" class="btn btn-warning">Mitra Registration</a>
-                                                                                            <a class="btn btn-primary saveincart" id="saveincart" data-rid="<?= $orderrow['ortid'] ?>" data-rorpahneid="<?= $mar[0]['id'] ?>" data-or_id="<?= $orderrow['ortid'] ?>" data-order_type="1">Continue anonymously</a>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </section>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
-                                                <?php
-                                                }
-                                                ?>
-
-
+                                                <input type="hidden" value="1" id="amts<?= $orderrow['ortid'] ?>">
+                                                <button class="btn btn-block savecart" data-or_id="<?= $orderrow['ortid'] ?>" data-cchid="<?= $mar[0]['id'] ?>" data-order_type="1" data-qty="">Add</button>
                                             </div>
                                         </div>
                                     </div>

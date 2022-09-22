@@ -39,53 +39,80 @@
                                 <div class="inv-details-title">
                                     <div class="review-top-left">
                                         <h5>Cart items</h5>
-
                                     </div>
-
                                 </div>
-                                <div class="blog-comment">
-                                    <ul>
+                                <div class="row">
+                                    <ul class="row">
 
                                         <?php
+                                        
                                         $i = 1;
-                                        foreach ($this->cart->contents() as $items) : ?>
-                                            <li>
-                                                <div class="single-comment row">
-                                                    <div class="comment-avatar-img col-md-2">
-                                                        <img src="<?= base_url('uploads/products/') . $items['image']; ?>" alt="<?php echo $items['name']; ?>" style="height:30px;">
-                                                    </div>
-                                                    <div class="comment-text  col-md-10 ">
-                                                        <div class="comment-avatar-info row">
-                                                            <div class="col-md-4">
-                                                                <h4><?php echo $items['name']; ?><span class="comment-date"></ /span>
-                                                                </h4>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <p>₹ <?php echo $this->cart->format_number($items['price']); ?>  X <?php echo $items['qty']; ?> Unit</p>
+                                        $arr = group_by_array($this->cart->contents(), 'orphane');
 
-                                                                <div class="rating">
-                                                                    <input type="hidden" name='' id="qtysidecart<?= $items['rowid']; ?>" value="<?php echo $items['qty']; ?>" class="qty form-control" data-rowid="<?= $items['rowid']; ?>" style="max-width:60px" readonly>
+                                        foreach ($arr as $cch_item) :
+                                            print_R($cch_item);
+                                            foreach ($cch_item as $items) :
+                                                $img = '';
+                                                print_R($items);
+                                                if ($items['image'] != '') {
+                                                    if ($items['product_status'] == 1) {
+                                                        if ((file_exists(FCPATH . 'uploads/products/' . $items['image']))) {
+                                                            $img = base_url()  . 'uploads/products/' . $items['image'];
+                                                        } else {
+                                                            $img = base_url('assets/img/1.jpg');
+                                                        }
+                                                    } else {
+                                                        if ((file_exists(FCPATH . 'uploads/ordercover/' . $items['image']))) {
+                                                            $img = base_url() . 'uploads/ordercover/' . $items['image'];
+                                                        } else {
+                                                            $img = base_url('assets/img/1.jpg');
+                                                        }
+                                                    }
+                                                } else {
+                                                    $img = base_url('assets/img/1.jpg');
+                                                }
+                                        ?>
+                                                <li class="col-md-12" id="<?= $items['rowid'] ?>">
+                                                    <div class="single-comment row">
+                                                        <div class="comment-avatar-img col-md-2">
+
+                                                            <img src="<?= $img ?>" alt="<?php echo $items['name']; ?>" style="height:30px;">
+                                                        </div>
+                                                        <div class="comment-text  col-md-10 ">
+                                                            <div class="comment-avatar-info row">
+                                                                <div class="col-md-4">
+                                                                    <h4><?php echo $items['name']; ?><span class="comment-date"></span>
+
+                                                                    </h4>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <p>₹ <?php echo $this->cart->format_number($items['price']); ?> X <?php echo $items['qty']; ?> Unit</p>
+
+                                                                    <div class="rating">
+                                                                        <input type="hidden" name='' id="qtysidecart<?= $items['rowid']; ?>" value="<?php echo $items['qty']; ?>" class="qty form-control" data-rowid="<?= $items['rowid']; ?>" style="max-width:60px" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <h6><span style="font-size:10px;"> Total:</span> ₹ <?php echo ($this->cart->format_number($items['price']) * $items['qty']) ?>
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <a href="javascript:void(0)" class="remove removeCarthm btn btn-danger" data-id="<?= $items['rowid'] ?>"> <i class="far fa-trash-alt"></i> </a>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <h6> Total Amt. - ₹ <?php echo ($this->cart->format_number($items['price']) * $items['qty']) ?>
-                                                                </h6>
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <a href="javascript:void(0)" class="remove removeCarthm btn btn-danger" data-id="<?= $items['rowid'] ?>"> <i class="far fa-trash-alt"></i> </a>
-                                                            </div>
+
                                                         </div>
-
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
 
-                                            <input class="form-check-input" type="hidden" name="orphane_id" value="<?= $items['orphane'] ?>">
+                                                <input class="form-check-input" type="hidden" name="orphane_id" value="<?= $items['orphane'] ?>">
 
                                         <?php
-                                            $i++;
+                                                $i++;
 
-                                        endforeach; ?>
+                                            endforeach;
+                                        endforeach;
+                                        ?>
                                     </ul>
                                 </div>
                             </div>

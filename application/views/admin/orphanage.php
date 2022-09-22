@@ -44,7 +44,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    
+                                                    <th>Create date</th>
+
                                                     <th>Name</th>
                                                     <th>Category</th>
                                                     <th>Number/ Password</th>
@@ -65,30 +66,27 @@
                                                     foreach ($all_orphanage as $cons) {
 
                                                 ?>
-
                                                         <tr>
                                                             <td><?= $i ?></td>
-                                                            
+                                                            <td><?= convertDatedmy($cons['create_date']) ?><br>
                                                             <td><?= $cons['name'] ?><br>
-                                                            <?php
-                                                                    $headcch = getWhereData('tbl_orphanage', array('id' => $cons['head_cch_id']));
-                                                                    if ($headcch != '') { ?>
-                                                                        (Branch of <b><?= $headcch[0]['name'] ?> </b>)
-                                                                    <?php
-                                                                    } else {
-
-                                                                        
-                                                                    }
-                                                                    ?>
-                                                                    </td>
-                                                                    <td><?= $cons['category'] ?></td>
+                                                                <?php
+                                                                $headcch = getWhereData('tbl_orphanage', array('id' => $cons['head_cch_id']));
+                                                                if ($headcch != '') { ?>
+                                                                    (Branch of <b><?= $headcch[0]['name'] ?> </b>)
+                                                                <?php
+                                                                } else {
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <td><?= $cons['category'] ?></td>
                                                             <td><?= $cons['number'] ?> <br>
-                                                                Pass : <?= $cons['password'] ?></td>
+                                                                Pass : <?= decryptId($cons['password']) ?></td>
                                                             <td><?= $cons['email'] ?>
 
                                                             </td>
                                                             <!-- <td><?= $cons['address'] ?></td> -->
-                                                            <td> 
+                                                            <td>
                                                                 <!-- <button type="button" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center<?= $i ?>" class="btn btn-info"> -->
                                                                 <a href="<?php echo base_url() ?>admin_Dashboard/child_care_home_merchant_update/<?= encryptId($cons['id']) ?>" class="btn btn-info">
                                                                     <?php
@@ -104,7 +102,7 @@
                                                                 </a>
                                                             </td>
                                                             <td><a href="<?php echo base_url() ?>admin_Dashboard/child_care_home_order_list/<?= encryptId($cons['id']) ?>" class="btn btn-success">
-                                                                      Order Request</a></td>
+                                                                    Order Request</a></td>
 
 
                                                             <td><a href="<?php echo base_url() ?>admin_Dashboard/child_care_home_details/<?= encryptId($cons['id']) ?>" class="btn btn-danger">View Details</a></td>
@@ -118,7 +116,6 @@
                                                             </td>
 
                                                         </tr>
-
                                                 <?php
                                                         $i++;
                                                     }

@@ -11,7 +11,7 @@
 
             <div class="page-content">
                 <div class="container-fluid ">
-                    <div class="page-title-box">
+                    <div class="page-title-box"> 
                         <div class="row ">
                             <div class="col-md-8">
                                 <div class=" d-flex align-items-center justify-content-between">
@@ -63,14 +63,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Select product</label>
+                                                           
                                                             <select class="form-control" name="product[]">
                                                                 <option value="">Select product</option>
                                                                 <?php
-                                                                if (!empty($products)) {
-                                                                    foreach ($products as $row) {
-
+                                                                if (!empty($product)) {
+                                                                    foreach ($product as $row) {
+                                                                        $products = getRowById('products','product_id',$row['product_id']);
                                                                 ?>
-                                                                        <option value="<?= $row['product_id']; ?>"><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                        <option value="<?= $row['id']; ?>"><?= $products[0]['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>) (MP: Rs. <?= $row['srimitra_price']; ?> ) (SP: Rs. <?= $row['srimitra_price']; ?>)</option>
                                                                 <?php
                                                                     }
                                                                 }
@@ -96,11 +97,11 @@
                                                             <select class="form-control" name="product[]">
                                                                 <option value="">Select product</option>
                                                                 <?php
-                                                                if (!empty($products)) {
-                                                                    foreach ($products as $row) {
-
+                                                                if (!empty($product)) {
+                                                                    foreach ($product as $row) {
+                                                                        $products = getRowById('products','product_id',$row['product_id']);
                                                                 ?>
-                                                                        <option value="<?= $row['product_id']; ?>"><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                        <option value="<?= $row['id']; ?>"><?= $products[0]['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>) (MP: Rs. <?= $row['srimitra_price']; ?> ) (SP: Rs. <?= $row['srimitra_price']; ?>)</option>
                                                                 <?php
                                                                     }
                                                                 }

@@ -54,6 +54,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                      <th>Product Name</th>
                                                     <th>Category/Subcategory Name</th>
                                                     <th class="d-none">Quantity/ Quantity type</th>
@@ -77,6 +78,7 @@
 
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
+                                                            <td><?= $fetchrow['create_date']; ?></td>
   <td>
                                                                 <?php echo wordwrap($fetchrow['pro_name'], 10, '<br>'); ?></td>
                                                            

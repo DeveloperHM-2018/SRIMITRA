@@ -44,11 +44,11 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <h5>State :</h5>
-                                                    <?= $state[0]['state_name']; ?>
+                                                    <?= (($state == '') ? '' : $state[0]['state_name']); ?>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <h5>City :</h5>
-                                                    <?= $city[0]['name']; ?>
+                                                    <?= (($city == '') ? '' : $city[0]['name']) ?>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <h5>Pincode :</h5>

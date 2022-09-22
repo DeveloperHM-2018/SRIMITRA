@@ -80,10 +80,9 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                     <th> Name</th>
                                                     <th>Delete</th>
-
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -92,23 +91,21 @@
                                                 if (!empty($quantity)) {
                                                     foreach ($quantity as $row) {
                                                 ?>
-
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-
+                                                            <td><?= $row['create_date']; ?></td>
                                                             <td><?php echo $row['quantity_name']; ?></td>
                                                             <td>
                                                                 <a href="<?php echo base_url() . 'admin_Dashboard/deletequantity_type/' . $row['quantity_type_id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
                                                         </tr>
-
                                                 <?php
                                                         $i++;
                                                     }
                                                 }
                                                 ?>
                                             </tbody>
-                                            
+
                                         </table>
                                     </div>
                                 </div>

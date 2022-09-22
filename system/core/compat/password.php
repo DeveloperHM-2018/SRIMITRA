@@ -240,7 +240,6 @@ if ( ! function_exists('password_verify'))
 		{
 			return FALSE;
 		}
-
 		$compare = 0;
 		for ($i = 0; $i < 60; $i++)
 		{

@@ -56,6 +56,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
+                                                    
+                                                    <th>Create date</th>
                                                     <th>Shop Name</th>
                                                     <th>Merchant Name</th>
                                                     <th>Number</th>
@@ -78,12 +80,14 @@
 
                                                         <tr>
                                                             <td><?= $i ?></td>
+                                                            <td><?= convertDatedmy($cons['create_date']) ?><br>
+                                                            
                                                             <td><?= $cons['shop_name'] ?></td>
                                                             <td><?= $cons['m_name'] ?></td>
                                                             <td><?= $cons['number'] ?></td>
                                                             <td><?= $cons['email'] ?>
                                                             </td>
-                                                            <td><?= $cons['password'] ?></td> 
+                                                            <td><?= decryptId($cons['password']) ?></td> 
                                                             <td><a href="<?php echo base_url() ?>admin_Dashboard/merchant_details/<?= encryptId($cons['id']) ?>" class="btn btn-danger">View Details</a></td>
                                                             <td><a href="<?php echo base_url() ?>admin_Dashboard/merchant_order_info/<?= encryptId($cons['id']) ?>" class="btn btn-info">Order details</a></td>
                                                             <td>

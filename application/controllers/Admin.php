@@ -28,7 +28,7 @@ class Admin extends CI_Controller
 
                 $id = $data[0]['admin_id'];
                 $f_username = $data[0]['username'];
-                $f_password = $data[0]['password'];
+                $f_password = decryptId($data[0]['password']);
                 if ($password != $f_password) {
                     flashData('login_error', 'Enter a valid Password.');
                 } else {
@@ -81,7 +81,7 @@ class Admin extends CI_Controller
                
                 $id = $data[0]['id'];
                 $f_username = $data[0]['number'];
-                $f_password = $data[0]['password'];
+                $f_password = decryptId($data[0]['password']);
 
                 if ($password != $f_password) {
                     flashData('login_error', 'Enter a valid Password.');
@@ -145,7 +145,7 @@ class Admin extends CI_Controller
                 $this->session->set_userdata(array('orphaneid' => $data[0]['id'],  'number' => $data[0]['number'], 'name' => $data[0]['name'])); 
                 $id = $data[0]['id'];
                 $f_username = $data[0]['number'];
-                $f_password = $data[0]['password']; 
+                $f_password = decryptId($data[0]['password']); 
                 if ($password != $f_password) {
                     flashData('login_error', 'Enter a valid Password.');
                 } else {
@@ -156,7 +156,7 @@ class Admin extends CI_Controller
                 flashData('login_error', 'Enter a valid number ');
             }
         }
-        
+
         $donation = $this->CommonModal->getAllRows('tbl_orphange_order');
         if ($donation != '') {
             $r = [];

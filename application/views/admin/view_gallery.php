@@ -54,6 +54,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S No</th>
+                                                    <th>Create date</th>
                                                     <th>Image</th>
                                                     <th>Title</th>
 
@@ -72,7 +73,7 @@
 
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-
+                                                            <td><?= $fetchrow['create_date']; ?></td>
                                                             <td>
                                                                 <?php
                                                                 if ($fetchrow['image'] != '' && $fetchrow['image'] != 0) {
@@ -84,24 +85,15 @@
                                                                 <?php
                                                                 }
                                                                 ?>
-
                                                             </td>
-
                                                             <td>
                                                                 <?= $fetchrow['tittle']; ?>
                                                             </td>
-
-
                                                             <td>
-
                                                                 <!--<a href="<?php echo base_url() . 'admin_Dashboard/edit_gallery/' . $fetchrow['id']; ?>" onclick="return confirm('Are you sure?')" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>-->
-
                                                                 <a href="<?php echo base_url() . 'admin_Dashboard/deletegallery/' . $fetchrow['id']; ?>" onclick="return confirm('Are you sure?')" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
-
                                                             </td>
-
                                                         </tr>
-
                                                 <?php
                                                         $i++;
                                                     }

@@ -179,7 +179,17 @@ class Ajax extends CI_Controller
             echo '<option value="' . $da['sub_category_id'] . '">' . $da['subcat_name'] . '</option>';
         }
     }
-
+    public function get_product()
+    {
+        $category_id = $_POST['category_id'];
+        $subcategory_id = $_POST['subcategory_id'];
+        $data = $this->CommonModal->getRowByMoreId('products', array('category_id'=>$category_id,'subcategory_id'=>$subcategory_id));
+        echo '<option>Select Product  </option>';
+        foreach ($data as $da) {
+            echo '<option value="' . $da['product_id'] . '">' . $da['pro_name'] . '</option>';
+        }
+    }
+    
     public function get_template()
     {
         $mode = $_POST['mode'];
@@ -231,7 +241,7 @@ class Ajax extends CI_Controller
         $data['city'] = $this->CommonModal->getRowByIdInOrder('tbl_cities', array('state_id' => $state), 'name', 'asc');
         $this->load->view('admin/dropdown', $data);
     }
- 
+
 
     public function getcchcontact()
     {
@@ -498,18 +508,18 @@ class Ajax extends CI_Controller
             if (empty($regdata)) {
                 // $regdataemail = $this->CommonModal->getRowById('tbl_user', 'email', $formdata['email']);
                 // if (empty($regdataemail)) {
-                    $formdata['password'] =   substr($formdata['name'], 0, 3) . substr($formdata['number'], 0, 3);
-                    md5($formdata['password']);
-                    $this->CommonModal->insertRowReturnId('tbl_user', $formdata);
-                    $message = donormail($formdata['email'] . ' / ' . $formdata['number'],  $formdata['password']);
-                    sendmail($formdata['email'], 'Srimitra Registration', $message);
-                    $this->session->set_userdata('loginmsg', 'You have registered successfully. check mail ID to get your password.');
-                    echo '1';
-                    // redirect(base_url('Index/thankyou'));
+                $formdata['password'] =   substr($formdata['name'], 0, 3) . substr($formdata['number'], 0, 3);
+                md5($formdata['password']);
+                $this->CommonModal->insertRowReturnId('tbl_user', $formdata);
+                $message = donormail($formdata['email'] . ' / ' . $formdata['number'],  $formdata['password']);
+                sendmail($formdata['email'], 'Srimitra Registration', $message);
+                $this->session->set_userdata('loginmsg', 'You have registered successfully. check mail ID to get your password.');
+                echo '1';
+                // redirect(base_url('Index/thankyou'));
                 // } elseif (count($regdataemail) == 1) {
                 //     $this->session->set_userdata('regmsg', 'Mail ID Already registered');
                 //     echo '2';
-                    // redirect(base_url('Index/thankyou'));
+                // redirect(base_url('Index/thankyou'));
                 // } else {
                 //     $this->session->set_userdata('regmsg', 'Your account is been blocked with multiple  mail ID ' . $formdata['email']);
                 //     echo '3';

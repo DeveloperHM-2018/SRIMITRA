@@ -598,3 +598,10 @@ function sendWhatsapp($contact_no, $message_content)
 	// print_r($file);
 	// exit;
 }
+function group_by_array($array, $key) {
+    $return = array();
+    foreach($array as $val) {
+        $return[$val[$key]][] = $val;
+    }
+    return $return;
+}
