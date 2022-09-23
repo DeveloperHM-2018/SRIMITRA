@@ -2142,6 +2142,7 @@ class Admin_Dashboard extends CI_Controller
   {
     $data['favicon'] = base_url() . 'assets/images/favicon.png';
     $data['title'] = "Update order request";
+    $data['ortid'] = $ortid;
     $data['product'] = $this->CommonModal->getRowByMoreId('merchant_products', array('approved' => '1', 'is_delete' => '0'));
 
     $data['order'] = $this->CommonModal->getRowById(
@@ -2168,35 +2169,92 @@ class Admin_Dashboard extends CI_Controller
         decryptId($ortid),
         $postdata
       );
-      $msg = [];
+
+      if ($requestid) {
+       $this->session->set_userdata(
+          'msg',
+          '<div class="alert alert-success">Your request is successfully submit. We will contact you as soon as possible.</div>'
+        );
+      } else {
+        $this->session->set_userdata(
+          'msg',
+          '<div class="alert alert-danger">We are facing technical error ,in some part.</div>'
+        );
+      }
+      redirect(base_url('admin_Dashboard/edit_order_request_template/' . $ortid));
+    }
+    $this->load->view('admin/edit_order_request_template', $data);
+  }
+  public function update_combo_product()
+  {
+    if (count($_POST) > 0) {
+      print_R($_POST);
+      $post = $this->input->post();
+      $update = $this->CommonModal->updateRowById(
+        'order_request_template_product',
+        'id',
+        $post['orderpro'],
+        ['product' => $post['product'], 'quantity' => $post['quantity']]
+      );
+      if ($update) {
+        $this->session->set_userdata(
+          'msg',
+          '<div class="alert alert-success">Successfully updated</div>'
+        );
+        $this->session->set_userdata('msg_class', 'alert-success');
+      } else {
+        $this->session->set_userdata(
+          'msg',
+          '<div class="alert alert-danger">We are facing technical error.</div>'
+        );
+        $this->session->set_userdata('msg_class', 'alert-danger');
+      }
+    }
+    // exit();
+    redirect($_SERVER['HTTP_REFERER']);
+  }
+  public function delete_combo_product($id)
+  {
+
+    if ($this->CommonModal->deleteRowById('order_request_template_product', ['id' => $id])) {
+      $this->session->set_userdata(
+        'msg',
+        'Combo Product deleted successfully'
+      );
+      $this->session->set_userdata('msg_class', 'alert-success');
+    } else {
+      $this->session->set_userdata(
+        'msg',
+        'Combo Product is not Deleted Please try again!!'
+      );
+      $this->session->set_userdata('msg_class', 'alert-danger');
+    }
+    redirect($_SERVER['HTTP_REFERER']);
+  }
+  public function add_combo_product()
+  {
+    if (count($_POST) > 0) {
+       
+      $requestid = $this->input->post('orderpro');
       $product = $this->input->post('product');
       $quantity = $this->input->post('quantity');
-      $orderpro = $this->input->post('orderpro');
-      echo '<pre>';
-      print_r($_POST);
-      exit();
+
+      $msg = [];
+      $product_arr = [];
+      $cch_arr = [];
+
       for ($j = 0; $j < count($product); $j++) {
         if ($product[$j] != '') {
-          if ($orderpro[$j] != '') {
-            $data = ['product' => $product[$j], 'quantity' => $quantity[$j]];
-            $request_product = $this->CommonModal->updateRowById(
-              'order_request_template_product',
-              'id',
-              $orderpro[$j],
-              $data
-            );
-          } else {
-            $data = [
-              'ort_id' => $requestid,
-              'product' => $product[$j],
-              'quantity' => $quantity[$j],
-            ];
-            $request_product = $this->CommonModal->insertRowReturnId(
-              'order_request_template_product',
-              $data
-            );
-          }
-
+          $data = [
+            'ort_id' => $requestid,
+            'product' => $product[$j],
+            'quantity' => $quantity[$j],
+          ];
+          
+          $request_product = $this->CommonModal->insertRowReturnId(
+            'order_request_template_product',
+            $data
+          );
           if ($request_product != '') {
             array_push($msg, 'true');
           } else {
@@ -2204,6 +2262,7 @@ class Admin_Dashboard extends CI_Controller
           }
         }
       }
+
       if (array_search('false', $msg)) {
         $this->session->set_userdata(
           'msg',
@@ -2215,9 +2274,8 @@ class Admin_Dashboard extends CI_Controller
           '<div class="alert alert-success">Your request is successfully submit. We will contact you as soon as possible.</div>'
         );
       }
-      redirect(base_url('admin_Dashboard/view_request_template'));
+      redirect($_SERVER['HTTP_REFERER']);
     }
-    $this->load->view('admin/edit_order_request_template', $data);
   }
   public function change_password()
   {
