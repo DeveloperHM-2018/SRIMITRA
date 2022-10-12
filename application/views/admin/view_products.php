@@ -127,7 +127,7 @@
                                                                 ?>
                                                                     <a href="<?php echo base_url() . 'admin_Dashboard/edit_products/' . $fetchrow['product_id']; ?>" onclick="return confirm('Are you sure?')" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>
 
-                                                                    <a href="<?php echo base_url() . 'admin_Dashboard/deleteproducts/' . $fetchrow['product_id']; ?>" onclick="return confirm('Do you want to delet the product and save the changes?')" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                    <a href="<?php echo base_url() . 'admin_Dashboard/deleteproducts/' . $fetchrow['product_id']; ?>" onclick="return confirm('Do you want to delete the product and save the changes?')" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
                                                                 <?php
                                                                 }
                                                                 ?>

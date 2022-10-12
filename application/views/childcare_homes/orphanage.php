@@ -69,7 +69,7 @@
                                                     <!-- <th>Assign Merchant</th> -->
                                                     <!-- <th>Product Requirement</th> -->
                                                     <th>View Details</th>
-                                                    <th>Action</th>
+                                                    <!--<th>Action</th>-->
                                                 </tr>
                                             </thead>
 
@@ -88,7 +88,7 @@
                                                             <td><?= $cons['category'] ?></td>
                                                            
                                                             <td><?= $cons['number'] ?> <br>
-                                                                Pass : <?= $cons['password'] ?></td>
+                                                                Pass : <?= decryptId($cons['password']) ?></td>
                                                             <td><?= $cons['email'] ?>
                                                                 
                                                             </td>
@@ -148,12 +148,12 @@
                                                             <td><a href="<?php echo base_url() ?>childcare_homes/child_care_home_details/<?= encryptId($cons['id']) ?>" class="btn btn-danger">View Details</a></td>
 
 
-                                                            <td>
-                                                                <a href="<?php echo base_url() ?>childcare_homes/edit_child_care_home/<?= encryptId($cons['id']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>
+                                                            <!--<td>-->
+                                                                <!--<a href="<?php echo base_url() ?>childcare_homes/edit_child_care_home/<?= encryptId($cons['id']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>-->
 
 
                                                                 <!-- <a href="<?php echo base_url() . 'childcare_homes/child_care_home?BdID=' . $cons['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a> -->
-                                                            </td>
+                                                            <!--</td>-->
 
                                                         </tr>
 

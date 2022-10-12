@@ -35,8 +35,6 @@
                 </div>
             </div>
         </div>
-
-
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
@@ -80,9 +78,10 @@
                         <li><a href="<?= base_url('Childcare_homes/donation') ?>">Accepted by merchant</a></li>
                          
                         <li><a href="<?= base_url('Childcare_homes/delivered_donation') ?>">Delivered by merchant</a></li> 
+                        <li><a href="<?= base_url('Childcare_homes/confirmed_donation') ?>">Completed Contribution</a></li> 
+                        
                     </ul>
                 </li> 
-
                 <!--<li>-->
                 <!--    <a href="<?= base_url('Childcare_homes/donation') ?>" class="waves-effect">-->
                 <!--        <i class="mdi mdi-home"></i>-->
@@ -103,7 +102,6 @@
                         <span>Celebration with us</span>
                     </a>
                 </li>
-                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-email"></i>
@@ -112,7 +110,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?= base_url('Childcare_homes/report_donation') ?>">Total Contribution </a></li>
                         <li><a href="<?= base_url('Childcare_homes/report_donor') ?>">Total Donors</a></li> 
-                        <li><a href="<?= base_url('Childcare_homes/report_product') ?>">Most ordered products items</a></li> 
+                        <!--<li><a href="<?= base_url('Childcare_homes/report_product') ?>">Most ordered products items</a></li> -->
                     </ul>
                 </li>
 

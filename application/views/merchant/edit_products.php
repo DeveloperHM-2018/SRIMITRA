@@ -72,14 +72,13 @@
                                                                 $subcat = getRowById('sub_category', 'sub_category_id', $productInfo['subcategory_id']);
                                                                 if ($subcat != '') {
                                                                 ?>
-                                                                    <option value="<?= $subcat[0]['sub_category_id']; ?>"><?= $subcat[0]['subcat_name']; ?></option>
+                                                                    <option value="<?= $subcat[0]['sub_category_id']; ?>" selected><?= $subcat[0]['subcat_name']; ?></option>
                                                                 <?php } ?>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group col-md-3">
                                                             <label class="">Product Name</label>
-
                                                             <select class="form-control" name="product_id" id="product_nm">
                                                                 <option value="">Select Product name</option>
                                                                 <?php foreach ($product as $rows) {

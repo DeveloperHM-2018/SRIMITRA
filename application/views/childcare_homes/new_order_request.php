@@ -89,7 +89,7 @@
                                                     <div class="form-group">
                                                         <label>Product</label>
                                                         <select class="form-control" name="product[]">
-                                                            <option value="">Select product</option>
+                                                            <option value="">Select product</option> 
                                                             <?php
                                                             // print_R($products);
                                                             $i = 1;

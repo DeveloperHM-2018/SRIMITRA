@@ -9,20 +9,20 @@
 
     }
 
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
+    /*table,*/
+    /*thead,*/
+    /*tbody,*/
+    /*th,*/
+    /*td,*/
+    /*tr {*/
 
-        border-collapse: collapse;
-        margin-bottom: 0.2rem;
-        padding: 5px;
-        color: #212529;
-        border-bottom: #212529 1px solid;
-        text-align: center;
-    }
+    /*    border-collapse: collapse;*/
+    /*    margin-bottom: 0.2rem;*/
+    /*    padding: 5px;*/
+    /*    color: #212529;*/
+    /*    border-bottom: #212529 1px solid;*/
+    /*    text-align: center;*/
+    /*}*/
 
     /*
 	Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
@@ -31,92 +31,143 @@
     (min-device-width: 768px) and (max-device-width: 1024px) {
 
         /* Force table to not be like tables anymore */
-        table,
-        thead,
-        tbody,
-        th,
-        td,
-        tr {
-            display: block;
-            border-collapse: collapse;
-            margin-bottom: 0rem;
-            color: #212529;
+        /*      table,*/
+        /*      thead,*/
+        /*      tbody,*/
+        /*      th,*/
+        /*      td,*/
+        /*      tr {*/
+        /*          display: block;*/
+        /*          border-collapse: collapse;*/
+        /*          margin-bottom: 0rem;*/
+        /*          color: #212529;*/
 
-            text-align: left;
-        }
+        /*          text-align: left;*/
+        /*      }*/
 
         /* Hide table headers (but not display: none;, for accessibility) */
-        thead tr {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
+        /*      thead tr {*/
+        /*          position: absolute;*/
+        /*          top: -9999px;*/
+        /*          left: -9999px;*/
 
-        }
+        /*      }*/
 
-        tr {
-            margin: 0 0 1rem 0;
-        }
+        /*      tr {*/
+        /*          margin: 0 0 1rem 0;*/
+        /*      }*/
 
-        tr:nth-child(odd) {
-            background: #ccc;
-        }
+        /*      tr:nth-child(odd) {*/
+        /*          background: #ccc;*/
+        /*      }*/
 
-        td {
-            /* Behave  like a "row" */
-            border: none;
-            margin-bottom: 0.5rem;
-            margin-top: 0.5rem;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            padding-left: 50%;
-        }
+        /*      td {*/
+        /* Behave  like a "row" */
+        /*          border: none;*/
+        /*          margin-bottom: 0.5rem;*/
+        /*          margin-top: 0.5rem;*/
+        /*          border-bottom: 1px solid #eee;*/
+        /*          position: relative;*/
+        /*          padding-left: 50%;*/
+        /*      }*/
 
-        td:before {
-            /* Now like a table header */
-            position: absolute;
-            /* Top/left values mimic padding */
-            top: 0;
-            left: 6px;
-            width: 45%;
-            padding-right: 10px;
-            /* white-space: nowrap; */
-            line-height: 15px;
-            padding-top: 5px;
-            ;
-        }
+        /*      td:before {*/
+        /* Now like a table header */
+        /*          position: absolute;*/
+        /* Top/left values mimic padding */
+        /*          top: 0;*/
+        /*          left: 6px;*/
+        /*          width: 45%;*/
+        /*          padding-right: 10px;*/
+        /* white-space: nowrap; */
+        /*          line-height: 15px;*/
+        /*          padding-top: 5px;*/
+        /*          ;*/
+        /*      }*/
 
         /*
 		Label the data
     You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
 		*/
-        td:nth-of-type(1):before {
-            content: "Select here";
-        }
+        /*      td:nth-of-type(1):before {*/
+        /*          content: "Select here";*/
+        /*      }*/
 
-        td:nth-of-type(2):before {
-            content: "Product";
-        }
+        /*      td:nth-of-type(2):before {*/
+        /*          content: "Product";*/
+        /*      }*/
 
-        td:nth-of-type(3):before {
-            content: "Quantity requested";
-        }
+        /*      td:nth-of-type(3):before {*/
+        /*          content: "Quantity requested";*/
+        /*      }*/
 
-        td:nth-of-type(4):before {
-            content: "Price/unit ";
-        }
+        /*      td:nth-of-type(4):before {*/
+        /*          content: "Price/unit ";*/
+        /*      }*/
 
-        td:nth-of-type(5):before {
-            content: "Use Button to customize";
-        }
+        /*      td:nth-of-type(5):before {*/
+        /*          content: "Use Button to customize";*/
+        /*      }*/
 
-        td:nth-of-type(6):before {
-            content: "Total Amount";
-        }
+        /*      td:nth-of-type(6):before {*/
+        /*          content: "Total Amount";*/
+        /*      }*/
 
 
     }
 </style>
 
+<style>
+    * {
+        box-sizing: border-box
+    }
+
+    .mySlides1,
+    .mySlides2 {
+        display: none
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a grey background color */
+    .prev:hover,
+    .next:hover {
+        background-color: #f1f1f1;
+        color: black;
+    }
+</style>
 
 <body>
 
@@ -191,8 +242,7 @@
                                 </div> -->
                                 <div class="container">
                                     <div class="row product-scroller mb-3">
-                                        <div class="col-md-3 
-                                           col-6 p-2">
+                                        <div class="col-md-3   col-6 p-2">
                                             <div class="card text-center p-1 col-md-12 ">
                                                 <div class="card-body p-1  justify-content-center ">
                                                     <img src="<?= base_url() . 'assets/img/19071658243979122.jpg' ?>" style="width:80px;height:80px;display:initial" class="border" />
@@ -224,8 +274,7 @@
                                             }
                                         }
                                         ?>
-                                        <div class="col-md-3 
-                                           col-6 p-2">
+                                        <div class="col-md-3 col-6 p-2">
                                             <div class="card text-center p-1 col-md-12 ">
                                                 <div class="card-body p-1  justify-content-center ">
                                                     <img src="<?= base_url() . 'assets/img/17081660752612469.jpg' ?>" style="width:80px;height:80px;display:initial" class="border" />
@@ -385,6 +434,25 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
+                        <!-- <p>Slideshow 1:</p>
+                        <div class="slideshow-container">
+                            <div class="mySlides1">
+                                <img src="assets/home/img/default-image.jpg" style="width:100%">
+                            </div>
+
+                            <div class="mySlides1">
+                                <img src="assets/home/img/icon-1.png" style="width:100%">
+                            </div>
+
+                            <div class="mySlides1">
+                                <img src="assets/home/img/default-image.jpg" style="width:100%">
+                            </div>
+
+                            <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+                            <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+                        </div> -->
+
+
                         <div class="widget inventory-widget">
                             <div class="sidebar-fv-active">
                                 <?php if ($order != '') {
@@ -395,7 +463,7 @@
                                 ?>
                                             <div class="sidebar-fv-item">
                                                 <div class="fv-top-tag">
-                                                    <div class="inventory-features">
+                                                    <div class="inventory-features st_slider" style="height: 340px; overflow-y: scroll;">
                                                         <div class="inv-widget-title">
                                                             <h5 class="title uppercase"><br />
                                                                 <span class="highlightfont"><?= $mar[0]['name']; ?></span> <br />
@@ -405,7 +473,7 @@
                                                         <div class="col-md-12 text-right text-info">
                                                             Use button to customize quantity
                                                         </div>
-                                                        <table class=" " role="table">
+                                                        <table class=" table table-responsive" role="table">
                                                             <thead role="rowgroup">
                                                                 <tr role="row">
                                                                     <th role="columnheader"># </th>
@@ -477,7 +545,7 @@
                                 ?>
 
                             </div>
-                            <h6>Do you want to know how your contribution is making changes?<br>
+                            <h6 id="seprate">Do you want to know how your contribution is making changes?<br>
                                 <a href="<?= base_url('Index/login_here') ?>" class="text-primary">Sign up </a> with us today and become part of ever growing SriMitra family.
                             </h6>
                         </div>
@@ -485,6 +553,8 @@
                     <div class="col-md-6 fact-area dflex" style="margin-top: -25px;">
                         <!--<img src="<?= base_url() ?>assets/home/img/child-eating.jpg" alt="child" class="imgresponsive" style="width: 425px;" />-->
                         <div class="section-title white-title pt-40 mb-40">
+
+
                             <!-- <span class="sub-title">Advantages</span> -->
                             <h4 style="color : #fff;">For A Child, Your <span style="color: #ffa800;">Contribution</span> Means
                             </h4>
@@ -659,9 +729,8 @@ background: url('<?= base_url() ?>assets/home/img/backgroundimg.jpg');
                                         <select class="form-control" name="state" id="state" required>
                                             <option value="">Select state </option>
                                             <?php if ($state_list) {
-                                                foreach ($state_list
-                                                    as $state) { ?>
-                                                    <option value="<?= $state['state_name'] ?>"><?= $state['state_name'] ?></option>
+                                                foreach ($state_list as $state) { ?>
+                                                    <option value="<?= $state['state_id'] ?>"><?= $state['state_name'] ?></option>
                                             <?php }
                                             } ?>
                                         </select>
@@ -947,6 +1016,31 @@ background: url('<?= base_url() ?>assets/home/img/backgroundimg.jpg');
                 }
             });
         });
+    </script>
+    <script>
+        let slideIndex = [1, 1];
+        let slideId = ["mySlides1", "mySlides2"]
+        showSlides(1, 0);
+        showSlides(1, 1);
+
+        function plusSlides(n, no) {
+            showSlides(slideIndex[no] += n, no);
+        }
+
+        function showSlides(n, no) {
+            let i;
+            let x = document.getElementsByClassName(slideId[no]);
+            if (n > x.length) {
+                slideIndex[no] = 1
+            }
+            if (n < 1) {
+                slideIndex[no] = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex[no] - 1].style.display = "block";
+        }
     </script>
 </body>
 

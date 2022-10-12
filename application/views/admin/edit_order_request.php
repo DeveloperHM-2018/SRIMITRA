@@ -61,7 +61,7 @@
                                                                         if (!empty($products)) {
                                                                             foreach ($products as $row) { 
                                                                         ?>
-                                                                                <option value="<?= $row['product_id']; ?>" <?= (($row['product_id'] == $datarow['product']) ? 'selected' : '') ?>><?= $row['pro_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
+                                                                                <option value="<?= $row['id']; ?>" <?= (($row['id'] == $datarow['product']) ? 'selected' : '') ?>><?= $row['product_name']; ?> (<?= $row['quantity']; ?> <?= $row['quantity_type']; ?>)</option>
                                                                         <?php
                                                                             }
                                                                         }

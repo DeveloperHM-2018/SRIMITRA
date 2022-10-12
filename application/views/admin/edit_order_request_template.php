@@ -67,7 +67,7 @@
                                                     <div class="form-group">
                                                         <label>Cover Image</label>
                                                         <input type="file" class="form-control" name="cover" value="">
-                                                        <img src="<?= base_url('uploads/ordercover/' . $order[0]['cover']) ?>" style="width:100px;" />
+                                                        <img src="<?= setImage($order[0]['cover'], 'uploads/ordercover/') ?>" style="width:100px;" />
                                                     </div>
                                                 </div>
 
@@ -104,7 +104,7 @@
                                         <h4>Add product</h4>
                                     </div>
                                     <div class="card-body">
-                                        <form action="<?= base_url('admin_dashboard/add_combo_product') ?>" method="post" enctype="multipart/form-data">
+                                        <form action="<?= base_url('admin_Dashboard/add_combo_product') ?>" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                 <input type="hidden" class="form-control" name="orderpro" value="<?= decryptId($ortid) ?>">
                                                 <div class="fieldGroup row">
@@ -112,7 +112,7 @@
                                                         <div class="form-group">
                                                             <label>Product</label>
 
-                                                            <select class="form-control" name="product[]">
+                                                            <select class="form-control" name="product[]" required>
                                                                 <option value="">Select product</option>
                                                                 <?php
                                                                 if (!empty($product)) {
@@ -135,7 +135,7 @@
                                                     </div>
                                                     <div class="col-md-2 col-3">
                                                         <label> ADD</label>
-                                                        <a href="javascript:void(0)" class="form-control btn btn-success addMore">+ </a>
+                                                        <a href="javascript:void(0)" class="form-control btn btn-success addMore"> + </a>
                                                     </div>
                                                 </div>
                                                 <div class="fieldGroupCopy row" style="display: none;">
@@ -182,17 +182,18 @@
 
                                     </div>
                                     <div class="card-body">
-                                        <form action="<?= base_url('admin_dashboard/update_combo_product') ?>" method="post" enctype="multipart/form-data">
-                                            <div class="row">
-                                                <?php
-                                                if (!empty($order)) {
-                                                    $i = 1;
-                                                    $data = getRowById('order_request_template_product', 'ort_id', $order[0]['ortid']);
-                                                    if (!empty($data)) {
-                                                        foreach ($data as $datarow) {
-                                                            // print_R($datarow);
-                                                            // $data = getSingleRowById('products', array('product_id' => $datarow['product']));
-                                                ?>
+                                        <div class="row">
+                                            <?php
+                                            if (!empty($order)) {
+                                                $i = 1;
+                                                $data = getRowById('order_request_template_product', 'ort_id', $order[0]['ortid']);
+                                                if (!empty($data)) {
+                                                    foreach ($data as $datarow) {
+                                                        // print_R($datarow);
+                                                        // $data = getSingleRowById('products', array('product_id' => $datarow['product']));
+                                            ?>
+                                                        <form action="<?= base_url('admin_Dashboard/update_combo_product') ?>" method="post" enctype="multipart/form-data">
+
                                                             <div class="row">
                                                                 <div class="col-md-5 col-5">
                                                                     <div class="form-group">
@@ -226,20 +227,21 @@
                                                                 </div>
                                                                 <div class="col-md-2 col-3">
                                                                     <br>
-                                                                    <a href="<?= base_url('admin_Dashboard/delete_combo_product/' . $datarow['id']) ?>" class="btn btn-primary" onclick="return confirm('Are you sure ?')"">Delete</a>
+                                                                    <a href="<?= base_url('admin_Dashboard/delete_combo_product/' . $datarow['id']) ?>" class="btn btn-primary" onclick="return confirm('Are you sure ?')">Delete</a>
                                                                 </div>
                                                             </div>
-                                                <?php
-                                                        }
+                                                        </form>
+                                            <?php
                                                     }
                                                 }
+                                            }
 
-                                                ?>
+                                            ?>
 
 
 
-                                            </div>
-                                        </form>
+                                        </div>
+
                                     </div>
                                     <!-- End Cardbody -->
                                 </div>
@@ -252,17 +254,28 @@
                 </div>
                 <!-- container-scroller -->
                 <?php $this->load->view('admin/template/footer_link'); ?>
-                <script type=" application/javascript">
-                                                                        $(document).ready(function() {
-                                                                        //group add limit
-                                                                        var maxGroup = 200;
-                                                                        //add more fields group
-                                                                        $(document).on('click', '.addMore', function() {
-                                                                        //$(".addMore").click(function() {
-                                                                        if ($('body').find('.fieldGroup').length < maxGroup) { var fieldHTML='<div class="fieldGroup row">' + $(".fieldGroupCopy").html() + '</div>' ; $('body').find('.fieldGroup:last').after(fieldHTML); } else { alert('Maximum ' + maxGroup + ' groups are allowed.'); } }); $("body").on("click", ".remove" , function() { $(this).parents(".fieldGroup").remove(); }); }); </script>
-                                                                </div>
-                                                            </div>
-                                            </div>
+                <script type="application/javascript">
+                    $(document).ready(function() {
+                        //group add limit
+                        var maxGroup = 200;
+                        //add more fields group
+                        $(document).on('click', '.addMore', function() {
+                            //$(".addMore").click(function() {
+                            if ($('body').find('.fieldGroup').length < maxGroup) {
+                                var fieldHTML = '<div class="fieldGroup row">' + $(".fieldGroupCopy").html() + '</div>';
+                                $('body').find('.fieldGroup:last').after(fieldHTML);
+                            } else {
+                                alert('Maximum ' + maxGroup + ' groups are allowed.');
+                            }
+                        });
+                        $("body").on("click", ".remove", function() {
+                            $(this).parents(".fieldGroup").remove();
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

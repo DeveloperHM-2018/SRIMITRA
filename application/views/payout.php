@@ -54,7 +54,7 @@
                     </div> -->
 
                     <div class="col-lg-12">
-                        <form action="<?= base_url('Index/payubiz') ?>" method="POST">
+                        <form action="" method="POST">
                             <div class="inventory-review-wrap mb-0">
                                 <div class=" ">
                                     <div class="review-top-left">
@@ -66,7 +66,6 @@
                                 </div>
                                 <div class="blog-comment">
                                     <ul>
-
                                         <?php
                                         $i = 1;
                                         foreach ($this->cart->contents() as $items) : ?>
@@ -75,7 +74,7 @@
 
                                                     <div class="comment-text  col-md-12 ">
                                                         <div class="comment-avatar-info row">
-                                                            <div class="col-md-10 row  col-9 padding_payout">
+                                                            <div class="col-md-10 row col-9 padding_payout">
                                                                 <div class="col-md-4 col-12 ">
                                                                     <h5 class="cartfont">
                                                                         <!-- <img src="<?= base_url('uploads/products/') . $items['image']; ?>" alt="<?php echo $items['name']; ?>" style="height:40px;"> -->
@@ -177,13 +176,13 @@
                                                     <?php
                                                     } else {
                                                     ?>
-                                                     <div class="form-grp col-sm-9">
+                                                        <div class="form-grp col-sm-9">
                                                         </div>
                                                         <div class="form-grp col-sm-3"><br>
-                                                        <button type="submit" class="btn btn-block p-3 m-0">
-                                                            <p class="small m-0 twhite p-0">Continue To pay </p>
-                                                        </button>
-                                                    </div>
+                                                            <button type="submit" class="btn btn-block p-3 m-0">
+                                                                <p class="small m-0 twhite p-0">Continue To pay </p>
+                                                            </button>
+                                                        </div>
                                                     <?php
                                                     }
                                                 } else {

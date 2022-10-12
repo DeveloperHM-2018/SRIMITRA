@@ -112,7 +112,7 @@
                                                                 <a href="<?php echo base_url() ?>admin_Dashboard/edit_child_care_home/<?= encryptId($cons['id']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i></a>
 
 
-                                                                <a href="<?php echo base_url() . 'admin_Dashboard/child_care_home?BdID=' . $cons['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                <a href="<?php echo base_url() . 'admin_Dashboard/child_care_home?BdID=' . $cons['id']; ?>" class="btn btn-primary delete"  onclick="return confirm('Are you sure to delete ?')"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
 
                                                         </tr>

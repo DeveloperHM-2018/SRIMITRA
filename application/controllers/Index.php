@@ -17,7 +17,7 @@ class Index extends CI_Controller
         $data['all_orphanage'] = $this->CommonModal->getAllRowsInOrder('tbl_orphanage', 'id', 'desc');
         $data['statelist'] = $this->CommonModal->getDistinctRow('tbl_orphanage', 'state');
         $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
-        $data['request'] = $this->CommonModal->getAllRows('order_request_template');
+        $data['request'] = $this->CommonModal->getRowById('order_request_template', 'is_visible', '0');
         $data['order'] = $this->CommonModal->getRowByMoreId('tbl_orphange_order', array('status' => '1'));
         if (count($_POST) > 0) {
             $post = $this->input->post();
@@ -41,7 +41,7 @@ class Index extends CI_Controller
         $data['title'] = 'Home | SriMitra';
         $data['all_orphanage'] = $this->CommonModal->getAllRowsInOrder('tbl_orphanage', 'id', 'desc');
         $data['statelist'] = $this->CommonModal->getDistinctRow('tbl_orphanage', 'state');
-        $data['request'] = $this->CommonModal->getAllRows('order_request_template');
+        $data['request'] = $this->CommonModal->getRowById('order_request_template', 'is_visible', '0');
         $data['order'] = $this->CommonModal->getRowByMoreId('tbl_orphange_order', array('status' => '1'));
         if (count($_POST) > 0) {
             $post = $this->input->post();
@@ -64,7 +64,7 @@ class Index extends CI_Controller
         $data['title'] = 'Home | SriMitra';
         $data['all_orphanage'] = $this->CommonModal->getAllRowsInOrder('tbl_orphanage', 'id', 'desc');
         $data['statelist'] = $this->CommonModal->getDistinctRow('tbl_orphanage', 'state');
-        $data['request'] = $this->CommonModal->getAllRows('order_request_template');
+        $data['request'] = $this->CommonModal->getRowById('order_request_template', 'is_visible', '0');
         $this->load->view('home_old', $data);
     }
 
@@ -88,19 +88,6 @@ class Index extends CI_Controller
         $this->load->view('orphanage', $data);
     }
 
-    // public function child_care_homes_search()
-    // {
-    //     $data['search'] = (((isset($_POST['search'])) ? $_POST['search'] : ''));
-    //     $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-    //     $data['all_orphanage'] = $this->CommonModal->getAllRowsInOrder('tbl_orphanage', 'id', 'desc');
-    //     $data['mer'] = $this->CommonModal->getRowById('tbl_merchant_registration', 'id',  $data['all_orphanage'][0]['assign_merchant']);
-    //     $data['merchant'] = $this->CommonModal->getAllRows('tbl_merchant_registration');
-
-    //     $data['title'] = 'Child Care Homes | SriMitra';
-
-    //     $this->load->view('orphanage', $data);
-    // }
-
     public function child_care_home_profile()
 
     {
@@ -116,7 +103,7 @@ class Index extends CI_Controller
 
         $data['order'] = $this->CommonModal->getRowByMoreIdInOrder('tbl_orphange_order', array('orphan_id' => $data['mar'][0]['id'], 'status' => '1'), 'oid', 'DESC');
         $data['testimonials'] = $this->CommonModal->getAllRows('tbl_testimonial');
-        $data['request'] = $this->CommonModal->getAllRows('order_request_template');
+        $data['request'] = $this->CommonModal->getRowById('order_request_template', 'is_visible', '0');
         $data['feedback'] = $this->CommonModal->getAllRows('tbl_feedback');
 
         $data['countrequest'] = $this->CommonModal->getNumRows('tbl_orphange_order', array('orphan_id' => $data['mar'][0]['id'], 'status' => '3'));
@@ -191,22 +178,20 @@ class Index extends CI_Controller
             $login_data = $this->CommonModal->getRowById('tbl_user', 'number', $checkoutdata['number']);
             if (!empty($login_data)) {
                 $user_id = $login_data[0]['uid'];
-                $session = $this->session->set_userdata(array('login_user_id' => $user_id, 'login_user_name' => $login_data[0]['name'], 'login_user_emailid' => $login_data[0]['email'], 'login_user_contact' => $login_data[0]['number']));
+                $session = $this->session->set_userdata(array('nl_login_id' => $user_id, 'nl_user_contact' => $login_data[0]['number']));
             } else {
                 $formdata['name'] = $checkoutdata['name'];
                 $formdata['email'] = $checkoutdata['email'];
                 $formdata['number'] = $checkoutdata['number'];
                 $formdata['password'] =   substr($formdata['name'], 0, 3) . substr($formdata['number'], 0, 3);
                 $user_id = $this->CommonModal->insertRowReturnId('tbl_user', $formdata);
-                $session = $this->session->set_userdata(array(
-                    'login_user_id' => $user_id, 'login_user_name' => $checkoutdata['name'],
-                    'login_user_emailid' => $checkoutdata['email'], 'login_user_contact' => $checkoutdata['number']
-                ));
+                $session = $this->session->set_userdata(array('nl_login_id' => $user_id, 'nl_user_contact' => $checkoutdata['number']));
             }
             $session = $this->session->set_userdata(array('check_name' =>  $checkoutdata['name'], 'check_number' => $checkoutdata['number'], 'check_email' => $checkoutdata['email']));
             echo $user_id;
         }
     }
+
     public function subscribe()
     {
         if (count($_POST) > 0) {
@@ -449,8 +434,6 @@ class Index extends CI_Controller
         $data['city'] = $this->CommonModal->getRowByIdInOrder('tbl_cities', array('state_id' => $state), 'name', 'asc');
         $this->load->view('dropdown', $data);
     }
-
-
     public function cart_checkout()
     {
         if (!$this->session->has_userdata('login_user_id')) {
@@ -491,29 +474,28 @@ class Index extends CI_Controller
         }
     }
     public function my_confirmed_donation()
-    { {
-            if (!$this->session->has_userdata('login_user_id')) {
-                redirect('Index');
-            }
+    {
+        if (!$this->session->has_userdata('login_user_id')) {
+            redirect('Index');
+        }
 
-            $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
+        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
 
-            $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
+        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
 
-            $data['logni_user'] = $this->session->userdata();
-            $data['orderDetails'] = $this->CommonModal->getRowByMoreId('checkout', array('user_id' => $this->session->userdata('login_user_id'), 'chechout_status' => '6'));
-            $data['profiledata'] = $this->CommonModal->getRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'))[0];
-            $data['title'] = 'SriMitra | Profile';
-            $data['logo'] = 'assets/logo.png';
-            if (count($_POST) > 0) {
-                $post = $this->input->post();
+        $data['logni_user'] = $this->session->userdata();
+        $data['orderDetails'] = $this->CommonModal->getRowByMoreId('checkout', array('user_id' => $this->session->userdata('login_user_id'), 'chechout_status' => '6'));
+        $data['profiledata'] = $this->CommonModal->getRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'))[0];
+        $data['title'] = 'SriMitra | Profile';
+        $data['logo'] = 'assets/logo.png';
+        if (count($_POST) > 0) {
+            $post = $this->input->post();
 
-                $update = $this->CommonModal->updateRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'), $post);
+            $update = $this->CommonModal->updateRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'), $post);
 
-                redirect(base_url('profile'));
-            } else {
-                $this->load->view('my_donation', $data);
-            }
+            redirect(base_url('profile'));
+        } else {
+            $this->load->view('my_donation', $data);
         }
     }
     public function my_donation()
@@ -677,82 +659,6 @@ class Index extends CI_Controller
         }
     }
 
-
-
-    public function orders()
-    {
-        if (!$this->session->has_userdata('login_user_id')) {
-            redirect('Index');
-        }
-
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-
-        $data['login_user'] = $this->session->userdata();
-        $data['orderDetails'] = $this->CommonModal->getRowByIdInOrder('checkout', array('user_id' => $this->session->userdata('login_user_id')), 'id', 'DESC');
-        $data['profiledata'] = $this->CommonModal->getRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'));
-
-        $data['title'] = 'SriMitra | Profile';
-        $data['logo'] = 'assets/logo.png';
-        $this->load->view('orders', $data);
-    }
-    public function cancelorder()
-    {
-        $id = $this->input->post('id');
-        $upd = $this->CommonModal->updateRowById('checkout', 'id', $id, array('status' => '2'));
-        if ($upd) {
-            return '0';
-        } else {
-            return '1';
-        }
-    }
-    public function wishlist()
-    {
-        if (!$this->session->has_userdata('login_user_id')) {
-            redirect('Index');
-        }
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $data['login_user'] = $this->session->userdata();
-        $data['wishList'] = $this->CommonModal->getRowById('products_wishlist', 'user_id', $this->session->userdata('login_user_id'));
-        $data['title'] = 'SriMitra | Wishlist';
-        $data['logo'] = 'assets/logo.png';
-        $this->load->view('wishlist', $data);
-    }
-
-    public function orderDetails()
-    {
-        if (!$this->session->has_userdata('login_user_id')) {
-            redirect('Index');
-        }
-        $checkoutID = $this->uri->segment(3);
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-
-        $data['orderDetails'] = $this->CommonModal->getRowById('checkout', 'id', $checkoutID);
-        $data['orderProductDetails'] = $this->CommonModal->getRowById('checkout_product', 'checkoutid', $checkoutID);
-        $data['title'] = 'SriMitra | Profile';
-        $data['logo'] = 'assets/logo.png';
-        $this->load->view('orderDetails', $data);
-    }
-    public function orderInvoice()
-    {
-        if (!$this->session->has_userdata('login_user_id')) {
-            redirect('Index');
-        }
-        $checkoutID = $this->uri->segment(3);
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-
-        $data['orderDetails'] = $this->CommonModal->getRowById('checkout', 'id', $checkoutID);
-        $data['orderProductDetails'] = $this->CommonModal->getRowById('checkout_product', 'checkoutid', $checkoutID);
-        $data['title'] = 'SriMitra | Profile';
-        $data['logo'] = 'assets/logo.png';
-        $this->load->view('orderInvoice', $data);
-    }
-
     public function logout()
     {
         $this->session->unset_userdata('login_user_id');
@@ -762,156 +668,114 @@ class Index extends CI_Controller
         $this->session->unset_userdata('login_user_type');
         redirect(base_url('Index'));
     }
-
-    // payu code
+    // ---------------------------checkout panel start here -----------------------------
     public function checkoutpay()
     {
+        $msgpro = '';
 
+        if (count($_POST) > 0) {
+            $checkout = [];
+            $checkoutdata   = $this->input->post();
+            $arr = group_by_array($this->cart->contents(), 'orphane');
+            $payment_type = 0;
+            foreach ($arr as $cch_item) :
+                $oid = key($arr);
+
+                // get cch details
+                $orphane = getSingleRowById('tbl_orphanage', array('id' => $oid));
+                $checkoutdata['create_date_only'] =   date('Y-m-d');
+                $checkoutdata['merchant_id'] =   $orphane['assign_merchant'];
+                $checkoutdata['orphane_id'] =   $oid;
+                $checkoutdata['payment_type'] =   $payment_type;
+                $post = $this->CommonModal->insertRowReturnId('checkout', $checkoutdata);
+                $checkout[] = $post;
+
+                // get product list
+                foreach ($cch_item as $items) :
+                    $product_img = '';
+                    if ($items['image'] != '') {
+                        if ($items['product_status'] == 1) {
+                            if ((file_exists(FCPATH . 'uploads/products/' . $items['image']))) {
+                                $product_img = base_url()  . 'uploads/products/' . $items['image'];
+                            } else {
+                                $product_img = base_url('assets/img/1.jpg');
+                            }
+                        } else {
+                            if ((file_exists(FCPATH . 'uploads/ordercover/' . $items['image']))) {
+                                $product_img = base_url() . 'uploads/ordercover/' . $items['image'];
+                            } else {
+                                $product_img = base_url('assets/img/1.jpg');
+                            }
+                        }
+                    } else {
+                        $product_img = base_url('assets/img/1.jpg');
+                    }
+                    $product = '';
+                    $product_list = array();
+                    $product_data = explode('-', $items['id']);
+                    $product = array(
+                        'checkoutid' => $post, 'product_id' => $product_data[2], 'orphan_id' => $items['orphane'],  'product_img' => $product_img,
+                        'product_name' => $items['name'], 'product_price' => $items['price'], 'product_quantity' => $items['qty'], 'total_pro_amt' => ($items['price'] * $items['qty']),  'product_status' => $items['product_status']
+                    );
+                    $this->CommonModal->insertRowReturnId('checkout_product', $product);
+                    $product_list[] = $product;
+                    $msgpro .= 'Product Details - ' . $items['name'] . '<br> [ ' . $items['price'] . ' * ' . $items['qty'] . '] <br>';
+                    $order_id = implode(' | ', $checkout);
+                    setData('order_id', $order_id);
+                    setData('payment_type', $payment_type);
+                    $message = orderIdmail(str_replace('-', '', setDateOnly()) . $post);
+                    sendmail(sessionId('login_user_emailid'), 'OrderId from SriMitra  | Thankyou for ordering with us', $message);
+
+                endforeach;
+                next($arr);
+            endforeach;
+            redirect('Index/checkoutpay_update_payment');
+        } else {
+            redirect('/');
+        }
+    }
+    public function checkoutpay_update_payment()
+    {
         $data['title'] = 'SriMitra | Payment Update';
         $data['logo'] = 'assets/logo.png';
-        $data['show'] = 'yes';
         $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
         $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        if ($this->session->has_userdata('login_user_id')) {
-            $this->load->view('payout', $data);
+        if (count($_POST) > 0) {
+            $post = $this->input->post();
+            $order_id = explode(' | ', $post['order_request_id']);
+            foreach ($order_id as $oid) {
+                $update = $this->CommonModal->updateRowById('checkout', 'id', $oid, array('payment_id' => $post['payment_id'], 'user_id' => $post['user_id'], 'initial_status' => 1));
+            }
+            redirect('Index/payment_id_update_view');
+        }
+        if ($this->session->userdata('login_user_guest') == '0') {
+            $this->load->view('payout_via_transaction_id', $data);
         } else {
-            $this->load->view('login', $data);
+            if ($this->session->userdata('login_user_guest') == '1' && $this->session->userdata('login_user_id') != 0) {
+                if (sessionId('payment_type') == 0) {
+                    $this->load->view('payout_via_transaction_id', $data);
+                } else {
+                    $data['title']              = 'Checkout payment | Infovistar';
+                    $data['callback_url']       = base_url() . 'Index/callback';
+                    $data['surl']               = base_url() . 'Index/success';
+                    $data['furl']               = base_url() . 'Index/failed';
+                    $data['currency_code']      = 'INR';
+                    $this->load->view('payout_via_rozarpay', $data);
+                }
+            } else {
+                $this->load->view('login', $data);
+            }
         }
     }
-    public function payubiz()
-    {
-        $msg = '';
-        $msgpro = '';
-        $admmsg = '';
-        $checkoutdata   = $this->input->post();
-        $checkoutdata['create_date_only'] = setDateOnly();
-        $orphane = $this->CommonModal->getRowById('tbl_orphanage', 'id',  $checkoutdata['orphane_id']);
-        $checkoutdata['merchant_id'] =   $orphane[0]['assign_merchant'];
-        $marchant = $this->CommonModal->getRowById('tbl_merchant_registration', 'id', $orphane[0]['assign_merchant']);
-        $post = $this->CommonModal->insertRowReturnId('checkout', $checkoutdata);
-        $product = '';
-        $product_list = array();
 
-        foreach ($this->cart->contents() as $items) :
-            $product = array(
-                'checkoutid' => $post, 'product_id' => $items['id'], 'orphan_id' => $items['orphane'],  'product_img' => $items['image'],
-                'product_name' => $items['name'], 'product_price' => $items['price'], 'product_quantity' => $items['qty'], 'total_pro_amt' => ($items['price'] * $items['qty']),  'product_status' => $items['product_status']
-            );
-            $this->CommonModal->insertRowReturnId('checkout_product', $product);
-            $product_list[] = $product;
-            $msgpro .= 'Product Details - ' . $items['name'] . '<br> [ ' . $items['price'] . ' * ' . $items['qty'] . '] <br>';
-        endforeach;
-        $data['order_id'] = $post;
-
-        $message = orderIdmail(str_replace('-', '', setDateOnly()) . $post);
-        // sendmail(sessionId('login_user_emailid'), 'OrderId from SriMitra  | Thankyou for ordering with us', $message);
-
-        if ($post != '') {
-            $this->cart->destroy();
-            // redirect('Index/payment_id_update_view');
-        } else {
-            // echo 'Check Form Data';
-        }
-
-        $data['mid'] = "gzemsh";
-        $data['salt'] = "iZspKOPu";
-
-        $data['txnid'] = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
-
-        $data['grandtotal'] = (float)$_POST['grand_total'];
-        $data['productinfo'] =  $post;
-        $data['fname'] = $_POST['name'];
-        $data['email'] = $_POST['email'];
-
-        $data['udf1'] = '';
-        $data['udf2'] = '';
-        $data['udf3'] = '';
-        $data['udf4'] = '';
-        $data['udf5'] = '';
-
-        $hashstring = $data['mid'] . '|' . $data['txnid'] . '|' . $data['grandtotal'] . '|' . $data['productinfo'] . '|' . $data['fname'] . '|' . $data['email'] . '|' . $data['udf1'] . '|' . $data['udf2'] . '|' . $data['udf3'] . '|' . $data['udf4'] . '|' . $data['udf5'] . '||||||' . $data['salt'];
-
-        $hash = strtolower(hash('sha512', $hashstring));
-        $data['hash'] = $hash;
-
-        //Loading checkout view
-        $this->load->view('checkout', $data);
-    }
-    public function payment_success()
+    public function payment_id_update_view()
     {
         $data['title'] = 'SriMitra | Payment Page';
         $data['logo'] = 'assets/logo.png';
-        $data['response'] = $_POST;
         $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
         $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $post = $this->CommonModal->updateRowById('checkout', 'id', $_POST['productinfo'], array('payment_id' => $_POST['mihpayid']));
-        $orderDetails = $this->CommonModal->getRowById('checkout', 'id', $_POST['productinfo']);
-        $login_data = $this->CommonModal->getRowByMoreId('tbl_user', array('uid' => $orderDetails[0]['user_id']));
-        $session = $this->session->set_userdata(array('login_user_id' => $login_data[0]['uid'], 'login_user_name' => $login_data[0]['name'], 'login_user_emailid' => $login_data[0]['email'], 'login_user_contact' => $login_data[0]['number']));
-        $this->session->set_userdata(array('check_name' =>  $login_data[0]['name'], 'check_number' => $login_data[0]['number'], 'check_email' => $login_data[0]['email']));
-
         $this->load->view('payout_msg', $data);
     }
-    public function payment_failure()
-    {
-        $data['title'] = 'SriMitra | Payment Page';
-        $data['logo'] = 'assets/logo.png';
-        $data['response'] = $_POST;
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $post = $this->CommonModal->updateRowById('checkout', 'id', $_POST['productinfo'], array('payment_id' => $_POST['mihpayid']));
-        $this->load->view('payout_msg', $data);
-    }
-
-    // public function checkoutpay()
-    // {
-    //     $msg = '';
-    //     $msgpro = '';
-    //     $admmsg = '';
-    //     $data['title'] = 'SriMitra | Payment Update';
-    //     $data['logo'] = 'assets/logo.png';
-    //     $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-    //     $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-    //     if (count($_POST) > 0) {
-    //         $checkoutdata   = $this->input->post();
-    //         $checkoutdata['create_date_only'] = setDateOnly();
-    //         $orphane = $this->CommonModal->getRowById('tbl_orphanage', 'id',  $checkoutdata['orphane_id']);
-    //         $checkoutdata['merchant_id'] =   $orphane[0]['assign_merchant'];
-    //         $marchant = $this->CommonModal->getRowById('tbl_merchant_registration', 'id', $orphane[0]['assign_merchant']);
-    //         $post = $this->CommonModal->insertRowReturnId('checkout', $checkoutdata);
-    //         $product = '';
-    //         $product_list = array();
-
-    //         foreach ($this->cart->contents() as $items) :
-    //             $product = array(
-    //                 'checkoutid' => $post, 'product_id' => $items['id'], 'orphan_id' => $items['orphane'],  'product_img' => $items['image'],
-    //                 'product_name' => $items['name'], 'product_price' => $items['price'], 'product_quantity' => $items['qty'], 'total_pro_amt' => ($items['price'] * $items['qty']),  'product_status' => $items['product_status']
-    //             );
-    //             $this->CommonModal->insertRowReturnId('checkout_product', $product);
-    //             $product_list[] = $product;
-    //             $msgpro .= 'Product Details - ' . $items['name'] . '<br> [ ' . $items['price'] . ' * ' . $items['qty'] . '] <br>';
-    //         endforeach;
-    //         $data['order_id'] = $post;
-
-    //         $message = orderIdmail(str_replace('-', '', setDateOnly()) . $post);
-    //         sendmail(sessionId('login_user_emailid'), 'OrderId from SriMitra  | Thankyou for ordering with us', $message);
-
-
-
-
-
-
-    //         if ($post != '') {
-    //             $this->cart->destroy();
-    //             redirect('Index/payment_id_update_view');
-    //         } else {
-    //             echo 'Check Form Data';
-    //         }
-    //     }
-    //     $this->load->view('payout', $data);
-    // }
-
     public function checkoutpay_celebrate()
     {
         $data['title'] = 'SriMitra | Payment Update';
@@ -989,110 +853,43 @@ class Index extends CI_Controller
         $this->CommonModal->updateRowById('checkout', 'id', $post['order_id'], array('payment_id' => $post['transaction']));
         redirect('Index/payment_id_update_view');
     }
-    public function payment_id_update_view()
-    {
-        $data['title'] = 'SriMitra | Payment Page';
-        $data['logo'] = 'assets/logo.png';
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
 
 
-        $this->load->view('payout_msg', $data);
-    }
-    public function check()
-    {
-        //check whether stripe token is not empty
-
-    }
-    public function success()
-    {
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $data['logo'] = 'assets/logo.png';
-        $data['title'] = 'Razorpay Success | SriMitra';
-        $msg = '';
-        $msg .= "<h4>Your transaction is successful</h4>";
-        $msg .= "<br/>";
-        $msg .= "<p>Transaction ID: " . $this->session->flashdata('razorpay_payment_id') . '</p>';
-        $msg .= "<br/>";
-        $msg .= "<p>Order ID: " . $this->session->flashdata('merchant_order_id') . '</p>';
-        $data['message'] = $msg;
-        $this->load->view('payment_msg', $data);
-    }
-    public function failed()
-    {
-        $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $data['logo'] = 'assets/logo.png';
-        $data['title'] = 'Razorpay Failed | SriMitra';
-        $msg = '';
-        $msg .= "<h4>Your transaction got Failed</h4>";
-        $msg .= "<br/>";
-        $msg .= "<p>Transaction ID: " . $this->session->flashdata('razorpay_payment_id') . '</p>';
-        $msg .= "<br/>";
-        $msg .= "<p>Order ID: " . $this->session->flashdata('merchant_order_id') . '</p>';
-        $data['message'] = $msg;
-        $this->load->view('payment_msg', $data);
-    }
-    public function booking_status()
-    {
-        // $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        $data['profiledata'] = $this->CommonModal->getRowById('tbl_user', 'uid', $this->session->userdata('login_user_id'));
-        $data['logo'] = 'assets/logo.png';
-        $data['title'] = 'Payment Status';
-        $msg = '';
-        $msg .= "<h4>Your Order has been Made successfully </h4>";
-        $msg .= "<br/>";
-        $msg .= "<p>Thank You for Taking Small Steps to Spread Big Smiles</p> ";
-        $msg .= "<br/>";
-        // $msg .= "<p>Till then - Happy shopping</p>";
-        $data['message'] = $msg;
-        $this->load->view('thankyou', $data);
-    }
     public function addToCart()
     {
         $product_id = $this->input->post('product_id');
         $order_type = $this->input->post('order_type');
         $qty = $this->input->post('qty');
-
         $cchid = $this->input->post('cchid');
-
-
         if ($order_type == 0) {
-            $product = $this->CommonModal->getRowById('merchant_products', 'id',  $product_id);
-            $product_details = $this->CommonModal->getRowById('products', 'product_id', $product[0]['product_id']);
+
+            $order_pro = $this->CommonModal->getSingleRowById('tbl_orphange_order_product', array('id' =>  $product_id));
+            $product = $this->CommonModal->getSingleRowById('merchant_products', array('id' => $order_pro['product']));
             $data = array(
-                'id'                => $cchid . '-1-' . $product_id,
+                'id'                => $cchid . '-0-' . $product_id,
                 'qty'               => (int)$qty,
-                'price'             => (float)$product[0]['srimitra_price'],
-                'name'              => clean($product_details[0]['pro_name']),
+                'price'             => (float)$product['srimitra_price'],
+                'name'              => clean($product['product_name']),
                 'orphane'           => $cchid,
-                'product_status'    => 1,
-                'image'             => $product[0]['img']
+                'product_status'    => 0,
+                'image'             => $product['img']
             );
         } else {
             $product = $this->CommonModal->getRowById('order_request_template', 'ortid', $product_id);
             $data = array(
-                'id'      => $cchid . '-0-' . $product_id,
+                'id'      => $cchid . '-1-' . $product_id,
                 'qty'     => (int)1,
                 'price'   => (float)$product[0]['combo_price'],
                 'name'    => clean($product[0]['product_title']),
                 'orphane'    => $cchid,
-                'product_status'    => 0,
+                'product_status'    => 1,
                 'image'    => $product[0]['cover']
             );
         }
 
 
         $this->cart->insert($data);
-        // $this->session->set_userdata('order_request', $order_request_id);
-        // $this->session->set_userdata('order_type', $order_type);
     }
-
     public function addInToCart()
     {
         $rid = $this->input->post('rid');
@@ -1107,7 +904,7 @@ class Index extends CI_Controller
             'price'   => $product[0]['combo_price'],
             'name'    => clean($product[0]['product_title']),
             'orphane'    => $orid,
-            'product_status'    => 0,
+            'product_status'    => 1,
             'image'    => $product[0]['cover']
         );
 
@@ -1116,72 +913,6 @@ class Index extends CI_Controller
         $this->session->set_userdata('order_type', $order_type);
         // print_r($data);
     }
-
-    // public function home_addInToCart()
-    // {
-
-
-    //     $data['title'] = 'SriMitra | Payment Update';
-    //     $data['logo'] = 'assets/logo.png';
-    //     $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-    //     $msgpro = '';
-    //     $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-    //     if (count($_POST) > 0) {
-    //         $checkoutdata   = $this->input->post();
-    //         $checkoutdata['create_date_only'] = setDateOnly();
-
-    //         $orphane = $this->CommonModal->getRowById('tbl_orphanage', 'id',  $checkoutdata['orphane_id']);
-    //         $checkoutdata['merchant_id'] =   $orphane[0]['assign_merchant'];
-    //         $login_data = $this->CommonModal->getRowById('tbl_user', 'number', $checkoutdata['number']);
-
-    //         if (!empty($login_data)) {
-    //             $checkoutdata['user_id'] = $login_data[0]['uid'];
-    //         } else {
-    //             $formdata['name'] = $checkoutdata['name'];
-    //             $formdata['email'] = $checkoutdata['email'];
-    //             $formdata['number'] = $checkoutdata['number'];
-    //             $formdata['password'] =   substr($formdata['name'], 0, 3) . substr($formdata['number'], 0, 3);
-    //             $checkoutdata['user_id'] = $this->CommonModal->insertRowReturnId('tbl_user', $formdata);
-    //         }
-
-    //         $product = $this->CommonModal->getRowById('order_request_template', 'ortid', $checkoutdata['order_request_id']);
-    //         $checkoutdata['totalamount'] = $product[0]['combo_price'];
-    //         $checkoutdata['grand_total'] = $product[0]['combo_price'];
-
-    //         $marchant = $this->CommonModal->getRowById('tbl_merchant_registration', 'id', $orphane[0]['assign_merchant']);
-    //         $post = $this->CommonModal->insertRowReturnId('checkout', $checkoutdata);
-    //         $data = array(
-    //             'id'      => $product[0]['ortid'],
-    //             'qty'     => 1,
-    //             'price'   => $product[0]['combo_price'],
-    //             'name'    => clean($product[0]['product_title']),
-    //             'orphane'    => $checkoutdata['orphane_id'],
-    //             'product_status'    => 0,
-    //             'image'    => $product[0]['cover']
-    //         );
-
-    //         foreach ($this->cart->contents() as $items) :
-    //             $product = array(
-    //                 'checkoutid' => $post, 'product_id' => $data['id'], 'orphan_id' => $data['orphane'],  'product_img' => $data['image'],
-    //                 'product_name' => $data['name'], 'product_price' => $data['price'], 'product_quantity' => $data['qty'], 'total_pro_amt' => ($data['price'] * $data['qty']),  'product_status' => $data['product_status']
-    //             );
-    //             $this->CommonModal->insertRowReturnId('checkout_product', $product);
-    //             $product_list[] = $product;
-    //             $msgpro .= 'Product Details - ' . $items['name'] . '<br> [ ' . $items['price'] . ' * ' . $items['qty'] . '] <br>';
-    //         endforeach;
-    //         $data['order_id'] = $post;
-    //         if ($post != '') {
-    //             $this->cart->destroy();
-    //             redirect('Index/payment_id_update_view');
-    //         } else {
-    //             echo 'Check Form Data';
-    //         }
-    //     }
-    //     $this->load->view('payout', $data);
-    // }
-
-
-
     public function cart_list()
     {
         $data['category'] = $this->CommonModal->getAllRowsInOrder('category', 'category_id', 'desc');
@@ -1190,6 +921,10 @@ class Index extends CI_Controller
         $data['title'] = 'Disclaimer | Whole sale kirana Wala';
 
         $this->load->view('cart_list', $data);
+    }
+    public function cart_items()
+    {
+        $this->load->view('cart_items');
     }
     public function update_qty()
     {
@@ -1203,32 +938,7 @@ class Index extends CI_Controller
 
         $this->cart->update($data);
         // echo 're';
-        // print_r($data);
-    }
-
-    public function addTowishlist()
-    {
-        $product_id = $this->input->post('pid');
-        $user_id = $this->session->userdata('login_user_id');
-        $post = array('product_id' => $product_id, 'user_id' => $user_id);
-        $ret =  $this->CommonModal->insertRow('products_wishlist', $post);
-        if ($ret) {
-            echo  '1';
-        } else {
-            echo '0';
-        }
-    }
-    public function removewishlist()
-    {
-        $pw_id = $this->input->post('pid');
-        $ret = $this->CommonModal->deleteRowById('products_wishlist', array('pw_id' => $pw_id));
-
-
-        if ($ret) {
-            echo  '1';
-        } else {
-            echo '0';
-        }
+        print_r($data);
     }
 
     public function fetch_totalitems()
@@ -1252,64 +962,18 @@ class Index extends CI_Controller
     }
     public function cart()
     {
-        // $this->cart->destroy();
         $data['title'] = 'Cart List';
-        echo '<pre>';
-        // $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
-        foreach ($this->cart->contents() as $items) {
-            print_r($items);
-        }
-        // $this->load->view('cart',  $data);
+        $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
+        $this->load->view('cart',  $data);
     }
-    public function cartAjax()
-    {
-        // $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $this->load->view('cartListAjax');
-    }
-    public function cartAjax2()
-    {
-        // $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-        $this->load->view('cartListAjax2');
-    }
-
-
-
-
-
     public function filterData()
     {
-        // $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
-
-
         $search = ((isset($_POST['search'])) ? $_POST['search'] : '');
-        // $category = ((isset($_POST['category'])) ? $_POST['category'] : '');
-        // $subcategory = ((isset($_POST['subcategory'])) ? $_POST['subcategory'] : '');
         $query = "SELECT * FROM `tbl_orphanage` WHERE  `assign_merchant` != '' AND `id` IS NOT NULL ";
-        // print_r($search);
-
         if ($search != '') {
-
             $query .= " AND `name` LIKE '%" . trim($search) . "%'  OR `state_name` LIKE '%" . trim($search) . "%' OR `city_name` LIKE '%" . trim($search) . "%'  OR `address` LIKE '%" . trim($search) . "%' OR `trust_name` LIKE '%" . trim($search) . "%' OR `description` LIKE '%" . trim($search) . "%' ";
         }
-
-        // if ($category != '') {
-        //     $cate = implode("','", $category);
-        //     $query .= " AND category_id IN('" . $cate . "')";
-        // }
-
-        // if ($subcategory != '') {
-        //     $subcate = implode("','", $subcategory);
-        //     $query .= " AND subcategory_id IN('" . $subcate . "')";
-        // }
-
-        // echo $query;
         $data['all_data'] = $this->CommonModal->runQuery($query);
-
-        // print_r($all_data);
-
-
         $this->load->view('get_home', $data);
     }
     public function filterData_state()
@@ -1345,7 +1009,8 @@ class Index extends CI_Controller
         $status = ((isset($_POST['status'])) ? $_POST['status'] : '');
         $query = "SELECT * FROM `checkout` WHERE `user_id`= '" . $getuser . "'";
         if ($status != '') {
-            $query .= "  AND `chechout_status` =  '" . $status . "' ";
+
+            $query .= "  AND `chechout_status` IN  ('" .  $status . "') ";
         }
         $query .= " ORDER BY `id` DESC";
         // echo $query;
@@ -1353,9 +1018,6 @@ class Index extends CI_Controller
 
         $this->load->view('fetch-donation', $data);
     }
-
-
-
     public function getProduct()
     {
 
@@ -1381,7 +1043,6 @@ class Index extends CI_Controller
         $promocode = $this->input->post('promocode');
         echo json_encode($this->CommonModal->getRowById('promocode', 'title', $promocode));
     }
-
     public function faq()
     {
         $data['subcate'] = $this->CommonModal->getAllRowsInOrder('sub_category', 'sub_category_id', 'desc');
@@ -1537,13 +1198,109 @@ class Index extends CI_Controller
         $data['title'] = 'Full Time Profile | SriMitra';
         $this->load->view('fulltime_profile', $data);
     }
-
-
     public function internship()
     {
         $data['contactdetails'] = $this->CommonModal->getRowById('contactdetails', 'cid', '1');
         $data['logo'] = 'assets/logo.png';
         $data['title'] = 'Internship | SriMitra';
         $this->load->view('internship', $data);
+    }
+
+    // =======================================razorpay payment gateway ========================================
+
+    private function curl_handler($payment_id, $amount)
+    {
+        $url            = 'https://api.razorpay.com/v1/payments/' . $payment_id . '/capture';
+        $key_id         = "YOUR KEY ID";
+        $key_secret     = "YOUR KEY SECRET";
+        $fields_string  = "amount=$amount";
+        //cURL Request
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERPWD, $key_id . ':' . $key_secret);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        return $ch;
+    }
+    // callback method
+    public function callback()
+    {
+        print_r($this->input->post());
+        if (!empty($this->input->post('razorpay_payment_id')) && !empty($this->input->post('merchant_order_id'))) {
+            $razorpay_payment_id = $this->input->post('razorpay_payment_id');
+            $merchant_order_id = $this->input->post('merchant_order_id');
+
+            $this->session->set_flashdata('razorpay_payment_id', $this->input->post('razorpay_payment_id'));
+            $this->session->set_flashdata('merchant_order_id', $this->input->post('merchant_order_id'));
+            $currency_code = 'INR';
+            $amount = $this->input->post('merchant_total');
+            $success = false;
+            $error = '';
+            try {
+                $ch = $this->curl_handler($razorpay_payment_id, $amount);
+                //execute post
+                $result = curl_exec($ch);
+                $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                if ($result === false) {
+                    $success = false;
+                    $error = 'Curl error: ' . curl_error($ch);
+                } else {
+                    $response_array = json_decode($result, true);
+                    //Check success response
+                    if ($http_status === 200 and isset($response_array['error']) === false) {
+                        $success = true;
+                    } else {
+                        $success = false;
+                        if (!empty($response_array['error']['code'])) {
+                            $error = $response_array['error']['code'] . ':' . $response_array['error']['description'];
+                        } else {
+                            $error = 'RAZORPAY_ERROR:Invalid Response <br/>' . $result;
+                        }
+                    }
+                }
+                //close curl connection
+                curl_close($ch);
+            } catch (Exception $e) {
+                $success = false;
+                $error = 'Request to Razorpay Failed';
+            }
+
+            if ($success === true) {
+                if (!empty($this->session->userdata('ci_subscription_keys'))) {
+                    $this->session->unset_userdata('ci_subscription_keys');
+                }
+                if (!$order_info['order_status_id']) {
+                    redirect($this->input->post('merchant_surl_id'));
+                } else {
+                    redirect($this->input->post('merchant_surl_id'));
+                }
+            } else {
+                redirect($this->input->post('merchant_furl_id'));
+            }
+        } else {
+            echo 'An error occured. Contact site administrator, please!';
+        }
+    }
+    public function success()
+    {
+        $data['title'] = 'Razorpay Success | TechArise';
+        echo "<h4>Your transaction is successful</h4>";
+        echo "<br/>";
+        echo "Transaction ID: " . $this->session->flashdata('razorpay_payment_id');
+        echo "<br/>";
+        echo "Order ID: " . $this->session->flashdata('merchant_order_id');
+    }
+    public function failed()
+    {
+        $data['title'] = 'Razorpay Failed | TechArise';
+        echo "<h4>Your transaction got Failed</h4>";
+        echo "<br/>";
+        echo "Transaction ID: " . $this->session->flashdata('razorpay_payment_id');
+        echo "<br/>";
+        echo "Order ID: " . $this->session->flashdata('merchant_order_id');
     }
 }

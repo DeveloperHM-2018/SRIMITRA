@@ -24,8 +24,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class=" d-flex align-items-center justify-content-between">
-                                    <a href="<?= base_url('admin_Dashboard/view_subcategory') ?>" class="btn btn-light"> <?= $title ?> List</a>
-                                </div>
+                                     </div>
                             </div>
                         </div>
                     </div>

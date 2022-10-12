@@ -45,7 +45,7 @@
                                                     <div class="">
                                                         <div class="form-group">
                                                             <label class="">Main Category </label>
-                                                            <select class="form-control" name="cat_id">
+                                                            <select class="form-control" name="cat_id" required>
                                                                 <option>Select Category</option>
                                                                 <?php
                                                                 foreach ($category as $cat) {
@@ -67,7 +67,7 @@
                                                         <div class="form-group">
                                                             <label class="">Sub Category Image</label>
                                                             <div class="pos-relative">
-                                                                <input class="form-control pd-r-80" required="" type="file" name="image" accept="image/*">
+                                                                <input class="form-control pd-r-80" type="file" name="image" accept="image/*">
                                                                 <p style="color:#FF0000;"> Maximum File Size Limit is 5MB. </p>
                                                             </div>
                                                         </div>

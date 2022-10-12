@@ -52,7 +52,7 @@
                                                         <div class="form-group">
                                                             <label class="">Main Category Image</label>
                                                             <div class="pos-relative">
-                                                                <input class="form-control pd-r-80" required="" type="file" name="image" accept="image/*,.pdf">
+                                                                <input class="form-control pd-r-80"  type="file" name="image" accept="image/*,.pdf">
                                                                 <p style="color:#FF0000;"> Maximum File Size Limit is 5MB. </p>
                                                             </div>
                                                         </div>

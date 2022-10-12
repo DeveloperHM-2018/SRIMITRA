@@ -93,8 +93,7 @@
                                     todate: todate
                                 },
                                 success: function(response) {
-                                    console.log('response');
-                                    console.log(response);
+                                     
                                     $('#records').html(response);
                                 }
                             });

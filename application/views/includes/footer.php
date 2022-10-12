@@ -515,3 +515,6 @@
         </div>
     </div>
 </div> -->
+<a href="<?= base_url('Index/cart') ?>" class="float" target="_blank">
+<i class="fa fa-shopping-cart my-float"></i>
+</a>

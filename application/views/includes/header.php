@@ -1,3 +1,23 @@
+<style>
+    .float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #9ddadb;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+    }
+
+    .my-float {
+        margin-top: 16px;
+    }
+</style>
 <header class="header-style-two transparent-header">
     <div class="header-top-wrap">
         <div class="container custom-container">
@@ -16,15 +36,15 @@
                     <div class="header-top-right">
                         <ul>
                             <li class="header-top-social">
-                                <!--<a href="https://www.facebook.com/srimitraindia" target="_blank"><i class="fab fa-facebook-square"></i></a>-->
-                                <!--<a href="https://twitter.com/srimitraindia" target="_blank"><i class="fab fa-twitter-square"></i></a>-->
-                                <!--<a href="https://www.instagram.com/srimitra.india/" target="_blank"><i class="fab fa-instagram"></i></a>-->
-                                <!--<a href="https://www.linkedin.com/company/sri-mitra-india/" target="_blank"><i class="fab fa-linkedin"></i></a>-->
+                                <!--<a href="https://www.facebook.com/srimitraindia" ><i class="fab fa-facebook-square"></i></a>-->
+                                <!--<a href="https://twitter.com/srimitraindia" ><i class="fab fa-twitter-square"></i></a>-->
+                                <!--<a href="https://www.instagram.com/srimitra.india/" ><i class="fab fa-instagram"></i></a>-->
+                                <!--<a href="https://www.linkedin.com/company/sri-mitra-india/" ><i class="fab fa-linkedin"></i></a>-->
 
-                            <li><a href="<?= $contactdetails[0]['facebook'] ?>" target="_blank"><i class="text-white fab fa-facebook-f"></i></a></li>
-                            <li><a href="<?= $contactdetails[0]['instagram'] ?>" target="_blank"><span class="text-white fab fa-instagram"></span></a></li>
-                            <li><a href="<?= $contactdetails[0]['linkedin'] ?>" target="_blank"><span class="text-white fab fa-linkedin"></span></a></li>
-                            <li><a href="<?= $contactdetails[0]['twitter'] ?>" target="_blank"><span class="text-white fab fa-twitter"></span></a></li>
+                            <li><a href="<?= $contactdetails[0]['facebook'] ?>" ><i class="text-white fab fa-facebook-f"></i></a></li>
+                            <li><a href="<?= $contactdetails[0]['instagram'] ?>" ><span class="text-white fab fa-instagram"></span></a></li>
+                            <li><a href="<?= $contactdetails[0]['linkedin'] ?>" ><span class="text-white fab fa-linkedin"></span></a></li>
+                            <li><a href="<?= $contactdetails[0]['twitter'] ?>" ><span class="text-white fab fa-twitter"></span></a></li>
 
                             </li>
                             <li class="header-top-login">
@@ -32,7 +52,7 @@
                                 if (sessionId('login_user_id') !== null) {
                                     if (sessionId('login_user_id') == 0) {
                                 ?>
-                                        <a href="<?= base_url('Index/login_here') ?>" target="_blank" class="text-white"><i class="far fa-user-circle"></i> Mitra's Login</a>
+                                        <a href="<?= base_url('Index/login_here') ?>"  class="text-white"><i class="far fa-user-circle"></i> Mitra's Login</a>
                                     <?php
                                     } else {
 
@@ -42,7 +62,7 @@
                                         <a href="<?= base_url('my_celebration') ?>"><i class="far fa-user-circle"></i> My Celebration</a>
                                         <a href="<?= base_url('my_donation') ?>"><i class="far fa-user-circle"></i> My Contribution </a>
 
-                                        <a href="<?= base_url('update_profile') ?>"><i class="far fa-user-circle"></i><?= substr(trim(sessionId('login_user_name')), 0, strpos(trim(sessionId('login_user_name')), " ")) ?></a>
+                                        <a href="<?= base_url('update_profile') ?>"><i class="far fa-user-circle"></i><?php $nm = substr(trim(sessionId('login_user_name')), 0, strpos(trim(sessionId('login_user_name')), " ")); echo (($nm == '')? 'My Profile':$nm); ?></a>
                                         <a href="<?= base_url('Index/logout') ?>"> Logout</a>
 
                                     <?php
@@ -51,7 +71,7 @@
                                     ?>
                                     <!-- <a href="#"  class="text-white" id="mitralogin"><i class="far fa-user-circle"></i> Mitra's Login</a> -->
 
-                                    <a href="<?= base_url('Index/login_here') ?>" target="_blank" class="text-white"><i class="far fa-user-circle"></i> Mitra's Login</a>
+                                    <a href="<?= base_url('Index/login_here') ?>"  class="text-white"><i class="far fa-user-circle"></i> Mitra's Login</a>
 
                                     <!--<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal" class="text-white"><i class="far fa-user-circle"></i> Mitra's Login</a>-->
                                     <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#REGModal">Mitra's -->
@@ -114,10 +134,10 @@
                             </div>
                             <div class="social-links">
                                 <ul class="clearfix">
-                                    <li><a href="<?= $contactdetails[0]['facebook'] ?>" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="<?= $contactdetails[0]['instagram'] ?>" target="_blank"><span class="fab fa-instagram"></span></a></li>
-                                    <li><a href="<?= $contactdetails[0]['linkedin'] ?>" target="_blank"><span class="fab fa-linkedin"></span></a></li>
-                                    <li><a href="<?= $contactdetails[0]['twitter'] ?>" target="_blank"><span class="fab fa-twitter"></span></a></li>
+                                    <li><a href="<?= $contactdetails[0]['facebook'] ?>" ><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="<?= $contactdetails[0]['instagram'] ?>" ><span class="fab fa-instagram"></span></a></li>
+                                    <li><a href="<?= $contactdetails[0]['linkedin'] ?>" ><span class="fab fa-linkedin"></span></a></li>
+                                    <li><a href="<?= $contactdetails[0]['twitter'] ?>" ><span class="fab fa-twitter"></span></a></li>
                                 </ul>
                             </div>
                         </nav>

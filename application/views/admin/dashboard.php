@@ -301,7 +301,7 @@
                                                     <th>Date</th>
                                                     <th>Details</th>
                                                     <th>Status</th>
-                                                    <th>payment </th>
+                                                    <!-- <th>payment </th> -->
                                                     <th>View </th>
                                                     <th>issued Payment</th>
                                                     <!-- <th>View</th> -->
@@ -310,28 +310,27 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                if (!empty($donation)) {
+                                                if (!empty($donation)) {                                                                                                                       
                                                     $i = 1;
                                                     foreach ($donation as $orderrow) {
                                                         $count = getNumRows('checkout_product', array('checkoutid' => $orderrow['id']));
                                                         $user = getSingleRowById('tbl_user', array('uid' => $orderrow['user_id']));
                                                         $cch = getSingleRowById('tbl_orphanage', array('id' => $orderrow['orphane_id']));
                                                         $merchant = getSingleRowById('tbl_merchant_registration', array('id' => $orderrow['merchant_id']));
-
+                                                        $data = getRowById('checkout_product', 'checkoutid', $orderrow['id']);
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-                                                            <td> <?= str_replace('-', '', $orderrow['create_date_only']) . $orderrow['id'] ?></td>
-                                                            <td><?= $cch['name']; ?></td>
+                                                            <td> <a  href="<?= base_url('admin_Dashboard/donation_view/' . $orderrow['id']); ?>"><?= str_replace('-', '', $orderrow['create_date_only']) . $orderrow['id'] ?></a></td>
+
+                                                            <td><?= (($cch == '') ? '' : $cch['name']); ?></td>
                                                             <td> <?= convertDatedmy($orderrow['create_date']); ?> </td>
-                                                            <td> User nm - <?= $user['name']; ?><br>Merchant - <?= $merchant['shop_name']; ?>
+                                                            <td> User nm - <?= (($user == '') ? 'Guest User' : $user['name']); ?><br>Merchant - <?= (($merchant == '') ? '' : $merchant['shop_name']); ?>
                                                                 <br>
                                                                 <?php
-
                                                                 if ($orderrow['status'] == '1' && ($orderrow != '')) {
                                                                     if ($orderrow['chechout_status'] == 6) {
                                                                         if ($orderrow['certificate'] == '') {
-
                                                                 ?>
                                                                             <div class="modal fade bs-example-modal-center<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                                 <div class="modal-dialog" role="document">
@@ -347,6 +346,7 @@
                                                                                         <form action="<?= base_url('admin_Dashboard/uploadcertificate') ?>" method="POST" enctype="multipart/form-data">
                                                                                             <div class="modal-body">
 
+                                                                                                <input type="text" name="email" value="<?= $orderrow['email'] ?>" required />
                                                                                                 <input type="hidden" name="checkout_id" value="<?= $orderrow['id'] ?>" required />
 
                                                                                                 <label>Upload file</label>
@@ -384,8 +384,8 @@
                                                                 <?php if ($orderrow['status'] == '0') {
                                                                 ?>
 
-                                                                    <button class="btn btn-success donationstatus daccept<?= $orderrow['id']; ?> dstatus<?= $orderrow['id']; ?>" data-id="<?= $orderrow['id']; ?>" data-status="accept">ACCEPT IT</button>
-                                                                    <button class="btn btn-danger donationstatus dreject<?= $orderrow['id']; ?> dstatus<?= $orderrow['id']; ?>" data-id="<?= $orderrow['id']; ?>" data-status="reject">REJECT IT</button>
+                                                                    <button class="btn btn-success donationstatus accept<?= $orderrow['id']; ?> status<?= $orderrow['id']; ?>" data-id="<?= $orderrow['id']; ?>" data-status="accept">ACCEPT IT</button>
+                                                                    <button class="btn btn-danger donationstatus reject<?= $orderrow['id']; ?> status<?= $orderrow['id']; ?>" data-id="<?= $orderrow['id']; ?>" data-status="reject">REJECT IT</button>
                                                                 <?php
                                                                 } else {
                                                                 ?>
@@ -397,42 +397,78 @@
                                                                 ?>
 
                                                             </td>
-                                                            <td> payment_id - <?= $orderrow['payment_id']; ?> <br>Amount - Rs. <?= $orderrow['totalamount']; ?> </td>
+                                                            <!-- <td> payment_id - <?= $orderrow['payment_id']; ?> <br>Amount - Rs. <?= $orderrow['totalamount']; ?> </td> -->
                                                             <td> <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<?= $orderrow['id']; ?>" aria-expanded="false" aria-controls="collapseExample<?= $orderrow['id']; ?>">
                                                                     Products (<?= $count ?>)
                                                                 </button>
                                                                 <a class="btn btn-warning mt-1" type="button" href="<?= base_url('admin_Dashboard/donation_view/' . $orderrow['id']); ?>">
                                                                     Full Info
                                                                 </a>
-                                                                <div class="collapse  " id="collapseExample<?= $orderrow['id']; ?>">
+                                                                <div class="collapse" id="collapseExample<?= $orderrow['id']; ?>">
                                                                     <div class="card card-body mb-0 p-0">
                                                                         <table class="table mb-0">
 
                                                                             <thead class="table-light">
                                                                                 <tr>
                                                                                     <th>#</th>
-                                                                                    <th>Product</th>
+                                                                                    <th colspan="2">Product</th>
                                                                                     <th>Qty.</th>
                                                                                     <th>Amount.</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 <?php
-                                                                                $j = 1;
-                                                                                $data = getRowById('checkout_product', 'checkoutid', $orderrow['id']);
+                                                                                $k = 1;
                                                                                 if (!empty($data)) {
                                                                                     foreach ($data as $datarow) {
-                                                                                        $datas = getSingleRowById('products', array('product_id' => $datarow['product_id']));
+
+                                                                                        if ($datarow['product_status'] == 0) {
+                                                                                            $orderProduct = getSingleRowById('tbl_orphange_order_product', array('id' => $datarow['product_id']));
+                                                                                            $merchant = getSingleRowById('merchant_products', array('id' => $orderProduct['product']));
+                                                                                        }
+                                                                                        if ($datarow['product_status'] == 1) {
+                                                                                            $merchant = getSingleRowById('order_request_template', array('ortid' => $datarow['product_id']));
+                                                                                        }
                                                                                 ?>
                                                                                         <tr>
-                                                                                            <th scope="row"><?= $j ?></th>
-                                                                                            <td><?= $datarow['product_name']; ?></td>
-                                                                                            <td><?= $datarow['product_quantity']; ?> <?= $datas['quantity_type']; ?></td>
-                                                                                            <td><?= $datarow['product_price']; ?></td>
+                                                                                            <th scope="row"><?= $k ?></th>
+                                                                                            <th> <img src="<?= ((file_exists($datarow['product_img'])) ? $datarow['product_img'] : base_url() . 'uploads/default.jpg')  ?>" style="width: 30px;height: 30px;" /></th>
+                                                                                            <td><?= (($datarow['product_status'] == 0) ? $merchant['product_name'] : $merchant['product_title']) ?><br>
+                                                                                                <?php
+                                                                                                if ($datarow['product_status'] == 0) {
+                                                                                                ?>
+                                                                                                    ( <?= $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?>)
+                                                                                                <?php
+                                                                                                }
+                                                                                                ?>
 
+                                                                                            </td>
+                                                                                            <td><?= $datarow['product_quantity']; ?></td>
+                                                                                            <td> Rs. <?= $datarow['total_pro_amt']; ?></td>
                                                                                         </tr>
+                                                                                        <?php
+                                                                                        $j = 1;
+                                                                                        if ($datarow['product_status'] == 1) {
+                                                                                            $data = getRowById('order_request_template_product', 'ort_id', $datarow['product_id']);
+                                                                                            if (!empty($data)) {
+                                                                                                foreach ($data as $datarow) {
+                                                                                                    $product_combo = getSingleRowById('merchant_products', array('id' => $datarow['product']));
+                                                                                        ?>
+                                                                                                    <tr>
+                                                                                                        <th scope="row"><?= $k ?>.<?= $j ?></th>
+                                                                                                        <td> <img src="<?= setImage($fetchrow['img'], 'uploads/merchant_products/')  ?>" style="width: 30px;height: 30px;" /></td>
+                                                                                                        <td><?= $product_combo['product_name']; ?></td>
+                                                                                                        <td><?= $product_combo['quantity']; ?> <?= $product_combo['quantity_type']; ?> X <?= $datarow['quantity']; ?></td>
+                                                                                                        <td> Rs. <?= $product_combo['srimitra_price']; ?></td>
+                                                                                                    </tr>
+                                                                                        <?php
+                                                                                                    $j++;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        ?>
                                                                                 <?php
-                                                                                        $j++;
+                                                                                        $k++;
                                                                                     }
                                                                                 }
                                                                                 ?>
@@ -459,7 +495,7 @@
                                                                                     <!-- <span aria-hidden="true">&times;</span> -->
                                                                                     <!-- </button> -->
                                                                                 </div>
-                                                                                <form action="<?= base_url('Merchant/statusupdate') ?>" method="POST">
+                                                                                <form action="<?= base_url('admin_Dashboard/statusupdate') ?>" method="POST">
                                                                                     <div class="modal-body">
                                                                                         <label>Transaction id</label>
                                                                                         <input type="hidden" name="checkout_id" value="<?= $orderrow['id'] ?>" required />
@@ -542,8 +578,6 @@
                                                                     echo '--';
                                                                 }
                                                                 ?>
-                                                                <?php //echo (($row['razorpay_payment_id'] == '') ? '<a href="#" class="btn btn-warning">Payment Pending</a> ' : $row['razorpay_payment_id']); 
-                                                                ?>
                                                             </td>
 
                                                         </tr>
@@ -595,16 +629,14 @@
                                                     $i = 1;
                                                     foreach ($unapproved_products as $pro) {
                                                         $merchant = getSingleRowById('tbl_merchant_registration', array('id' => $pro['merchant_id']));
-                                                        $product = getSingleRowById('products', array('product_id' => $pro['product_id']));
-                                                        // $cat = getRowById('category', 'category_id', $fetch['category_id']);
-                                                        // $subcat = getRowById('sub_category', 'sub_category_id', $fetch['subcategory_id']);
+                                                       
 
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
                                                             <td><?= $pro['create_date']; ?></td>
                                                             <td><?= $merchant['shop_name']; ?><br><i>Add. <?= wordwrap($merchant['address'], 40, '<br>'); ?></i></td>
-                                                            <td><?= $product['pro_name']; ?><br><?= $pro['description']; ?></td>
+                                                            <td><?= $pro['product_name']; ?><br><?= $pro['description']; ?></td>
                                                             <td>MRP- Rs. <?= $pro['product_price']; ?><br>
                                                                 Sale Pr.- Rs. <?= $pro['sale_price']; ?><br>
                                                                 Pur. Pr.- Rs. <?= $pro['purchase_price']; ?></td>
@@ -699,12 +731,13 @@
                         } else if (response == '2') {
                             alert('Server Error');
                         } else {}
+                        window.location.href="<?= base_url('admin_Dashboard/new_donation') ?>";
                     }
                 });
             }
 
         });
-    </script>
+    </script> 
 </body>
 
 </html>

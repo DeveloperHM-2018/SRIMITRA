@@ -59,7 +59,7 @@
                                                     <th>Date</th>
                                                     <th>Details</th>
                                                     <th>Status</th>
-                                                    <th>payment </th>
+                                                    <!-- <th>payment </th> -->
                                                     <th>View </th>
                                                     <th>issued Payment</th>
                                                     <!-- <th>View</th> -->
@@ -68,22 +68,22 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                if (!empty($donation)) {
+                                                if (!empty($donation)) {                                                                                                                       
                                                     $i = 1;
                                                     foreach ($donation as $orderrow) {
                                                         $count = getNumRows('checkout_product', array('checkoutid' => $orderrow['id']));
                                                         $user = getSingleRowById('tbl_user', array('uid' => $orderrow['user_id']));
                                                         $cch = getSingleRowById('tbl_orphanage', array('id' => $orderrow['orphane_id']));
                                                         $merchant = getSingleRowById('tbl_merchant_registration', array('id' => $orderrow['merchant_id']));
-
+                                                        $data = getRowById('checkout_product', 'checkoutid', $orderrow['id']);
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-                                                            <td> <?= str_replace('-', '', $orderrow['create_date_only']) . $orderrow['id'] ?></td>
+                                                            <td> <a  href="<?= base_url('admin_Dashboard/donation_view/' . $orderrow['id']); ?>"><?= str_replace('-', '', $orderrow['create_date_only']) . $orderrow['id'] ?></a></td>
 
                                                             <td><?= (($cch == '') ? '' : $cch['name']); ?></td>
                                                             <td> <?= convertDatedmy($orderrow['create_date']); ?> </td>
-                                                            <td> User nm - <?= (($user == '') ? '' : $user['name']); ?><br>Merchant - <?= (($merchant == '') ? '' : $merchant['shop_name']); ?>
+                                                            <td> User nm - <?= (($user == '') ? 'Guest User' : $user['name']); ?><br>Merchant - <?= (($merchant == '') ? '' : $merchant['shop_name']); ?>
                                                                 <br>
                                                                 <?php
                                                                 if ($orderrow['status'] == '1' && ($orderrow != '')) {
@@ -155,43 +155,78 @@
                                                                 ?>
 
                                                             </td>
-                                                            <td> payment_id - <?= $orderrow['payment_id']; ?> <br>Amount - Rs. <?= $orderrow['totalamount']; ?> </td>
+                                                            <!-- <td> payment_id - <?= $orderrow['payment_id']; ?> <br>Amount - Rs. <?= $orderrow['totalamount']; ?> </td> -->
                                                             <td> <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<?= $orderrow['id']; ?>" aria-expanded="false" aria-controls="collapseExample<?= $orderrow['id']; ?>">
                                                                     Products (<?= $count ?>)
                                                                 </button>
                                                                 <a class="btn btn-warning mt-1" type="button" href="<?= base_url('admin_Dashboard/donation_view/' . $orderrow['id']); ?>">
                                                                     Full Info
                                                                 </a>
-                                                                <div class="collapse  " id="collapseExample<?= $orderrow['id']; ?>">
+                                                                <div class="collapse" id="collapseExample<?= $orderrow['id']; ?>">
                                                                     <div class="card card-body mb-0 p-0">
                                                                         <table class="table mb-0">
 
                                                                             <thead class="table-light">
                                                                                 <tr>
                                                                                     <th>#</th>
-                                                                                    <th>Product</th>
+                                                                                    <th colspan="2">Product</th>
                                                                                     <th>Qty.</th>
                                                                                     <th>Amount.</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 <?php
-                                                                                $j = 1;
-                                                                                $data = getRowById('checkout_product', 'checkoutid', $orderrow['id']);
+                                                                                $k = 1;
                                                                                 if (!empty($data)) {
                                                                                     foreach ($data as $datarow) {
-                                                                                        $datas = getSingleRowById('products', array('product_id' => $datarow['product_id']));
-                                                                                         $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product_id']));
+
+                                                                                        if ($datarow['product_status'] == 0) {
+                                                                                            $orderProduct = getSingleRowById('tbl_orphange_order_product', array('id' => $datarow['product_id']));
+                                                                                            $merchant = getSingleRowById('merchant_products', array('id' => $orderProduct['product']));
+                                                                                        }
+                                                                                        if ($datarow['product_status'] == 1) {
+                                                                                            $merchant = getSingleRowById('order_request_template', array('ortid' => $datarow['product_id']));
+                                                                                        }
                                                                                 ?>
                                                                                         <tr>
-                                                                                            <th scope="row"><?= $j ?></th>
-                                                                                            <td><?= $datarow['product_name']; ?><br>( <?= $merchant['quantity']; ?>  <?= $merchant['quantity_type']; ?>)</td>
-                                                                                            <td><?= $datarow['product_quantity']; ?></td>
-                                                                                            <td><?= $datarow['product_price']; ?></td>
+                                                                                            <th scope="row"><?= $k ?></th>
+                                                                                            <th> <img src="<?= ((file_exists($datarow['product_img'])) ? $datarow['product_img'] : base_url() . 'uploads/default.jpg')  ?>" style="width: 30px;height: 30px;" /></th>
+                                                                                            <td><?= (($datarow['product_status'] == 0) ? $merchant['product_name'] : $merchant['product_title']) ?><br>
+                                                                                                <?php
+                                                                                                if ($datarow['product_status'] == 0) {
+                                                                                                ?>
+                                                                                                    ( <?= $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?>)
+                                                                                                <?php
+                                                                                                }
+                                                                                                ?>
 
+                                                                                            </td>
+                                                                                            <td><?= $datarow['product_quantity']; ?></td>
+                                                                                            <td> Rs. <?= $datarow['total_pro_amt']; ?></td>
                                                                                         </tr>
+                                                                                        <?php
+                                                                                        $j = 1;
+                                                                                        if ($datarow['product_status'] == 1) {
+                                                                                            $data = getRowById('order_request_template_product', 'ort_id', $datarow['product_id']);
+                                                                                            if (!empty($data)) {
+                                                                                                foreach ($data as $datarow) {
+                                                                                                    $product_combo = getSingleRowById('merchant_products', array('id' => $datarow['product']));
+                                                                                        ?>
+                                                                                                    <tr>
+                                                                                                        <th scope="row"><?= $k ?>.<?= $j ?></th>
+                                                                                                        <td> <img src="<?= setImage($fetchrow['img'], 'uploads/merchant_products/')  ?>" style="width: 30px;height: 30px;" /></td>
+                                                                                                        <td><?= $product_combo['product_name']; ?></td>
+                                                                                                        <td><?= $product_combo['quantity']; ?> <?= $product_combo['quantity_type']; ?> X <?= $datarow['quantity']; ?></td>
+                                                                                                        <td> Rs. <?= $product_combo['srimitra_price']; ?></td>
+                                                                                                    </tr>
+                                                                                        <?php
+                                                                                                    $j++;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        ?>
                                                                                 <?php
-                                                                                        $j++;
+                                                                                        $k++;
                                                                                     }
                                                                                 }
                                                                                 ?>
@@ -301,8 +336,6 @@
                                                                     echo '--';
                                                                 }
                                                                 ?>
-                                                                <?php //echo (($row['razorpay_payment_id'] == '') ? '<a href="#" class="btn btn-warning">Payment Pending</a> ' : $row['razorpay_payment_id']); 
-                                                                ?>
                                                             </td>
 
                                                         </tr>
@@ -313,7 +346,7 @@
                                                 }
                                                 ?>
                                             </tbody>
-                                             
+
                                         </table>
                                     </div>
                                 </div>
@@ -353,6 +386,8 @@
                                     } else if (response == '2') {
                                         alert('Server Error');
                                     } else {}
+                                    window.location.href="<?= base_url('admin_Dashboard/new_donation') ?>";
+
                                 }
                             });
                         }

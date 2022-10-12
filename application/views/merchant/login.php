@@ -44,12 +44,12 @@
                     <form class="form-horizontal" method="POST" action="<?php echo base_url() . 'admin/merchantlogin'; ?>">
                         <div class="mb-3">
                             <label class="form-label" for="username">Contact Number</label>
-                            <input type="text" class="form-control" name="number" id="" placeholder="Contact Number">
+                            <input type="text" class="form-control" name="number" id="" placeholder="Contact Number" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="userpassword">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
 
                         <div class="mb-3 row">

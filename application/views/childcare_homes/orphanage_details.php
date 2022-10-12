@@ -3,7 +3,11 @@
 
 
 <?php $this->load->view('admin/template/header_link'); ?>
-
+<style>
+    .main-img{
+        width:100%;
+    }
+</style>
 
 <body data-topbar="colored">
     <div id="layout-wrapper">
@@ -33,131 +37,198 @@
                     <div class="page-content-wrapper">
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                
+<div class=" row">
+                                                <div class="col-md-3">
+                                                    <div class="card">
                                     <div class="card-body">
+                                                    <?php
+                            if ($mar[0]['profile_type'] == '0') {
+                            ?>
+                                <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                    <img src="<?= (($mar[0]['profile'] != '') ? base_url('uploads/orphange/profile/' . $mar[0]['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img shadow" alt="">
+                                </div>
+                                <?php
+                            } else {
+                                if ($mar[0]['profile_video'] != '') {
+                                    if (file_exists(FCPATH . 'uploads/orphange/profile/' . $mar[0]['profile_video'])) {
+                                ?>
+                                        <div class="inventory-list-video text-center" style="background: #f7f7f7;">
+                                            <video height="200" controls>
+                                                <source src="<?= base_url() ?>uploads/orphange/profile/<?= $mar[0]['profile_video'] ?>" type="video/mp4">
+                                            </video>
+                                        </div>
 
-                                        <section id="cd-timeline" class="cd-container">
-                                            <div class="cd-timeline-block">
-                                                <div class="cd-timeline-img bg-success">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                </div> <!-- cd-timeline-img -->
+                                    <?php } else {
+                                    ?>
+                                        <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                            <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                        </div>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                        <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                    </div>
+                                <?php
+                                } ?>
 
-                                                <div class="cd-timeline-content border">
-                                                    <h5>Name :</h5><?= $mar[0]['name']; ?>
-                                                    <h5>Number :</h5><?= $mar[0]['number']; ?>
-                                                    <h5>Email :</h5><?= $mar[0]['email']; ?>
-                                                    <h5>Category :</h5><?= $mar[0]['category']; ?>
-                                                    <h5>State :</h5><?= $state[0]['state_name']; ?>
-                                                    <h5>City :</h5><?= $city[0]['name']; ?>
-                                                    <h5>Pincode :</h5><?= $mar[0]['pincode']; ?>
-                                                    <h5>Address :</h5><?= $mar[0]['address']; ?>
-                                                    <h5>GEO Link :</h5><?= $mar[0]['geo_coding']; ?>
-                                                    <h5>Trust/Foundation name :</h5><?= $mar[0]['trust_name']; ?>
-                                                    <h5>Trustee/Founder Name :</h5><?= $mar[0]['trustee_name']; ?>
-                                                    <span class="cd-date">Child care Details</span>
+                            <?php
+                            }
+                            ?>
+                                                     
+                                                </div></div></div>
+                                                <div class="col-md-9  ">
+                                                    <div class="card">
+                                    <div class="card-body row">
+                                                <div class="col-md-12 m-1 p-1" style="border-bottom: 3px solid #f16c69;">
+                                                    <h4>Basic details - </h4>
+                                                    <!-- <hr> -->
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <h6>Name :</h6><?= $mar[0]['name'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Number :</h6><?= $mar[0]['number'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Email :</h6><?= $mar[0]['email'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Category :</h6><?= $mar[0]['category'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>State :</h6><?= $state ==
+                                                                        ''
+                                                                        ? ''
+                                                                        : $state[0]['state_name'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>City :</h6><?= $city ==
+                                                                        ''
+                                                                        ? ''
+                                                                        : $city[0]['name'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Pincode :</h6><?= $mar[0]['pincode'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Address :</h6><?= $mar[0]['address'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>GEO Link :</h6><?= $mar[0]['geo_coding'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Trust/Foundation name :</h6><?= $mar[0]['trust_name'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Trustee/Founder Name :</h6><?= $mar[0]['trustee_name'] ?>
 
-                                            </div>
-                                            <!-- cd-timeline-block -->
-
-                                            <div class="cd-timeline-block">
-                                                <div class="cd-timeline-img bg-danger">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                </div> <!-- cd-timeline-img -->
-
-                                                <div class="cd-timeline-content border right-content">
-                                                    <h5>Organisation registration certificate :</h5>
-
-                                                        <?php
-
-                                                        if ($mar[0]['govt_regis_cert'] != '0') { ?>
-                                                            <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['govt_regis_cert'];  ?>" target="_blank" class="btn btn-info">View</a>
-                                                        <?php
-                                                        }
-                                                        ?>
+                                                </div> </div> </div>
+                                                <div class="card">
+                                    <div class="card-body row">
+                                                <div class="col-md-12 m-1 mt-3 p-1" style="border-bottom: 3px solid #f16c69;">
+                                                    <h4>Bank details - </h4>
+                                                    <!-- <hr> --> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Bank:</h6>
+                                                    <?= $mar[0]['bank'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Account Number:</h6>
+                                                    <?= $mar[0]['acc_no'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>IFSC:</h6>
+                                                    <?= $mar[0]['ifsc'] ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Bank address:</h6>
+                                                    <?= $mar[0]['bank_address'] ?>
+                                                </div>
+                                                </div> </div>
+                                                <div class="card">
+                                    <div class="card-body row">
+                                                
+                                                     <div class="col-md-12 m-1 p-1" style="border-bottom: 3px solid #f16c69;">
+                                                    <h4>Description for Child care homes:</h4>
+                                                    <!-- <hr> -->
+                                                </div>
                                                     
-                                                    <h5>Trustee/Founder Pan :</h5>
-
-
-                                                        <?php
-
-                                                        if ($mar[0]['pan_trustee'] != '0') { ?>
-                                                            <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['pan_trustee'];  ?>" target="_blank" class="btn btn-info">View</a>
-
-
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    
-
-                                                    <h5>Trustee/Founder Aadhar front : </h5>
-                                                     <?php
-
-                                                        if ($mar[0]['adhar_trustee'] != '0') { ?>
-                                                    <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['adhar_trustee'];  ?>" target="_blank" class="btn btn-info">View</a>
-                                                     <?php
-                                                        }
-                                                        ?>
-                                                    
-                                                    <h5>Trustee/Founder Aadhar Back :
-                                                     <?php
-
-                                                        if ($mar[0]['adhar_trustee_back'] != '0') { ?>
-                                                    <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['adhar_trustee_back'];  ?>" target="_blank" class="btn btn-info">View</a>
-                                                     <?php
-                                                        }
-                                                        ?>
-                                                    
-
-                                                    <h5>Tax registration certificate : </h5>
-                                                      <?php
-
-                                                        if ($mar[0]['tax_cert'] != '0') { ?>
-                                                    <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['tax_cert'];  ?>" target="_blank" class="btn btn-info">View</a>
-                                                    <?php
-                                                        }
-                                                        ?>
-                                                    
-
-
-                                                    <h5>Cancel Cheque Image : </h5>
-                                                    <?php
-
-                                                        if ($mar[0]['cancel_check'] != '0') { ?>
-                                                    <a href="<?= base_url() ?>uploads/orphange/<?= $mar[0]['cancel_check'];  ?>" target="_blank" class="btn btn-info">View</a>
-                                                    
-                                                     <?php
-                                                        }
-                                                        ?>
-                                                    
-                                                    <span class="cd-date date-right">Documents</span>
+                                                    <?= $mar[0]['description'] ?>
                                                 </div>
                                                 <!-- cd-timeline-content -->
-                                            </div>
-                                        </section>
+</div> 
+                                                <div class="card">
+                                    <div class="card-body row">
+                                                <div class="col-md-12 m-1 p-1" style="border-bottom: 3px solid #f16c69;">
+                                                    <h4>Documents - </h4>
+                                                    <!-- <hr> -->
+                                                </div>
+                                                <div class="col-md-12 row">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>S.no. </th>
+                                                            <th>Title </th>
+                                                            <th> View</th>
+                                                            <th> Download</th>
+                                                            <th> Delete</th>
+
+                                                        </tr>
 
 
-                                        <section class="cd-container">
+                                                        <?php
+                                                        $i = 1;
+                                                        if ($documents != '') {
+                                                            foreach ($documents as $img) { ?>
+                                                                <tr>
+                                                                    <td><?= $i ?> </td>
+                                                                    <td><?= $img['document_title'] ?> </td>
+                                                                    <td> <a href="<?= base_url(
+                                                                                        '/uploads/orphange/documents/'
+                                                                                    ) .
+                                                                                        $img['document_link'] ?>" target="_blank">View</a></td>
+                                                                    <td> <a href=" <?= base_url(
+                                                                                        '/uploads/orphange/documents/'
+                                                                                    ) .
+                                                                                        $img['document_link'] ?>" download="">Download</a></td>
+                                                                    <td> <a href="<?php echo base_url(); ?>admin_Dashboard/deleteorphanedocument/<?= $img['id'] ?>" onclick="return confirm('Are you sure to delete this file?')" class="btn btn-danger  "><i class="fas fa-trash-alt"></i></a></td>
 
-                                            <h5>Gallery
-                                            <div class="row">
-                                                <?php if ($gallery != '') {
-                                                    foreach ($gallery as $img) {
+                                                                </tr>
+
+                                                        <?php $i++;
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </table>
+                                                </div>
+                                                </div> </div>
+                                                <div class="card">
+                                    <div class="card-body row">
+                                                <div class="col-md-12 m-1 p-1" style="border-bottom: 3px solid #f16c69;">
+                                                    <h4>Gallery - </h4>
+                                                    <!-- <hr> -->
+                                                </div>
+                                                <div class="col-md-12 row">
+                                                    <?php if ($gallery != '') {
+                                                        foreach ($gallery
+                                                            as $img) { ?>
+                                                            <div class="col-sm-3">
+                                                                <img src="<?= base_url(
+                                                                                '/uploads/orphange/gallery/'
+                                                                            ) .
+                                                                                $img['img'] ?>" style="width: 100%;" class="shadow" />
+                                                                 </div>
+                                                    <?php }
+                                                    } ?>
+                                                </div>
+                                            </div></div>
+                                        
 
 
-                                                ?>
-                                                        <div class="col-sm-3">
-                                                            <img src="<?= base_url('uploads/orphange/gallery/') . $img['img'] ?>" style="width: 100%;" class="shadow" />
-                                                            <a href="<?php echo base_url() ?>admin_Dashboard/deleteorphaneimg/<?= $img['gid'] ?>" class="btn btn-danger delete"><i class="fas fa-trash-alt"></i></a>
-                                                        </div>
-                                                <?php
-                                                    }
-                                                }
-                                                ?>
-
-
-                                            </div>
-                                        </section>
+                                        
 
 
                                     </div>

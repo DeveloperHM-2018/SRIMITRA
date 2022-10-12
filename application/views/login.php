@@ -33,7 +33,7 @@
                                         <div class="row">
                                             <div class="form-group form-grp col-sm-12">
                                                 <label>Mobile No</label>
-                                                <input type="text" id="loginnumber" placeholder="Enter phone number" name="uname" class="form-control" required>
+                                                <input type="text" id="loginnumber" placeholder="Enter phone number" name="uname" class="form-control" value="<?= sessionId('nl_user_contact') ?>" required>
                                                 <span id="otploginmsg" class="text-danger"></span>
                                             </div>
                                             <div class="form-group form-grp col-sm-12 otp" style="display: none;">
@@ -171,9 +171,9 @@
                     success: function(response) {}
                 });
                 alert("You have login successfully");
-                var user = result.user;
-                // console.log(user);
-                window.location.href = "<?= base_url('Ajax/user_redirect') ?>";
+                var user = result.user; 
+
+                window.location.href = "<?= $_SERVER['HTTP_REFERER'] ?>";
             }).catch(function(error) {
                 alert(error.message);
             });

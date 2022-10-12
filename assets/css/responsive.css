@@ -32,6 +32,10 @@
     display: block;
 }
 
+.fv-top-tag .inventory-features.st_slider{
+        height: 340px !important;
+    overflow-y: scroll !important;
+}
 
 
 

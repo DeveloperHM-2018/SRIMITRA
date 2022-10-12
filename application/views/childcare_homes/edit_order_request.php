@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-4 col-4">
+                            <div class="col-md-4 col-4">
 
 
                             </div>
@@ -48,8 +48,7 @@
                                                 $data = getRowById('tbl_orphange_order_product', 'o_id', $order[0]['oid']);
                                                 if (!empty($data)) {
                                                     foreach ($data as $datarow) {
-                                                        // print_R($datarow);
-                                                        // $data = getSingleRowById('products', array('product_id' => $datarow['product']));
+                                                         
                                             ?>
                                                         <div class="fieldGroup row">
                                                             <div class="col-md-6 col-5">
@@ -59,26 +58,19 @@
                                                                     <select class="form-control" name="product[]">
                                                                         <option value="">Select product</option>
                                                                         <?php
-                                                            // print_R($products);
-                                                            $i = 1;
-                                                            if ($products  != '') {
-                                                                foreach ($products as $fetchrow) {
-
-                                                                    $fetch = getSingleRowById('products', array('product_id' => $fetchrow['product_id']));
-                                                                    $cat = getRowById('category', 'category_id', $fetch['category_id']);
-                                                                    $subcat = getRowById('sub_category', 'sub_category_id', $fetch['subcategory_id']);
-                                                                    if ($fetch['pro_name'] != '2') {
-                                                            ?>
-                                                                        <option value="<?= $fetchrow['id']; ?>"><?= $fetch['pro_name']; ?> (<?= $fetchrow['quantity']; ?> <?= $fetchrow['quantity_type']; ?>)</option>
-                                                            <?php
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
+                                                                        $i = 1;
+                                                                        if ($products  != '') {
+                                                                            foreach ($products as $fetchrow) { 
+                                                                        ?>
+                                                                                <option value="<?= $fetchrow['id']; ?>" <?= ($fetchrow['id'] == $datarow['product'])? 'selected':'' ?>><?= $fetchrow['product_name']; ?> (<?= $fetchrow['quantity']; ?> <?= $fetchrow['quantity_type']; ?>)</option>
+                                                                        <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                             <div class="col-md-4 col-4">
+                                                            <div class="col-md-4 col-4">
                                                                 <div class="form-group">
                                                                     <label>Qty.</label>
                                                                     <input type="number" class="form-control" name="quantity[]" value="<?= $datarow['quantity']; ?>">
@@ -125,7 +117,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                 <div class="col-md-4 col-4">
+                                                <div class="col-md-4 col-4">
                                                     <div class="form-group">
                                                         <label>Qty.</label>
                                                         <input type="number" class="form-control" name="quantity[]" value="1">
@@ -133,7 +125,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-3">
                                                     <label> ADD</label>
-                                                    <a href="javascript:void(0)" class="form-control btn btn-success addMore">+   </a>
+                                                    <a href="javascript:void(0)" class="form-control btn btn-success addMore">+ </a>
                                                 </div>
                                             </div>
                                             <div class="fieldGroupCopy row" style="display: none;">
@@ -163,7 +155,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                 <div class="col-md-4 col-4">
+                                                <div class="col-md-4 col-4">
                                                     <div class="form-group">
                                                         <label>Qty.</label>
                                                         <input type="number" class="form-control" name="quantity[]" value="1">

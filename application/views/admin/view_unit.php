@@ -96,7 +96,7 @@
                                                             <td><?= $row['create_date']; ?></td>
                                                             <td><?php echo $row['quantity_name']; ?></td>
                                                             <td>
-                                                                <a href="<?php echo base_url() . 'admin_Dashboard/deletequantity_type/' . $row['quantity_type_id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                <a href="<?php echo base_url() . 'admin_Dashboard/deletequantity_type/' . $row['quantity_type_id']; ?>" class="btn btn-primary delete"  onclick="return confirm('Are you sure to delete ?')"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
                                                         </tr>
                                                 <?php

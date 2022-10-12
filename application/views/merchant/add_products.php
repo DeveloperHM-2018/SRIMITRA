@@ -133,8 +133,8 @@
                                                 <div class="card-body row">
                                                     <div class="form-group col-md-3">
                                                         <label class="">  Category Name</label>
-                                                        <select class="form-control" name="category_id" id="category_id_im">
-                                                            <option>Select Product Category</option>
+                                                        <select class="form-control" name="category_id" id="category_id_im" required>
+                                                            <option value="">Select Product Category</option>
                                                             <?php foreach ($category as $row) {
                                                             ?>
                                                                 <option value="<?= $row['category_id']; ?>"><?= $row['cat_name']; ?></option>
@@ -145,14 +145,14 @@
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label class="">  Sub Category Name</label>
-                                                        <select class="form-control" name="subcategory_id" id="sub_category_id_im">
-                                                            <option>Select Product Category</option>
+                                                        <select class="form-control" name="subcategory_id" id="sub_category_id_im" required>
+                                                            <option value="">Select Product Category</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>Product Name</label>
-                                                            <select class="form-control" name="product_nm" id="product_nm">
+                                                            <select class="form-control" name="product_nm" id="product_nm" required>
                                                                 <option value="">Select Product name</option>
                                                                 <?php foreach ($product as $row) {
                                                                 ?>
@@ -165,6 +165,12 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
+                                                            <label>Product Title</label>
+                                                            <input type="text" class="form-control" name="title" placeholder="Product title" value="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
                                                             <label>Image</label>
                                                             <input class="form-control pd-r-80" type="file" name="img" id="imgInp" multiple accept="image/*">
                                                             <img id="blah" src="#" alt="  Image Preview here" style="width:150px;" />
@@ -173,30 +179,30 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>MRP price</label>
-                                                            <input type="text" class="form-control" name="price" placeholder="price" value="">
+                                                            <input type="text" class="form-control" name="price" placeholder="price" value="" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>Sale Price</label>
-                                                            <input type="text" class="form-control" name="sale_price" placeholder="sale price" value="">
+                                                            <input type="text" class="form-control" name="sale_price" placeholder="sale price" value="" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>Purchase Price</label>
-                                                            <input type="text" class="form-control" name="purchase_price" placeholder="purchase price" value="">
+                                                            <input type="text" class="form-control" name="purchase_price" placeholder="purchase price" value="" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 form-group">
                                                         <label class="">Quantity</label>
-                                                        <input type="text" placeholder="Enter Product Quantity" name="quantity" value="" class="form-control">
+                                                        <input type="text" placeholder="Enter Product Quantity" name="quantity" value="" class="form-control" required>
                                                     </div>
                                                     <div class="col-md-3 form-group ">
 
                                                         <label class="">Quantity Type</label>
 
-                                                        <select class="form-control" name="quantity_type">
+                                                        <select class="form-control" name="quantity_type" required>
                                                             <option value="">Select type</option>
                                                             <?php $getType = getAllData('tbl_quantity_type');
                                                             foreach ($getType as $type) { ?>

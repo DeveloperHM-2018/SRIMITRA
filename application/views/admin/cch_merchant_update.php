@@ -36,7 +36,7 @@
                                                         <option value="">Merchant List</option>
                                                         <?php
 
-                                                        $merchantid = getAllData('tbl_merchant_registration');
+                                                        
                                                         foreach ($merchantid as $mercha) {
                                                         ?>
                                                             <option value="<?= $mercha['id']; ?>" <?= (($mercha['id'] == $mar[0]['assign_merchant']) ? 'Selected' : '') ?>><?= $mercha['shop_name']; ?>(<?= $mercha['m_name']; ?>)</option>

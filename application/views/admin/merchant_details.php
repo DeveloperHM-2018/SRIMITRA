@@ -35,6 +35,10 @@
 
                                         <section class=" container">
                                             <div class=" row">
+                                                <div class="col-md-3">
+                                                    <img src="<?= setImage($mar[0]['m_photo'],'uploads/merchant/') ?>" style="width:100%;"/>
+                                                </div>
+                                                <div class="col-md-9 row">
                                                 <div class="col-md-12 m-1 p-1" style="border: 1px solid grey;border-radius:10px;">
                                                     <h4>Entity Details</h4>
                                                 </div>
@@ -140,6 +144,7 @@
                                                         ?>
                                                     </table>
                                                 </div>
+                                            </div>
                                             </div>
                                         </section>
                                     </div>

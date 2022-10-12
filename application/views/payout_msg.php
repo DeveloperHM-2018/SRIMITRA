@@ -36,10 +36,17 @@
                         <div class="contact-form-wrap">
                             <div class="login-wrap m-0 text-center shadow" style="background: #fff;">
                                 <h3 class="widget-title">Thank you for contributing towards Child care homes. <br><br>Because of your generosity, there will be a smile in one of the childs face.</h3>
-                                <p>
-                                    Your Payment of Rs. <?= $response['amount'] ?> is being <?= (($response['status'] == 'success')? 'accepted':'failed') ?>.
-                                </p>
-                                <p>Transaction id : <?= $response['mihpayid'] ?></p>
+                                <?php
+                                if ($response != '') {
+                                ?>
+                                    <p>
+                                        Your Payment of Rs. <?= $response['amount'] ?> is being <?= (($response['status'] == 'success') ? 'accepted' : 'failed') ?>.
+                                    </p>
+                                    <p>Transaction id : <?= $response['mihpayid'] ?></p>
+                                <?php
+                                }
+                                ?>
+
                                 <div class="row">
                                     <div class="col-md-4 col-6 mt-1">
                                         <a href="<?= base_url('child_care_homes') ?>">
@@ -63,24 +70,24 @@
                                         </a>
                                     </div>
                                     <div class="col-md-4 col-12 mt-1 ">
-                                        
-                                        
-                                    <?php
+
+
+                                        <?php
                                         $cch = getSingleRowById('tbl_orphanage', array('id' => $orderDetails['orphane_id']));
-                                        
+
                                         if (!empty($cch)) {
                                         ?>
-                                        <a href="<?= base_url() ?>child_care_home_profile/<?= encryptId($orderDetails['orphane_id']) ?>/<?= url_title($cch['name']) ?>#feedback">
-                                            <button type="button" class="btn btn-primary  col-md-12">
-                                                <p class="small m-0 twhite">Share your feedback</p>
-                                            </button>
-                                        </a>
-                                        
+                                            <a href="<?= base_url() ?>child_care_home_profile/<?= encryptId($orderDetails['orphane_id']) ?>/<?= url_title($cch['name']) ?>#feedback">
+                                                <button type="button" class="btn btn-primary  col-md-12">
+                                                    <p class="small m-0 twhite">Share your feedback</p>
+                                                </button>
+                                            </a>
+
                                         <?php
-                                        
+
                                         }
                                         ?>
-                                        
+
                                     </div>
 
                                 </div>

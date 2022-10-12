@@ -402,7 +402,7 @@
                                                             <?= $merchant['srimitra_price'] ?> /<?= $merchant['quantity_type'] ?>
                                                         </td>
                                                         <td role="cell">
-                                                            &#8377; <?= (($merchant['quantity'] * $datarow['quantity']) *  $merchant['srimitra_price']) ?>
+                                                            &#8377; <?= $datarow['quantity'] *  $merchant['srimitra_price'] ?>
                                                         </td>
                                                         <td role="cell">
                                                             <input type="number" name="qty" min="0" max="<?= $datarow['quantity'] ?>" value="<?= $datarow['quantity'] ?>" class="qtysidecart<?= $merchant['id'] ?> p-0 " id="amt<?= $datarow['id'] ?>" style="width:70px">
@@ -449,37 +449,97 @@
                             <?php if ($request != '') {
                                 $j = 1;
                                 foreach ($request as $orderrow) {
+                                    $cch = json_decode($orderrow['cch_id_list'], true);
+
+                                    if (in_array($mar[0]['id'], $cch)) {
+
 
                             ?>
-                                    <div class=" col-md-4  col-6 p-2">
-                                        <div class="inventory-features mb-30 ">
-                                            <div class="inv-details-title text-center">
+                                        <div class=" col-md-4  col-6 p-2">
+                                            <div class="inventory-features mb-30 ">
+                                                <div class="inv-details-title text-center">
 
-                                                <?php if ($orderrow['cover'] != '') { ?>
-                                                    <img src="<?= base_url('uploads/ordercover/' . $orderrow['cover']) ?>" height="100px" class="cimg" />
-                                                <?php
+                                                    <?php if ($orderrow['cover'] != '') { ?>
+                                                        <img src="<?= base_url('uploads/ordercover/' . $orderrow['cover']) ?>" height="100px" class="cimg" />
+                                                    <?php
 
 
-                                                } else {
-                                                    echo '<img src="' . base_url() . 'assets/img/default-image.jpg" class="cimg" /> ';
-                                                }
-                                                ?>
+                                                    } else {
+                                                        echo '<img src="' . base_url() . 'assets/img/default-image.jpg" class="cimg" /> ';
+                                                    }
+                                                    ?>
 
-                                                <h5>
-                                                    <?= $orderrow['product_title']; ?>
-                                                </h5>
-                                                <h6> ₹
-                                                    <?= $orderrow['combo_price']; ?>
-                                                </h6>
-                                            </div>
-                                            <div class="row">
-                                                <input type="hidden" value="1" id="amts<?= $orderrow['ortid'] ?>">
-                                                <button class="btn btn-block savecart" data-or_id="<?= $orderrow['ortid'] ?>" data-cchid="<?= $mar[0]['id'] ?>" data-order_type="1" data-qty="">Add</button>
+                                                    <h5>
+                                                        <?= $orderrow['product_title']; ?>
+                                                    </h5>
+                                                    <button type="button" class="badge badge-primary" data-toggle="modal" data-target="#exampleModalLong<?= $orderrow['ortid'] ?>">
+                                                        Product Info
+                                                    </button>
+                                                    <h6> ₹
+                                                        <?= $orderrow['combo_price']; ?>
+                                                    </h6>
+
+                                                </div>
+                                                <div class="row">
+                                                    <input type="hidden" value="1" id="amts<?= $orderrow['ortid'] ?>">
+                                                    <button class="btn btn-block savecart" data-or_id="<?= $orderrow['ortid'] ?>" data-cchid="<?= $mar[0]['id'] ?>" data-order_type="1" data-qty="">Add</button>
+                                                    <!-- Button trigger modal -->
+
+
+                                                    <!-- Modal -->
+                                                    <div class="modal bd-example-modal-lg fade" id="exampleModalLong<?= $orderrow['ortid'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                        <div class="modal-dialog  modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-uppercase" id="exampleModalLongTitle"><?= $orderrow['product_title']; ?> includes</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body row bg-none pt-3 pb-3">
+
+                                                                    <?php
+                                                                    $j = 1;
+                                                                    $data = getRowById('order_request_template_product', 'ort_id', $orderrow['ortid']);
+                                                                    if (!empty($data)) {
+                                                                        foreach ($data as $datarow) {
+                                                                            $merchant = getSingleRowById('merchant_products', array('id' => $datarow['product']));
+                                                                    ?>
+                                                                            <div class="col-md-4 text-center">
+                                                                                <div class="shadow m-2 p-3">
+
+                                                                                    <img src="<?= setImage($fetchrow['img'], 'uploads/merchant_products/')  ?>" style="width: 50px;height: 50px;" />
+                                                                                    <br>
+                                                                                    <h5 class="text-dark text-capitalise p-0 m-0"><?= $merchant['product_name']; ?></h5>
+                                                                                    (<?= $merchant['quantity']; ?> <?= $merchant['quantity_type']; ?> X <?= $datarow['quantity']; ?>)
+                                                                                    <br>
+                                                                                    <h6 class="text-dark text-capitalise p-0 m-0"> Rs. <?= $merchant['srimitra_price']; ?></h6>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                    <?php
+                                                                            $j++;
+                                                                        }
+                                                                    }
+                                                                    ?>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                             <?php
-                                    $j++;
+
+                                        $j++;
+                                    } else {
+                                    }
                                 }
                             }
                             ?>
@@ -491,49 +551,82 @@
 
                             <!--<div class="inventory-details-slide">-->
                             <div class="container-fluid p-0 fix">
-                                <div class="containerhm">
-                                    <?php if ($gallery != '') {
-                                        foreach ($gallery as $img) {
-                                    ?>
-                                            <a href="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" data-lightbox="homePortfolio">
-
-
-                                                <?php
-                                                if ($img['type'] == '0') {
-                                                ?>
-                                                    <img src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" />
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <video controls>
-                                                        <source src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" type="video/mp4">
-                                                    </video>
-
-                                                <?php
-                                                }
-                                                ?>
-
-                                            </a>
+                                <div class="row">
                                     <?php
+                                    $i = 0;
+                                    $v = 0;
+                                    if ($gallery != '') {
+
+                                        foreach ($gallery as $img) {
+                                            if (file_exists(FCPATH . '/uploads/orphange/gallery/' . $img['img'])) {
+                                    ?>
+                                                <div class="col-md-4">
+                                                    <button type="button" data-toggle="modal" data-target="#exampleModal<?= $img['gid'] ?>" style="border:0; background:none">
+                                                        <?php
+                                                        if ($img['type'] == '0') {
+                                                        ?>
+                                                            <img src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" style="width:100%" /> 
+
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <video controls style="width:100%">
+                                                                <source src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" type="video/mp4">
+                                                            </video>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </button>
+                                                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="exampleModal<?= $img['gid'] ?>">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+
+                                                                <div class="modal-body">
+                                                                    <?php
+                                                                    if ($img['type'] == '0') {
+                                                                    ?>
+                                                                        <img src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" style="width:100%" />
+
+                                                                    <?php
+                                                                    } else {
+                                                                    ?>
+                                                                        <video controls style="width:100%">
+                                                                            <source src="<?= base_url('/uploads/orphange/gallery/') . $img['img'] ?>" type="video/mp4">
+                                                                        </video>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    <?php
+
+                                            } else {
+                                                $v++;
+                                            }
+                                            $i++;
                                         }
                                     } else {
-                                        echo 'No gallery found';
+                                        echo ' &nbsp;  &nbsp; No gallery found';
+                                    }
+                                    if ($v > 0) {
+                                        echo ' &nbsp;  &nbsp;  No gallery found';
                                     }
                                     ?>
 
                                 </div>
                                 <div class="row no-gutters ">
                                     <!--inv-details-active-->
-
-
-
                                 </div>
                             </div>
-
                             <!--</div>-->
                         </div>
-
-
                         <div class="inventory-details-description mb-30" id="descrip">
                             <div class="inv-details-title">
                                 <h5>Description</h5>

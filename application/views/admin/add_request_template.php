@@ -56,7 +56,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Cover Image</label>
-                                                        <input type="file" class="form-control" name="cover" value="0" required>
+                                                        <input type="file" class="form-control" name="cover" value="0" accept="image/*" >
                                                     </div>
                                                 </div>
                                                 <div class="fieldGroup row">

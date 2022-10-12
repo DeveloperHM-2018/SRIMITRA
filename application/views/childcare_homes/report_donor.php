@@ -148,6 +148,7 @@
                                     $(this).text("").html("Loading.. <i class='fa fa-spin fa-spinner'></i>").attr('disabled', true);
                                 },
                                 success: function(response) { 
+                                    console.log(response);
                                     $('#rowdata').html(response);
                                 }
                             });

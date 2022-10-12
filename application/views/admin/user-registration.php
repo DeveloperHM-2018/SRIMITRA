@@ -96,9 +96,9 @@
 
                                                             <td><a href="<?php echo base_url() ?>admin_Dashboard/user_order_info/<?= encryptId($cons['uid']) ?>" class="btn btn-info">Contribution List</a></td>
                                                             <td>
-                                                                <a href="<?php echo base_url() ?>admin_Dashboard/user_edit/<?= encryptId($cons['uid']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i>
-                                                                </a>
-                                                                <a href="<?php echo base_url() . 'admin_Dashboard/user_registration?BdID=' . $cons['uid']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                <!--<a href="<?php echo base_url() ?>admin_Dashboard/user_edit/<?= encryptId($cons['uid']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i>-->
+                                                                <!--</a>-->
+                                                                <a href="<?php echo base_url() . 'admin_Dashboard/user_registration?BdID=' . $cons['uid']; ?>" class="btn btn-primary delete"  onclick="return confirm('Are you sure to delete ?')"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
                                                         </tr>
                                                 <?php

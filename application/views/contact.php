@@ -62,6 +62,14 @@
                                     
                                 </div>
                             </li>
+                            <li>
+                                <div class="icon"><i class="far fa-envelope"></i></div>
+                                <div class="content">
+                                    <h5>Company Address</h5>
+                                    <?php if( $contactdetails[0]['address'] != '' ){ ?><p><a href="#"><?= $contactdetails[0]['address'] ?></a></p><?php } ?>
+                                    
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>

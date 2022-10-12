@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/srimitra/';
-// $config['base_url'] = 'https://srimitraindia.com/new/';
+// $config['base_url'] = 'https://www.srimitraindia.com/';
 
 /*
 |--------------------------------------------------------------------------

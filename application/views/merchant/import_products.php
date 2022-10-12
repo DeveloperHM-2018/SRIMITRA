@@ -36,7 +36,7 @@
                                                 <h4>Import Request here</h4>
                                                 <form method="post" action="<?= base_url('Merchant/importdata') ?>" enctype="multipart/form-data">
                                                     <div class="row">
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label class="">Product Category Name</label>
                                                             <select class="form-control" name="category_id" id="category_id" required>
                                                                 <option value="">Select Product Category</option>
@@ -48,13 +48,27 @@
                                                                 ?>
                                                             </select>
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label class="">Product Sub Category Name</label>
                                                             <select class="form-control" name="subcategory_id" id="sub_category_id" required>
                                                                 <option value="">Select Product Category</option>
                                                             </select>
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Product Name</label>
+                                                            <select class="form-control" name="product_nm" id="product_nm" required>
+                                                                <option value="">Select Product name</option>
+                                                                <?php foreach ($product as $row) {
+                                                                ?>
+                                                                    <option value="<?= $row['product_id']; ?>"><?= $row['pro_name']; ?></option>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                        <div class="form-group col-md-3">
                                                             <label>CSV File</label> <br>
                                                             <input type="file" class="form-control" name="pname" placeholder="" accept=".csv" required>
                                                         </div>
@@ -92,6 +106,23 @@
                                     }
                                 });
                             });
+                            $(document).on('change', '#sub_category_id', function() {
+                        // $('#category_id_im').change(function() {
+                        var subcategory_id = $('#sub_category_id').val();
+                        var category_id = $('#category_id').val();
+
+                        $.ajax({
+                            method: "POST",
+                            url: '<?= base_url('Ajax/get_product') ?>',
+                            data: {
+                                category_id: category_id,
+                                subcategory_id:subcategory_id
+                            },
+                            success: function(response) {
+                                $('#product_nm').html(response);
+                            }
+                        });
+                    });
                         </script>
 </body>
 

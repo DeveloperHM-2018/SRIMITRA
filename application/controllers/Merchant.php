@@ -41,8 +41,7 @@ class Merchant extends CI_Controller
         $table = "checkout";
         $data['favicon'] = base_url() . 'assets/images/favicon.png';
         $data['title'] = "New Order List";
-        $data['checkout'] = $this->CommonModal->runQuery("SELECT * FROM `checkout` WHERE (`chechout_status` = '1' AND `merchant_id` = '" . sessionId('mid') . "') OR (`chechout_status` = '3' AND `merchant_id` = '" . sessionId('mid') . "' )");
-        // $data['checkout'] = $this->CommonModal->getRowByIdInOrder('checkout', array('status' => '1', 'chechout_status' => '0', 'merchant_id' => sessionId('mid')), 'id', 'desc');
+        $data['checkout'] = $this->CommonModal->runQuery("SELECT * FROM `checkout` WHERE (`chechout_status` = '1' AND `merchant_id` = '" . sessionId('mid') . "') OR (`chechout_status` = '3' AND `merchant_id` = '" . sessionId('mid') . "' )"); 
         $this->load->view('merchant/view_orderPlced', $data);
     }
     public function onprocess_order()
@@ -121,35 +120,11 @@ class Merchant extends CI_Controller
         $data['merchant_products'] = $this->CommonModal->getRowByMoreId('merchant_products', array('merchant_id' => sessionId('mid'), 'is_delete' => '0'));
         if (count($_POST) > 0) {
             $product_nm = $this->input->post('product_nm');
-
-            // $delete = updateRowById('merchant_products', 'merchant_id', sessionId('mid'), array('is_delete' => '1'));
-
-            // for ($r = 0; $r < count($product_nm); $r++) {
-
-            // if ($this->input->post('product_nm')[$r] != '' && $this->input->post('product_nm')[$r] != 0) {
-            // $img = $_FILES['img'][$r];
-            // $_FILES['image'] = array('name'=>$_FILES['img']['name'][$r],'type'=>$_FILES['img']['type'][$r],'tmp_name'=>$_FILES['img']['tmp_name'][$r],'error'=>$_FILES['img']['error'][$r],'size'=>$_FILES['img']['size'][$r]);
-            // echo '<br>';
             $img = imageUpload('img', 'uploads/merchant_products/');
-            // print_r($image);
-            $pro = array('merchant_id' => sessionId('mid'), 'product_id' => $this->input->post('product_nm'), 'product_price' => $this->input->post('price'), 'sale_price' => $this->input->post('sale_price'), 'purchase_price' => $this->input->post('purchase_price'), 'quantity' => $this->input->post('quantity'), 'quantity_type' => $this->input->post('quantity_type'), 'description' => $this->input->post('description'), 'img' => $img, 'is_delete' => '0');
+            $productData = $this->CommonModal->getSingleRowById('products', array('product_id' => $this->input->post('product_nm')));
 
-            // $pro = array('merchant_id' => sessionId('mid'), 'product_id' => $this->input->post('product_nm')[$r], 'product_price' => $this->input->post('price')[$r], 'sale_price' => $this->input->post('sale_price')[$r], 'purchase_price' => $this->input->post('purchase_price')[$r], 'quantity' => $this->input->post('quantity')[$r], 'quantity_type' => $this->input->post('quantity_type')[$r], 'description' => $this->input->post('description')[$r], 'img' => $img, 'is_delete' => '0');
-
-            // $row = $this->CommonModal->getSingleRowById('merchant_products', array('merchant_id' => sessionId('mid'), 'product_id' => $this->input->post('product_nm')[$r],'quantity' => $this->input->post('quantity')[$r], 'quantity_type' => $this->input->post('quantity_type')[$r]));
-
-            // if ($row != '') {
-            //     $product_option_item_id = $this->CommonModal->updateRowById('merchant_products', 'id', $row['id'], $pro);
-            // } elseif ($row == '') {
+            $pro = array('merchant_id' => sessionId('mid'), 'product_id' => $this->input->post('product_nm'), 'subcategory_id' => $this->input->post('subcategory_id'), 'category_id' => $this->input->post('category_id'), 'product_price' => $this->input->post('price'), 'sale_price' => $this->input->post('sale_price'), 'purchase_price' => $this->input->post('purchase_price'), 'quantity' => $this->input->post('quantity'), 'quantity_type' => $this->input->post('quantity_type'), 'description' => $this->input->post('description'), 'img' => $img, 'is_delete' => '0', 'product_name' => $productData['pro_name'].' - '.$this->input->post('title'));
             $product_option_item_id = $this->CommonModal->insertRowReturnId('merchant_products', $pro);
-            // } else {
-            // }
-            //  echo '<br>';
-            // print_r($pro);
-            //  echo '<br>';
-            // }
-            // }
-            // exit();
             redirect(base_url('merchant/my_products_list'));
         }
         $table = "category";
@@ -171,6 +146,7 @@ class Merchant extends CI_Controller
     {
         $post['category_id'] = $_POST['category_id'];
         $post['subcategory_id'] = $_POST['subcategory_id'];
+        $post['product_id'] = $_POST['product_nm'];
         $file = $_FILES['pname']['tmp_name'];
         $handle = fopen($file, "r");
         $c = 0; //
@@ -178,17 +154,22 @@ class Merchant extends CI_Controller
         while (($filesop = fgetcsv($handle, 1000, ",")) !== false) {
             // $post = array();
             // // echo '<br>'; 
-            $post['pro_name'] = $filesop[1];
+            $productData = $this->CommonModal->getSingleRowById('products', array('product_id' => $this->input->post('product_nm')));
+            $post['product_name'] = $productData['pro_name'].' - '.$filesop[1]; 
             $post['quantity'] = $filesop[2];
             $post['quantity_type'] = $filesop[3];
-            $post['price'] = $filesop[4];
+            $post['product_price'] = $filesop[4];
             $stock = $filesop[5];
-            $post['approved'] = '1';
-
+            $post['sale_price'] = $filesop[6];
+            $post['purchase_price'] = $filesop[7];
+            $post['description'] = $filesop[8];
+            $post['is_delete'] = '0';
+            $post['approved'] = '0';
+            
             if ($c <> 0 || $c <> 1) {
                 if ($filesop[1] != '') {
-                    $productId = $this->CommonModal->insertRowReturnId('products', $post);
-                    $productIds = $this->CommonModal->insertRowReturnId('merchant_products', array('merchant_id' => sessionId('mid'), 'product_id' => $productId, 'approved' => '1', 'product_price' => $post['price']));
+                    $post['merchant_id'] = sessionId('mid');
+                    $product_option_item_id = $this->CommonModal->insertRowReturnId('merchant_products', $post);
                     $msg .= '<br>' . $filesop[3];
                 }
             }
@@ -237,7 +218,7 @@ class Merchant extends CI_Controller
         $data['favicon'] = base_url() . 'assets/images/favicon.png';
         $data['title'] = "Edit Products";
         $data['productInfo'] = $this->CommonModal->getSingleRowById('merchant_products', array('id' => $mpid));
-        $data['product'] = $this->CommonModal->getRowByMoreId('products', array('status' => '0', 'is_delete' => '0'));
+        $data['product'] = $this->CommonModal->getRowByMoreId('products', array('status' => '0', 'is_delete' => '0', 'subcategory_id' => $data['productInfo']['subcategory_id']));
         $data['category'] = $this->CommonModal->getAllRows('category');
         if (count($_POST) > 0) {
             $post = $this->input->post();
@@ -279,9 +260,9 @@ class Merchant extends CI_Controller
             $password = $this->input->post('password');
             $confirmpassword = $this->input->post('confirmpassword');
             $profile = $this->CommonModal->getsingleRowById('tbl_merchant_registration', array('id' => sessionId('mid')));
-            if ($profile['password'] == $oldpassword) {
+            if (decryptId($profile['password']) == $oldpassword) {
                 if ($password == $confirmpassword) {
-                    $update = $this->CommonModal->updateRowById('tbl_merchant_registration', 'id', sessionId('mid'), array('password' => $password));
+                    $update = $this->CommonModal->updateRowById('tbl_merchant_registration', 'id', sessionId('mid'), array('password' => encryptId($password)));
                     if ($update) {
                         $this->session->set_flashdata('msg', 'Password Changed Successfully');
                         $this->session->set_flashdata('msg_class', 'alert-success');

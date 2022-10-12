@@ -44,15 +44,8 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-
-
-                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="
-                                    border-collapse: collapse;
-                                    border-spacing: 0;
-                                    width: 100%;
-                                    ">
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse;border-spacing: 0;width: 100%;">
                                             <thead>
-                                                <tr>
                                                 <tr>
                                                     <th>Order ID</th>
                                                     <th>Order Date</th>
@@ -60,7 +53,6 @@
                                                     <th>View Order details</th>
                                                     <th>Order Status</th>
                                                     <th>Payment Details</th>
-                                                    <!-- <th>Delete </th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -72,21 +64,16 @@
                                                         $state =  $this->CommonModal->getSingleRowById('tbl_state', 'state_id',  $orphane[0]['state']);
                                                         $city =  $this->CommonModal->getSingleRowById('tbl_cities', 'id',  $orphane[0]['city']);
                                                 ?>
-
                                                         <tr>
-                                                            <td><?php //echo $i; 
-                                                                ?> <?= str_replace('-', '', $row['create_date_only']) . $row['id'] ?></td>
+                                                            <td><a href="<?php echo base_url() . 'Merchant/OrderPlacedDetails/' . $row['id']; ?>"> <?= str_replace('-', '', $row['create_date_only']) . $row['id'] ?></a></td>
                                                             <td style="word-wrap: break-word;"><?php echo convertDatedmy($row['create_date']); ?>
-
                                                             </td>
                                                             <td style="word-wrap: break-word;">
-                                                                 <?= $orphane[0]['name']; ?><br>Add. - <?php echo $orphane[0]['address']; ?>, <?php echo (($city == '') ? '' : $city['name']); ?>, <?php echo (($state == '') ? '' : $state['state_name']); ?>, <?php echo $orphane[0]['pincode']; ?>
-                                                                <!-- <br>Cont. - <?= $orphane[0]['number']; ?> -->
+                                                                <?= $orphane[0]['name']; ?> 
                                                             </td>
-                                                            <td><a href="<?php echo base_url() . 'Merchant/OrderPlacedDetails/' . $row['id']; ?>" class="btn btn-danger edit"><i class="fas fa-eye"></i></a></td>
+                                                            <td><a href="<?php echo base_url() . 'Merchant/OrderPlacedDetails/' . $row['id']; ?>" class="btn btn-danger  "><i class="fas fa-eye"></i></a></td>
                                                             <td>
                                                                 <?php
-
                                                                 if ($row['status'] == '1') {
                                                                     if ($row['chechout_status'] == 1) {
                                                                 ?>
@@ -123,51 +110,32 @@
                                                                         $row['chechout_status'] == 5 || $row['chechout_status'] == 6
                                                                     ) {
                                                                 ?>
-                                                                        
-
-
                                                                         <div class="collapse" id="collapseExample<?= $row['id']; ?>">
                                                                             <div class="card card-body mb-0 p-0">
                                                                                 <?php
                                                                                 $payment = getRowById('checkout_payment_to_merchant',  'checkout_id', $row['id']);
                                                                                 if (!empty($payment)) {
                                                                                     $is_paid = 1;
-
-
                                                                                 ?>
-
-                                                                                    <table class="table table-bordered dt-responsive nowrap" style="
-                                                                                                    border-collapse: collapse;
-                                                                                                    border-spacing: 0;
-                                                                                                    width: 100%;
-                                                                                                    ">
+                                                                                    <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse;border-spacing: 0;width: 100%;">
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th>Date</th>
                                                                                                 <th>Payment ID</th>
                                                                                                 <th>Amount</th>
-                                                                                                <!-- <th>Delete</th> -->
                                                                                             </tr>
                                                                                         </thead>
-
                                                                                         <tbody>
-
                                                                                             <?php
                                                                                             foreach ($payment as $datarow) {
                                                                                             ?>
                                                                                                 <tr>
-
                                                                                                     <td><?= convertDatedmy($datarow['create_date']) ?></td>
-
                                                                                                     <td><?= $datarow['payment_id'] ?></td>
                                                                                                     <td>Rs. <?= $datarow['amount'] ?></td>
-                                                                                                    <!-- <td> </td> -->
-
                                                                                                 </tr>
                                                                                             <?php
-
                                                                                             }
-
                                                                                             ?>
                                                                                         </tbody>
                                                                                     </table>
@@ -180,15 +148,14 @@
                                                                                     echo 'Payment pending';
                                                                                 }
                                                                                 ?>
-                                                                                
+
                                                                             </div>
-                                                                            
+
                                                                         </div>
 
 
-                                                                        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<?= $row['id']; ?>" 
-                                                                        aria-expanded="false" aria-controls="collapseExample<?= $row['id']; ?>" class="btn btn-<?= (($is_paid == 0) ? 
-                                                                        'danger' : 'info') ?>"> <?= (($is_paid == 0) ? 'Payment pending' : 'Issued Payment') ?>
+                                                                        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<?= $row['id']; ?>" aria-expanded="false" aria-controls="collapseExample<?= $row['id']; ?>" class="btn btn-<?= (($is_paid == 0) ?
+                                                                                                                                                                                                                                                                        'danger' : 'info') ?>"> <?= (($is_paid == 0) ? 'Payment pending' : 'Issued Payment') ?>
                                                                         </button>
 
                                                                 <?php
@@ -197,13 +164,6 @@
                                                                 }
                                                                 ?>
                                                             </td>
-
-
-
-
-
-                                                            <!-- <td><a href="<?php echo base_url() . 'Merchant/orderdelete/' . $row['id']; ?>" class="btn btn-danger delete">
-                                                            <i class="fas fa-trash"></i></a></td> -->
                                                         </tr>
 
                                                 <?php
@@ -250,6 +210,7 @@
                                         $('.deliver' + id).hide();
                                         $('#delivermsg' + id).show();
                                     } else {}
+                                    window.location.href = '<?= base_url('Merchant/orderPlaced') ?>';
                                 }
                             });
                         }

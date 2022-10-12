@@ -61,6 +61,7 @@ class Childcare_homes extends CI_Controller
             $msg = array();
             for ($j = 0; $j < count($product); $j++) {
                 if ($product[$j] != '') {
+                    // echo $product[$j].'<br>';
                     $data = array('cch_id' => sessionId('oid'), 'o_id' => $requestid, 'timestamp' =>  $timestamp, 'product' => $product[$j], 'quantity' => $quantity[$j], 'total_qty' => $quantity[$j]);
                     $request_product = $this->CommonModal->insertRowReturnId('tbl_orphange_order_product',  $data);
                     if ($request_product != '') {
@@ -69,7 +70,7 @@ class Childcare_homes extends CI_Controller
                         array_push($msg, 'false');
                     }
                 }
-            }
+            } 
             if (array_search('false', $msg)) {
                 $this->session->set_userdata('msg', '<div class="alert alert-danger">We are facing technical error ,in some part.</div>');
             } else {
@@ -216,16 +217,25 @@ class Childcare_homes extends CI_Controller
     public function OrderPlacedDetails_temp()
     {
         $id = $this->uri->segment(3);
+        if($id != ''){
         $data['favicon'] = base_url() . 'assets/images/favicon.png';
         $data['title'] = "Order placed Details";
         $data['checkout'] = $this->CommonModal->getRowById('checkout', 'id', $id);
-        $data['checkoutProduct'] = $this->CommonModal->getRowById('checkout_product', 'checkoutid', $id);
-        if (count($_POST) > 0) {
-            $mail_data = $this->input->post();
-            sendmail($mail_data['email'], 'Registered with Srimitra | Welcome Child care Home', $mail_data['message']);
+        if($data['checkout'][0]['user_id'] == 0){
             redirect(base_url('Childcare_homes/OrderPlacedDetails/' . $id));
+        }else{
+            $data['checkoutProduct'] = $this->CommonModal->getRowById('checkout_product', 'checkoutid', $id);
+            if (count($_POST) > 0) {
+                $mail_data = $this->input->post();
+                sendmail($mail_data['email'], 'Registered with Srimitra | Welcome Child care Home', $mail_data['message']);
+                redirect(base_url('Childcare_homes/OrderPlacedDetails/' . $id));
+            }
+            $this->load->view('childcare_homes/OrderPlacedDetails_temp', $data);
         }
-        $this->load->view('childcare_homes/OrderPlacedDetails_temp', $data);
+        }else{
+            redirect('/');
+        }
+        
     }
 
     public function donation()
@@ -323,57 +333,115 @@ class Childcare_homes extends CI_Controller
 
         $data['title'] = 'Child Care Home';
         $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
+    $data['demography'] = $this->CommonModal->getAllRows('tbl_demography');
 
         if (count($_POST) > 0) {
-
-
-            // print_r($_POST);
-
-            $post = $this->input->post();
-            $post['govt_regis_cert'] = imageUpload('govt_regis_cert', 'uploads/orphange/');
-            $post['adhar_trustee_back'] = imageUpload('adhar_trustee_back', 'uploads/orphange/');
-            $post['pan_trustee'] = imageUpload('pan_trustee', 'uploads/orphange/');
-            $post['adhar_trustee'] = imageUpload('adhar_trustee', 'uploads/orphange/');
-            $post['tax_cert'] = imageUpload('tax_cert', 'uploads/orphange/');
-            $post['cancel_check'] = imageUpload('cancel_check', 'uploads/orphange/');
-
-
-
-            $post['password'] =   substr($post['name'], 0, 3) . substr($post['number'], 0, 3);
-
-            $post['head_cch_id'] = sessionId('oid');
-
-            $insert = $this->Dashboard_model->insertdata('tbl_orphanage', $post);
-            //  exit();
-
-            $countImg = count($_FILES['img']);
-            for ($i = 0; $i <= $countImg; $i++) {
+              $post_data = $this->input->post();
+        
+              $state = $this->CommonModal->getSingleRowById('tbl_state', [
+                'state_id' => $this->input->post('state'),
+              ]);
+              $city = $this->CommonModal->getSingleRowById('tbl_cities', [
+                'id' => $this->input->post('city'),
+              ]);
+        
+              $post['state_name'] = $state['state_name'];
+              $post['city_name'] = $city['name'];
+        
+              $password =
+                substr($post_data['fullname'], 0, 3) .
+                substr($post_data['number'], 0, 3);
+              $pass = str_replace(' ', '', $password);
+              $post['password'] = encryptId($pass);
+        
+              $post['name'] = $this->input->post('fullname');
+              $post['number'] = $this->input->post('number');
+              $post['email'] = $this->input->post('email');
+              $post['category'] = $this->input->post('category');
+              $post['state'] = $this->input->post('state');
+              $post['city'] = $this->input->post('city');
+              $post['pincode'] = $this->input->post('pincode');
+              $post['address'] = $this->input->post('address');
+              $post['geo_coding'] = $this->input->post('geo_coding');
+              $post['trust_name'] = $this->input->post('trust_name');
+              $post['trustee_name'] = $this->input->post('trustee_name');
+              $post['tagline'] = $this->input->post('tagline');
+              $post['bank'] = $this->input->post('bank');
+              $post['acc_no'] = $this->input->post('acc_no');
+              $post['ifsc'] = $this->input->post('ifsc');
+              $post['bank_address'] = $this->input->post('bank_address');
+              $post['description'] = $this->input->post('description');
+              $post['profile'] = imageUpload('profile', 'uploads/orphange/profile/');
+              $post['profile_video'] = videoUpload('profile_video', 'uploads/orphange/profile/');
+              $post['profile_type'] = $this->input->post('profile_type');
+                $post['head_cch_id'] = sessionId('oid');
+              $insert = $this->CommonModal->insertRowReturnId('tbl_orphanage', $post);
+        
+              $countImg = count($_FILES['img']);
+              $type = 0;
+              for ($i = 0; $i <= $countImg; $i++) {
                 $no = rand();
+        
                 if (!empty($_FILES["img"]["name"][$i])) {
-                    $folder = "uploads/orphange/gallery/";
-                    move_uploaded_file($_FILES["img"]["tmp_name"][$i], "$folder" . $no . $_FILES["img"]["name"][$i]);
-                    $file_name1 = $no . $_FILES["img"]["name"][$i];
-                    $this->CommonModal->insertRowReturnId('tbl_orphanage_gallery', array('orphanage_id' => $insert, 'img' => $file_name1));
+                  // $mime = mime_content_type($_FILES["img"]["tmp_name"][$i]);
+                  if (strstr($_FILES["img"]["type"][$i], "video/")) {
+                    $type = 1;
+                  } else if (strstr($_FILES["img"]["type"][$i], "image/")) {
+                    $type = 0;
+                  }
+        
+                  $folder = "uploads/orphange/gallery/";
+                  move_uploaded_file(
+                    $_FILES["img"]["tmp_name"][$i],
+                    "$folder" . $no . $_FILES["img"]["name"][$i]
+                  );
+                  $file_name1 = $no . $_FILES["img"]["name"][$i];
+                  $this->CommonModal->insertRowReturnId('tbl_orphanage_gallery', [
+                    'orphanage_id' => $insert,
+                    'img' => $file_name1,
+                    'type' => $type,
+                  ]);
                 }
-            }
-
-            if ($insert) {
-                $message = 'Dear ' . $post['name'] . ',<br><br>
-                            You have been successfully registered with Srimitra India.<br>
-                            To login with us <a href="https://www.webangeltech.com/srimitra/childcare_homes_login">click here</a><br><br>
-                            Use these credentials to continue login:<br>
-                            Login id : ' . $post['number'] . '  <br>
-                            Login password : ' . $post['password'] . '
-                            <br><br>
-                            Regards,<br>
-                            SrimitraIndia';
-                sendmail($post['email'], 'Registered with Srimitra | Welcome Child care Home', $message);
-                $this->session->set_flashdata('msg', 'Child Care Home Add successfully');
+              }
+              $document_file = count($_FILES['document_file']);
+              for ($i = 0; $i <= $document_file; $i++) {
+                $no = rand();
+                if (!empty($_FILES["document_file"]["name"][$i])) {
+                  $folder = "uploads/orphange/documents/";
+                  move_uploaded_file(
+                    $_FILES["document_file"]["tmp_name"][$i],
+                    "$folder" . $no . $_FILES["document_file"]["name"][$i]
+                  );
+                  $file_name1 = $no . $_FILES["document_file"]["name"][$i];
+                  $doc = $this->CommonModal->insertRowReturnId(
+                    'tbl_orphanage_documents',
+                    [
+                      'cch_id' => $insert,
+                      'document_link' => $file_name1,
+                      'document_title' => $_POST["document_title"][$i],
+                    ]
+                  );
+                }
+              }
+              if ($insert) {
+                $message = CCHmail($post['number'], $post['password']);
+                sendmail(
+                  $post['email'],
+                  'Registered with Srimitra | Welcome Child care Home',
+                  $message
+                );
+                $this->session->set_flashdata(
+                  'msg',
+                  'Child Care Home Added successfully'
+                );
                 $this->session->set_flashdata('msg_class', 'alert-success');
-            } else {
-                $this->session->set_flashdata('msg', 'Something went wrong Please try again!!');
+              } else {
+                $this->session->set_flashdata(
+                  'msg',
+                  'Something went wrong Please try again!!'
+                );
                 $this->session->set_flashdata('msg_class', 'alert-danger');
-            }
+              }
             redirect(base_url() . 'Childcare_homes/child_care_home');
         } else {
             $this->load->view('childcare_homes/addorphanage', $data);
@@ -484,9 +552,27 @@ class Childcare_homes extends CI_Controller
         $id = decryptId($id);
 
         $data['mar'] = $this->CommonModal->getRowById('tbl_orphanage', 'id', $id);
-        $data['city'] = $this->CommonModal->getRowById('tbl_cities', 'id', $data['mar'][0]['city']);
-        $data['state'] = $this->CommonModal->getRowById('tbl_state', 'state_id', $data['mar'][0]['state']);
-        $data['gallery'] = $this->CommonModal->getRowById('tbl_orphanage_gallery', 'orphanage_id', $data['mar'][0]['id']);
+       $data['mar'] = $this->CommonModal->getRowById('tbl_orphanage', 'id', $id);
+    $data['city'] = $this->CommonModal->getRowById(
+      'tbl_cities',
+      'id',
+      $data['mar'][0]['city']
+    );
+    $data['state'] = $this->CommonModal->getRowById(
+      'tbl_state',
+      'state_id',
+      $data['mar'][0]['state']
+    );
+    $data['gallery'] = $this->CommonModal->getRowById(
+      'tbl_orphanage_gallery',
+      'orphanage_id',
+      $data['mar'][0]['id']
+    );
+    $data['documents'] = $this->CommonModal->getRowById(
+      'tbl_orphanage_documents',
+      'cch_id',
+      $data['mar'][0]['id']
+    );
         $data['title'] = $data['mar'][0]['name'] . ' Details';
         $this->load->view('childcare_homes/orphanage_details', $data);
     }
@@ -529,9 +615,9 @@ class Childcare_homes extends CI_Controller
             $password = $this->input->post('password');
             $confirmpassword = $this->input->post('confirmpassword');
             $profile = $this->CommonModal->getsingleRowById('tbl_orphanage', array('id' => sessionId('oid')));
-            if ($profile['password'] == $oldpassword) {
+            if (decryptId($profile['password']) == ($oldpassword)) {
                 if ($password == $confirmpassword) {
-                    $update = $this->CommonModal->updateRowById('tbl_orphanage', 'id', sessionId('oid'), array('password' => $password));
+                    $update = $this->CommonModal->updateRowById('tbl_orphanage', 'id', sessionId('oid'), array('password' => encryptId($password)));
                     if ($update) {
                         $this->session->set_flashdata('msg', 'Password Changed Successfully');
                         $this->session->set_flashdata('msg_class', 'alert-success');
@@ -579,7 +665,7 @@ class Childcare_homes extends CI_Controller
     public function donor_report()
     {
         $post = $this->input->post();
-        $data['donor'] = $this->CommonModal->runQuery("SELECT * FROM `checkout` WHERE `orphane_id` = '" . sessionId('oid') . "' AND DATE(`create_date_only`)  BETWEEN '" . $post['fromdate'] . "' AND '" . $post['todate'] . "' ORDER BY `id` DESC");
+        $data['donation'] = $this->CommonModal->runQuery("SELECT * FROM `checkout` WHERE (`orphane_id` = '" . sessionId('oid') . "') AND (DATE(`create_date_only`)  BETWEEN '" . $post['fromdate'] . "' AND '" . $post['todate'] . "') ORDER BY `id` DESC");
         $this->load->view('childcare_homes/report_donor_rowdata', $data);
     }
 

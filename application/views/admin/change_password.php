@@ -48,15 +48,15 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4">
                                                             <label class="">Old Password</label>
-                                                            <input class="form-control" type="password" name="oldpassword" value="">
+                                                            <input class="form-control" type="password" name="oldpassword" value="" required>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="">New Password</label>
-                                                            <input class="form-control" type="password" name="password" value="">
+                                                            <input class="form-control" type="password" name="password" value="" required>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="">Confirm Password</label>
-                                                            <input class="form-control" type="password" name="confirmpassword" value="">
+                                                            <input class="form-control" type="password" name="confirmpassword" value="" required>
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <br>

@@ -59,6 +59,7 @@
                                                     <th>Price </th>
                                                     <th>Products</th>
                                                     <th>Cover</th>
+                                                    <th>Disable</th>
                                                     <th>Action</th>
 
                                                 </tr>
@@ -119,7 +120,12 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td><img src="<?= base_url('uploads/ordercover/' . $orderrow['cover']) ?>" width="50px" /></td>
+                                                            <td><img src="<?= setImage($orderrow['cover'], 'uploads/ordercover/') ?>" width="50px" /></td>
+                                                            <td> <a href="<?= base_url('admin_Dashboard/disable_order_request_template/' . encryptId($orderrow['ortid']).'/'.(($orderrow['is_visible'] == 0)? '1':'0')) ?>">
+                                                                    <button class="btn btn-<?= (($orderrow['is_visible'] == 0)? 'success':'danger') ?> float-right mt-1 ml-1" type="button">
+                                                                        <?= (($orderrow['is_visible'] == 0)? 'Active':'Inactive') ?>
+                                                                    </button>
+                                                                </a></td>
                                                             <td> <a href="<?= base_url('admin_Dashboard/edit_order_request_template/' . encryptId($orderrow['ortid'])) ?>">
                                                                     <button class="btn btn-success float-right mt-1 ml-1" type="button">
                                                                         <i class="fa fa-edit"></i> Edit

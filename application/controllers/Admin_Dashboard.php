@@ -30,13 +30,14 @@ class Admin_Dashboard extends CI_Controller
     );
     $data['user'] = $this->CommonModal->getNumRow('tbl_user');
     $data['donation'] = $this->CommonModal->runQuery(
-      "SELECT * FROM `checkout` WHERE ( `status` = '1' AND `chechout_status` = '3') OR ( `status` = '1' AND `chechout_status` = '2') OR (`status` = '0')"
+      "SELECT * FROM `checkout` WHERE   (`initial_status` = '1') AND ( (`status` = '1' AND `chechout_status` = '3') OR ( `status` = '1' AND `chechout_status` = '2') OR (`status` = '0'))"
     );
 
     $data['unapproved_products'] = $this->CommonModal->getRowByMoreId(
       'merchant_products',
       [
         'approved' => '0',
+        'is_delete' => '0',
       ]
     );
 
@@ -325,6 +326,8 @@ class Admin_Dashboard extends CI_Controller
 
     $data['title'] = 'Child Care Home';
     $data['state_list'] = $this->CommonModal->getAllRows('tbl_state');
+
+    $data['demography'] = $this->CommonModal->getAllRows('tbl_demography');
     $data['orphane'] = $this->CommonModal->getRowById(
       'tbl_orphanage',
       'id',
@@ -516,6 +519,11 @@ class Admin_Dashboard extends CI_Controller
       'id',
       $data['mar'][0]['city']
     );
+    $data['merchantid'] = $this->CommonModal->getRowById(
+      'tbl_merchant_registration',
+      'mstatus',
+      '0'
+    );
     $data['state'] = $this->CommonModal->getRowById(
       'tbl_state',
       'state_id',
@@ -629,7 +637,41 @@ class Admin_Dashboard extends CI_Controller
     ]);
     redirect($_SERVER['HTTP_REFERER']);
   }
+  public function merchant_send_mail()
+  {
+    if (count($_POST) > 0) {
+      $post = $this->input->post();
+      $message = common_mail_temp('Welcome To SriMitra India', $post['message'], '', '', $link = null);
 
+      sendmail(
+        $post['email'],
+        'Registered with Srimitra | Welcome Merchant',
+        $message
+      );
+      $this->session->set_flashdata('msg', 'Welcome mail sended to Merchant');
+      $this->session->set_flashdata('msg_class', 'alert-success');
+      $this->session->unset_userdata('login_mail_id');
+      redirect('admin_Dashboard/merchant/');
+    }
+    $data['all_merchant'] = $this->CommonModal->getRowByIdInOrder(
+      'tbl_merchant_registration',
+      ['mstatus' => '0'],
+      'id',
+      'desc'
+    );
+    $data['last_merchant'] = $this->CommonModal->getAllRowsWithLimit(
+      'tbl_merchant_registration',
+      '1',
+      'id'
+    );
+
+    $data['title'] = 'Merchant - Send Mail';
+    if (sessionId('login_mail_id') != '') {
+      $this->load->view('admin/merchant_send_mail', $data);
+    } else {
+      // redirect($_SERVER['HTTP_REFERER']);
+    }
+  }
   public function merchant()
   {
     $data['all_merchant'] = $this->CommonModal->getRowByIdInOrder(
@@ -654,19 +696,6 @@ class Admin_Dashboard extends CI_Controller
         'id',
         $BdID
       );
-
-      // unlink('uploads/merchant/' .  $data[0]['shop_act']);
-      // unlink('uploads/merchant/' .  $data[0]['shop_pan']);
-      // unlink('uploads/merchant/' .  $data[0]['shop_adhar']);
-      // unlink('uploads/merchant/' .  $data[0]['shop_adhar_back']);
-      // unlink('uploads/merchant/' .  $data[0]['shop_gst']);
-      // unlink('uploads/merchant/' .  $data[0]['shop_img']);
-      // unlink('uploads/merchant/' .  $data[0]['m_pan']);
-
-      // unlink('uploads/merchant/' .  $data[0]['m_adhar']);
-      // unlink('uploads/merchant/' .  $data[0]['m_aadhar_back']);
-      // unlink('uploads/merchant/' .  $data[0]['m_photo']);
-
       $delete = $this->CommonModal->updateRowById(
         'tbl_merchant_registration',
         'id',
@@ -760,7 +789,7 @@ class Admin_Dashboard extends CI_Controller
         );
         $this->session->set_flashdata('msg_class', 'alert-danger');
       }
-      redirect(base_url() . 'admin_Dashboard/merchant');
+      redirect(base_url() . 'admin_Dashboard/merchant_send_mail');
     } else {
       $this->load->view('admin/merchant_add', $data);
     }
@@ -1273,7 +1302,7 @@ class Admin_Dashboard extends CI_Controller
         $file_name = $no . $_FILES["image"]["name"];
       }
 
-      $data = ['subcat_name' => $subcat_name, 'image' => $file_name];
+      $data = ['cat_id' => $cat_id, 'subcat_name' => $subcat_name, 'image' => $file_name];
 
       $update = $this->CommonModal->updateRowById(
         $table,
@@ -1347,6 +1376,7 @@ class Admin_Dashboard extends CI_Controller
       'merchant_products',
       [
         'approved' => '0',
+        'is_delete' => '0'
       ]
     );
 
@@ -1729,6 +1759,7 @@ class Admin_Dashboard extends CI_Controller
   {
     $data['favicon'] = base_url() . 'assets/images/favicon.png';
     $data['title'] = "Update order request";
+
     $data['products'] = $this->CommonModal->getRowById(
       'products',
       'is_delete',
@@ -1739,6 +1770,9 @@ class Admin_Dashboard extends CI_Controller
       'oid',
       decryptId($oid)
     );
+
+    $data['cch'] = $this->CommonModal->getSingleRowById('tbl_orphanage', array('id' => $data['order'][0]['orphan_id']));
+    $data['products'] = $this->CommonModal->getRowByMoreId('merchant_products', array('merchant_id' => $data['cch']['assign_merchant'], 'approved' => '1', 'is_delete' => '0'));
 
     if (count($_POST) > 0) {
       $product = $this->input->post('product');
@@ -1819,7 +1853,7 @@ class Admin_Dashboard extends CI_Controller
           '<div class="alert alert-danger">Try again later</div>'
         );
       }
-      redirect(base_url('admin_Dashboard/rejected_request'));
+      redirect(base_url('admin_Dashboard/new_request'));
     }
   }
   public function new_request()
@@ -1888,7 +1922,7 @@ class Admin_Dashboard extends CI_Controller
     $data['title'] = 'New / approved / Inprocess donations';
     // $data['donation'] = $this->CommonModal->getRowByOr('checkout',  array('status' => '1','chechout_status' => '3'),array('status' => '0'));
     $data['donation'] = $this->CommonModal->runQuery(
-      "SELECT * FROM `checkout` WHERE `chechout_status` = '3' OR `chechout_status` = '1'  OR  `chechout_status` = '0' OR  `chechout_status` = '4'  ORDER BY `id` DESC"
+      "SELECT * FROM `checkout` WHERE (`initial_status` = '1') AND (`chechout_status` = '3' OR `chechout_status` = '1'  OR  `chechout_status` = '0' OR  `chechout_status` = '4')  ORDER BY `id` DESC"
     );
 
     $this->load->view('admin/donation', $data);
@@ -2138,6 +2172,12 @@ class Admin_Dashboard extends CI_Controller
     $data['request'] = $this->CommonModal->getAllRows('order_request_template');
     $this->load->view('admin/request_template', $data);
   }
+  // 
+  public function disable_order_request_template($id, $status)
+  {
+    $r = $this->CommonModal->updateRowById('order_request_template', 'ortid', decryptId($id), array('is_visible' => $status));
+    redirect(base_url('admin_Dashboard/view_request_template'));
+  }
   public function edit_order_request_template($ortid = null)
   {
     $data['favicon'] = base_url() . 'assets/images/favicon.png';
@@ -2171,7 +2211,7 @@ class Admin_Dashboard extends CI_Controller
       );
 
       if ($requestid) {
-       $this->session->set_userdata(
+        $this->session->set_userdata(
           'msg',
           '<div class="alert alert-success">Your request is successfully submit. We will contact you as soon as possible.</div>'
         );
@@ -2188,7 +2228,7 @@ class Admin_Dashboard extends CI_Controller
   public function update_combo_product()
   {
     if (count($_POST) > 0) {
-      print_R($_POST);
+      //   print_R($_POST);
       $post = $this->input->post();
       $update = $this->CommonModal->updateRowById(
         'order_request_template_product',
@@ -2234,7 +2274,7 @@ class Admin_Dashboard extends CI_Controller
   public function add_combo_product()
   {
     if (count($_POST) > 0) {
-       
+
       $requestid = $this->input->post('orderpro');
       $product = $this->input->post('product');
       $quantity = $this->input->post('quantity');
@@ -2250,7 +2290,7 @@ class Admin_Dashboard extends CI_Controller
             'product' => $product[$j],
             'quantity' => $quantity[$j],
           ];
-          
+
           $request_product = $this->CommonModal->insertRowReturnId(
             'order_request_template_product',
             $data
@@ -2288,13 +2328,13 @@ class Admin_Dashboard extends CI_Controller
       $profile = $this->CommonModal->getsingleRowById('tbl_admin', [
         'admin_id' => sessionId('admin_id'),
       ]);
-      if ($profile['password'] == $oldpassword) {
+      if (decryptId($profile['password']) == $oldpassword) {
         if ($password == $confirmpassword) {
           $update = $this->CommonModal->updateRowById(
             'tbl_admin',
             'admin_id',
             sessionId('admin_id'),
-            ['password' => $password]
+            ['password' => encryptId($password)]
           );
           if ($update) {
             $this->session->set_flashdata(

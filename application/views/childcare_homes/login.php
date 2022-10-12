@@ -45,13 +45,13 @@ $this->session->unset_userdata('login_error');
                         <div class="mb-3">
                             <label class="form-label" for="username">Contact Number</label>
                             <!--<input type="text" class="form-control" name="number" id="" placeholder="Contact no.">-->
-                            <input type="text" class="form-control phoneval" name="number" id="" placeholder="Contact no." maxlength="10">
+                            <input type="text" class="form-control phoneval" name="number" id="" placeholder="Contact no." maxlength="10" required>
                        
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="userpassword">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
 
                         <div class="mb-3 row">

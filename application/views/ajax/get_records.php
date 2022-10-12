@@ -13,7 +13,7 @@ if ($checkout  != '') {
                 <td><?php echo $i; ?></td>
                 <td><?= $check['create_date_only'] ?></td>
                 <td><?= $cch['name']; ?></td>
-                <td><?= $products['pro_name']; ?><br>(<?= $merchant_products['quantity'] ?> <?= $merchant_products['quantity_type'] ?>)</td>
+                <td><?= $merchant_products['product_name']; ?><br>(<?= $merchant_products['quantity'] ?> <?= $merchant_products['quantity_type'] ?>)</td>
                 <td><?= $pro['product_quantity']; ?></td>
                 <td>Rs. <?= $merchant_products['sale_price']; ?></td>
             </tr>

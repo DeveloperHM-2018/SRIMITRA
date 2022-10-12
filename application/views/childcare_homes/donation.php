@@ -36,7 +36,7 @@
                                     width: 100%;
                                     ">
                                             <thead>
-                                                <tr>
+
                                                 <tr>
                                                     <th>Order ID</th>
                                                     <th>Order Date</th>
@@ -58,12 +58,11 @@
                                                 ?>
 
                                                         <tr>
-                                                            <td><?php //echo $i; ?><?= str_replace('-', '', $row['create_date_only']) . $row['id'] ?></td>
+                                                            <td> <a href="<?php echo base_url() . 'childcare_homes/OrderPlacedDetails/' . $row['id']; ?>"><?= str_replace('-', '', $row['create_date_only']) . $row['id'] ?></a></td>
                                                             <td style="word-wrap: break-word;"><?php echo convertDatedmy($row['create_date']); ?>
-
                                                             </td>
                                                             <td style="word-wrap: break-word;">
-                                                                <?= $merchant[0]['shop_name']; ?><br>Add. - <?php echo $merchant[0]['address']; ?>
+                                                                <?= $merchant[0]['shop_name']; ?>
                                                             </td>
                                                             <td style="word-wrap: break-word;">
                                                                 <?= (($user != '') ? $user[0]['name'] : 'Contribute Anonymously') ?>
@@ -73,7 +72,6 @@
                                                                 if ($row['status'] == '1' && ($user != '')) {
                                                                     if ($row['chechout_status'] == 6) {
                                                                         if ($row['certificate'] == '') {
-
                                                                 ?>
                                                                             <div class="modal fade bs-example-modal-center<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                                 <div class="modal-dialog" role="document">
@@ -123,12 +121,8 @@
                                                             <td><a href="<?php echo base_url() . 'childcare_homes/OrderPlacedDetails/' . $row['id']; ?>" class="btn btn-danger edit"><i class="fas fa-eye"></i></a></td>
                                                             <td>
                                                                 <?php
-
-
                                                                 if ($row['chechout_status'] == 0) {
                                                                 ?>
-
-
                                                                 <?php
                                                                 } elseif ($row['chechout_status'] == 3) {
                                                                 ?>
@@ -140,7 +134,7 @@
                                                                 <?php
                                                                 } elseif ($row['chechout_status'] == 5) {
                                                                 ?>
-                                                                    <button class="btn btn-success status delivered<?= $row['id']; ?> status<?= $row['id']; ?>" data-id="<?= $row['id']; ?>" data-status="delivered">
+                                                                    <button class="btn btn-success status delivered<?= $row['id']; ?> status<?= $row['id']; ?>" data-id="<?= $row['id']; ?>" data-status="delivered" data-user="<?= (($user != '') ? 'user': 'guest') ?>">
                                                                         Delivered </button>
                                                                     <p class="deliveredmsg<?= $row['id']; ?>" style="display:none">Delivered</p>
                                                                     <br>
@@ -198,7 +192,17 @@
                                             $('.delivered' + id).hide();
                                             $('.deliveredmsg' + id).show();
                                             $('.deliveredmsgs' + id).hide();
-                                            window.location = "<?= base_url('childcare_homes/OrderPlacedDetails_temp/') ?>" + id;
+                                            if(status == 'delivered'){
+                                                var user = $(this).data('user');
+                                                if(user == 'guest'){
+                                                    window.location = "<?= base_url('childcare_homes/delivered_donation/') ?>";
+                                                }else{
+                                                    window.location = "<?= base_url('childcare_homes/OrderPlacedDetails_temp/') ?>" + id;
+                                                }
+                                            }else{
+                                                window.location = "<?= base_url('childcare_homes/OrderPlacedDetails_temp/') ?>" + id;
+                                            }
+                                            
                                         } else {
                                             alert('Server Error');
                                         }

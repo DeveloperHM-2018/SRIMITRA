@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="en">
 <?php $this->load->view('admin/template/header_link'); ?>
-
+<style>
+    .main-img{
+        width:100%;
+    }
+</style>
 <body data-topbar="colored">
     <div id="layout-wrapper">
         <?php $this->load->view('admin/template/header'); ?>
@@ -29,6 +33,45 @@
                                     <div class="card-body">
                                         <section class="container">
                                             <div class=" row">
+                                                <div class="col-md-3">
+                                                    <?php
+                            if ($mar[0]['profile_type'] == '0') {
+                            ?>
+                                <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                    <img src="<?= (($mar[0]['profile'] != '') ? base_url('uploads/orphange/profile/' . $mar[0]['profile']) : base_url('assets/img/1.jpg')) ?>" class="main-img shadow" alt="">
+                                </div>
+                                <?php
+                            } else {
+                                if ($mar[0]['profile_video'] != '') {
+                                    if (file_exists(FCPATH . 'uploads/orphange/profile/' . $mar[0]['profile_video'])) {
+                                ?>
+                                        <div class="inventory-list-video text-center" style="background: #f7f7f7;">
+                                            <video height="200" controls>
+                                                <source src="<?= base_url() ?>uploads/orphange/profile/<?= $mar[0]['profile_video'] ?>" type="video/mp4">
+                                            </video>
+                                        </div>
+
+                                    <?php } else {
+                                    ?>
+                                        <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                            <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                        </div>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <div class="inventory-list-thumb text-center" style="background: #f7f7f7;">
+                                        <img src="<?= base_url('assets/img/1.jpg')  ?>" class="main-img shadow" alt="">
+                                    </div>
+                                <?php
+                                } ?>
+
+                            <?php
+                            }
+                            ?>
+                                                     
+                                                </div>
+                                                <div class="col-md-9 row">
                                                 <div class="col-md-12 m-1 p-1" style="border: 1px solid grey;border-radius:10px;">
                                                     <h4>Basic details - </h4>
                                                     <!-- <hr> -->
@@ -93,7 +136,7 @@
                                                     <h6>Bank address:</h6>
                                                     <?= $mar[0]['bank_address'] ?>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-123">
                                                     <br>
                                                     <h6>Description for Child care homes:</h6>
                                                     <?= $mar[0]['description'] ?>
@@ -160,7 +203,7 @@
                                                     <?php }
                                                     } ?>
                                                 </div>
-                                            </div>
+                                            </div></div>
                                         </section>
 
 

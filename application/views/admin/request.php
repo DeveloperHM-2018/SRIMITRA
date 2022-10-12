@@ -227,8 +227,7 @@
                                 beforeSend: function() {
                                     $(this).text("").html("Loading.. <i class='fa fa-spin fa-spinner'></i>").attr('disabled', true);
                                 },
-                                success: function(response) {
-                                    console.log(response);
+                                success: function(response) { 
                                     window.location.href="<?= base_url('admin_Dashboard/new_request') ?>"
                                     // if (response == '0') {
                                     //     $('.reject' + id).hide();

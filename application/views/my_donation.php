@@ -41,7 +41,7 @@
                                             <option value="">Select Status</option>
                                             <option value="0"> New Contribution</option>
                                             <!-- <option value="1"> Confirmed Contribution</option> -->
-                                            <option value="3">In-process Contribution</option>
+                                            <option value="3','5">In-process Contribution</option> 
                                             <option value="6">Completed Contribution</option>
                                             <option value="2">Cancelled Contribution</option>
                                         </select>

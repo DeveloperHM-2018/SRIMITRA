@@ -92,6 +92,7 @@
                     load_product();
 
 
+
                 }
             });
         });
@@ -129,9 +130,7 @@
         });
 
         $(document).on('click', '.saveincart', function() {
-
             // $('.saveincart').click(function() {
-
             var rid = $(this).data('rid');
             var orid = $(this).data('rorpahneid');
             var orphane_request = $(this).data('or_id');
@@ -146,17 +145,32 @@
                     order_type: order_type
                 },
                 success: function(response) {
-
                     console.log(response);
-
-                    window.location = "<?= base_url('Index/checkoutpay') ?>";
+                    window.location = "<?= base_url('Index/cart') ?>";
                 }
             });
         });
 
 
-        $(document).on('click', '#directorder', function() {
+        $(document).on('click', '.qty', function() {
+            var rowid = $(this).data('rowid');
+            var type = $(this).data('type');
+            var qty = $('#qtysidecart' + rowid).val();
+            $.ajax({
+                method: "POST",
+                url: "<?= base_url('Index/update_qty') ?>",
+                data: {
+                    rowid: rowid,
+                    qty: qty
+                },
+                success: function(response) {
+                    //  console.log(response);
+                    load_product();
+                }
+            });
+        });
 
+        $(document).on('click', '#directorder', function() {
             // $('#directorder').click(function() {
             var user = '';
             var name = $('#direct_name').val();
@@ -164,7 +178,6 @@
             var email = $('#direct_email').val();
             var rid = $('#order_request_id').val();
             var orid = $('#cchlist').val();
-
             if (name == '' || number == '' || email == '' || rid == '' || orid == '') {
                 if (name == '') {
                     console.log('Name is reqiured');
@@ -194,7 +207,6 @@
                         user = response;
                     }
                 });
-
                 var order_type = '1';
                 $.ajax({
                     method: "POST",
@@ -207,125 +219,11 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        window.location = "<?= base_url('Index/checkoutpay') ?>";
+                        window.location = "<?= base_url('Index/cart') ?>";
                     }
                 });
             }
-
-        });
-
-        // $(document).on('click', '#eventorder', function() {
-
-        //     var user = '';
-        //     var name = $('#direct_name').val();
-        //     var number = $('#direct_number').val();
-        //     var email = $('#direct_email').val();
-        //     var rid = $('input[name="order_request_id"]:checked').val();
-        //     var orid = $('#occasion').val();
-        //     var orid = $('#occ_date').val();
-        //     var orid = $('#budget').val();
-        //     var orid = $('#how_want_to_do').val();
-        //     var orid = $('#min_adv').val();
-        //     var orid = $('#occasion').val();
-        //     var orid = $('#occasion').val();
-
-        //     if (name == '' || number == '' || email == '' || rid == '' || orid == '') {
-        //         if (name == '') {
-        //             console.log('Name is reqiured');
-        //         }
-        //         if (number == '') {
-        //             console.log('Number is reqiured');
-        //         }
-        //         if (email == '') {
-        //             console.log('Email is reqiured');
-        //         }
-        //         if (rid == '') {
-        //             console.log('Select order to proceed');
-        //         }
-        //         if (orid == '') {
-        //             console.log('Select Child care home  for which you want to donate');
-        //         }
-        //     } else {
-        //         $.ajax({
-        //             method: "POST",
-        //             url: "<?= base_url('Index/check_user') ?>",
-        //             data: {
-        //                 name: name,
-        //                 number: number,
-        //                 email: email
-        //             },
-        //             success: function(response) {
-        //                 user = response;
-        //             }
-        //         });
-
-        //         var order_type = '1';
-        //         $.ajax({
-        //             method: "POST",
-        //             url: "<?= base_url('Index/addInToCart') ?>",
-        //             data: {
-        //                 rid: rid,
-        //                 orid: orid,
-        //                 ortid: rid,
-        //                 order_type: order_type
-        //             },
-        //             success: function(response) {
-        //                 console.log(response);
-        //                 window.location = "<?= base_url('Index/checkoutpay') ?>";
-        //             }
-        //         });
-        //     }
-
-        // });
-
-        function load_product() {
-            $.ajax({
-                url: '<?= base_url("Index/cart") ?>',
-                method: 'POST',
-                success: function(response) {
-                    $('#cart').html(response);
-
-                }
-            });
-            $.ajax({
-                url: '<?= base_url("Index/cartAjax") ?>',
-                method: 'POST',
-                success: function(response) {
-                    //   $('#cart').html(response);
-                    $('#cart2').html(response);
-
-                }
-            });
-            $.ajax({
-                url: '<?= base_url("Index/cartAjax2") ?>',
-                method: 'POST',
-                success: function(response) {
-                    $('#cart3').html(response);
-
-                }
-            });
-
-            $.ajax({
-                url: '<?= base_url("Index/fetch_totalitems") ?>',
-                method: 'POST',
-                success: function(response) {
-                    console.log(response);
-                    $('#totalitem').text(response);
-                    $('#totalitems').text(response);
-                }
-            });
-            $.ajax({
-                url: '<?= base_url("Index/fetch_totalamount") ?>',
-                method: 'POST',
-                success: function(response) {
-                    $('#totalamount').val(response);
-                    $('#totalpricehm').text('Rs. ' + response);
-                }
-            });
-            load_checkoutbar();
-            promo();
-        }
-
+        }); 
         <?php
         if ($this->session->has_userdata('regmsg')) {
         ?> $('#REGModal').modal('show');
@@ -537,10 +435,15 @@
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
-    });
+    }); 
+    function load_product() {
+        $.ajax({
+            url: '<?= base_url("Index/cart_items") ?>',
+            method: 'POST',
+            success: function(response) {
+                $('#cart').html(response);
 
-    //   $(document).on('click', '.requestlogin', function() {
-    //       $('#myModal').show();
-    //       $('#savecart').show();
-    //  }
+            }
+        }); 
+    }
 </script>

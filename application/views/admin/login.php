@@ -44,12 +44,12 @@
                     <form class="form-horizontal" method="POST" action="<?php echo base_url() . 'admin/adminlogin'; ?>">
                         <div class="mb-3">
                             <label class="form-label" for="username">Username</label>
-                            <input type="text" class="form-control" name="username" id="" placeholder="Username">
+                            <input type="text" class="form-control" name="username" id="" placeholder="Username" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="userpassword">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
 
                         <div class="mb-3 row">

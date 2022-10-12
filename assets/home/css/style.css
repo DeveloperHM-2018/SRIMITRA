@@ -451,6 +451,13 @@ label {
     color: #ffffff;
     position: relative;
 }
+
+#seprate{
+        padding-top: 18px;
+    border-top: 1px solid #333;
+    margin-top: 18px;
+}
+
 .header-top-action ul li + li::before {
     content: "|";
     display: inline-block;

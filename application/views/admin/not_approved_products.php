@@ -65,16 +65,12 @@
                                                     $i = 1;
                                                     foreach ($unapproved_products as $pro) {
                                                         $merchant = getSingleRowById('tbl_merchant_registration', array('id' => $pro['merchant_id']));
-                                                        $product = getSingleRowById('products', array('product_id' => $pro['product_id']));
-                                                        // $cat = getRowById('category', 'category_id', $fetch['category_id']);
-                                                        // $subcat = getRowById('sub_category', 'sub_category_id', $fetch['subcategory_id']);
-
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
                                                             <td><?= $pro['create_date']; ?></td>
                                                             <td><?= $merchant['shop_name']; ?><br><i>Add. <?= wordwrap($merchant['address'], 40, '<br>'); ?></i></td>
-                                                            <td><?= $product['pro_name']; ?><br><?= $pro['description']; ?></td>
+                                                            <td><?= $pro['product_name']; ?><br><?= $pro['description']; ?></td>
                                                             <td>MRP- Rs. <?= $pro['product_price']; ?><br>
                                                                 Sale Pr.- Rs. <?= $pro['sale_price']; ?><br>
                                                                 Pur. Pr.- Rs. <?= $pro['purchase_price']; ?></td>

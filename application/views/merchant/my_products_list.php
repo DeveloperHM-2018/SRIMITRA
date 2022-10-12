@@ -75,20 +75,22 @@
                                                         $fetch = getSingleRowById('products', array('product_id' => $fetchrow['product_id']));
                                                         $cat = getRowById('category', 'category_id', $fetch['category_id']);
                                                         $subcat = getRowById('sub_category', 'sub_category_id', $fetch['subcategory_id']);
-                                                        if ($fetch['pro_name'] != '2') {
+                                                        if ($fetchrow['approved'] != '2') {
                                                 ?>
 
                                                             <tr>
                                                                 <td><?php echo $i; ?>
-                                                                    <br><?php if ($fetch['approved'] == '0') {
-                                                                        } elseif ($fetch['approved'] == '1') {
-                                                                            echo '<span class="btn btn-danger">New entry</i></span>';
-                                                                        } else {
-                                                                        } ?>
+                                                                   
                                                                 </td>
                                                                 <td><?= convertDatedmy($fetchrow['create_date']); ?></td>
                                                                 <td>
-                                                                    <?php echo wordwrap($fetch['pro_name'], 10, '<br>'); ?>
+                                                                    <?php echo wordwrap($fetchrow['product_name'], 10, '<br>'); ?>
+                                                                     <?php if ($fetchrow['approved'] == 0) {
+                                                                         echo '<span class="  text-danger" style="forn-size:12px;"> ( New )   </span>';
+                                                                        } elseif ($fetchrow['approved'] == 1) {
+                                                                            echo '<span style="color:green;border-radius:50%;border:1px solid green;width:10px;height:10%padding:2px;"><i class="fa fa-check" aria-hidden="true"></i></span>';} else {
+                                                                            
+                                                                        } ?>
                                                                 </td>
                                                                 <td>
                                                                     <?= $cat[0]['cat_name']; ?>/<?= $subcat[0]['subcat_name'] ?>
@@ -100,7 +102,7 @@
                                                                 <td><?= $fetchrow['sale_price']; ?></td>
                                                                 <td><?= $fetchrow['purchase_price']; ?></td>
                                                                 <td>
-                                                                    <img src="<?php echo base_url();  ?>uploads/merchant_products/<?= $fetchrow['img']; ?>" style="width: 50px;height: 50px;" />
+                                                                    <img src="<?= setImage($fetchrow['img'], 'uploads/merchant_products/')  ?>" style="width: 50px;height: 50px;" />
                                                                 </td>
                                                                 <!-- <td> <a href="<?php echo base_url() . 'merchant/disable/' . $fetch['product_id'] . '/products/' . (($fetch['status'] == '1') ? '0' : '1'); ?>" class="btn btn-light"><?php if ($fetch['status'] == '0') { ?><i class="fas fa-eye"></i><?php } else { ?> <i class="fas fa-eye-slash"></i><?php } ?></a></td> -->
                                                                 <td>

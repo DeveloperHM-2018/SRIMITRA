@@ -93,7 +93,7 @@
                                                             <td>
                                                                 <a href="<?php echo base_url() ?>admin_Dashboard/merchant_edit/<?= encryptId($cons['id']); ?>" class="btn btn-success edit"><i class="fas fa-pencil-alt"></i>
                                                                 </a> 
-                                                                <a href="<?php echo base_url() . 'admin_Dashboard/merchant?BdID=' . $cons['id']; ?>" class="btn btn-primary delete"><i class="fas fa-trash-alt"></i></a>
+                                                                <a href="<?php echo base_url() . 'admin_Dashboard/merchant?BdID=' . $cons['id']; ?>" class="btn btn-primary delete" onclick="return confirm('Are you sure to delete ?')"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
 
                                                         </tr>
@@ -112,45 +112,9 @@
 
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
-
-
         <?php include 'template/footer_link.php'; ?>
-
-<?php 
-if(sessionId('login_mail_id') != ''){
-    ?>
-
-<div class="modal fade <?= (sessionId('login_mail_id') != '')? "d-block" : " " ?> " id="confirmVacancyStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="false" style="opacity: 1; padding-top: 20px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="uid"><i class="glyphicon glyphicon-check"></i>&nbsp;Welcome Mail Confirmation</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" id="formConfirm" action="<?= base_url('Admin_Dashboard/mail_confirmation') ?>">
-                    <input type="text" name="email" id="vid" value="<?= $last_merchant[0]['email'] ?>" hidden/>
-                    <input type="text" name="number" id="vid" value="<?= $last_merchant[0]['number'] ?>" hidden/>
-                    <input type="text" name="password" id="vid" value="<?= sessionId('login_password') ?>" hidden/>
-                    <div class="form-group">
-                        <p>Do you want to send Welcome Marchant mail to <b><?= $last_merchant[0]['m_name'] ?></b> on <b><?= $last_merchant[0]['email'] ?></b></p>
-                    </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success pull-right">yes</button>
-                <a href="<?= base_url('Admin_Dashboard/mail_confirmation') ?>">No</a>
-            </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php } ?>
 
 </body>
 

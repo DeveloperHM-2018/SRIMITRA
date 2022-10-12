@@ -355,7 +355,18 @@ function checkOrderIdExistUser($number)
 	}
 }
 
-
+function setImage($image_nm, $location)
+{
+	if ($image_nm != '') {
+		if (file_exists(FCPATH . $location . $image_nm)) {
+			return base_url() . $location . $image_nm;
+		} else {
+			return base_url() . 'uploads/default.jpg' ;
+		}
+	} else {
+		return base_url() . 'uploads/default.jpg' ;
+	}
+}
 function imageUpload($imageName, $path)
 {
 	$ci = &get_instance();
@@ -520,41 +531,41 @@ function sendNotificationUser($device_id, $title, $message)
 function sendmail($to, $subject, $message)
 {
 
-	// require 'php/class/class.phpmailer.php';
-	// $mail = new PHPMailer;
-	// $mail->IsSMTP();
-	// $mail->Host = 'mail.srimitraindia.com';
-	// $mail->Port = '587';
-	// $mail->SMTPAuth = true;
-	// $mail->Username = 'info@srimitraindia.com';
-	// $mail->Password = "?}4@;97P}o2T";
-	// $mail->SMTPSecure = '';
-	// $mail->From = 'info@srimitraindia.com';
-	// $mail->FromName = 'Srimitra';
-	// $mail->AddAddress($to);
-	// $mail->WordWrap = 50;
-	// $mail->IsHTML(true);
-	// $mail->Subject = $subject;
-	// $mail->Body = $message;
-	// // 	print_R($mail);
-	// if ($mail->Send()) {
-	// 	return true;
-	// } else {
-	// 	return false;
-	// }
+	require 'php/class/class.phpmailer.php';
+	$mail = new PHPMailer;
+	$mail->IsSMTP();
+	$mail->Host = 'mail.srimitraindia.com';
+	$mail->Port = '587';
+	$mail->SMTPAuth = true;
+	$mail->Username = 'info@srimitraindia.com';
+	$mail->Password = "?}4@;97P}o2T";
+	$mail->SMTPSecure = '';
+	$mail->From = 'info@srimitraindia.com';
+	$mail->FromName = 'Srimitra';
+	$mail->AddAddress($to);
+	$mail->WordWrap = 50;
+	$mail->IsHTML(true);
+	$mail->Subject = $subject;
+	$mail->Body = $message;
+// 		print_R($mail);
+	if ($mail->Send()) {
+		return true;
+	} else {
+		return false;
+	}
 
 
 	// Always set content-type when sending HTML email
-	$headers = "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+// 	$headers = "MIME-Version: 1.0" . "\r\n";
+// 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-	// More headers
-	$headers .= 'From: webangelte
-	chnologies@gmail.com' . "\r\n";
-	$headers .= 'Cc: '. $to . "\r\n";
+// 	// More headers
+// 	$headers .= 'From: webangelte
+// 	chnologies@gmail.com' . "\r\n";
+// 	$headers .= 'Cc: ' . $to . "\r\n";
 
-	$send = mail($to, $subject, $message, $headers);
-	return $send;
+// 	$send = mail($to, $subject, $message, $headers);
+// 	return $send;
 
 	// 	$ci = &get_instance();
 
@@ -598,10 +609,11 @@ function sendWhatsapp($contact_no, $message_content)
 	// print_r($file);
 	// exit;
 }
-function group_by_array($array, $key) {
-    $return = array();
-    foreach($array as $val) {
-        $return[$val[$key]][] = $val;
-    }
-    return $return;
+function group_by_array($array, $key)
+{
+	$return = array();
+	foreach ($array as $val) {
+		$return[$val[$key]][] = $val;
+	}
+	return $return;
 }

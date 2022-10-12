@@ -183,7 +183,7 @@ class Ajax extends CI_Controller
     {
         $category_id = $_POST['category_id'];
         $subcategory_id = $_POST['subcategory_id'];
-        $data = $this->CommonModal->getRowByMoreId('products', array('category_id'=>$category_id,'subcategory_id'=>$subcategory_id));
+        $data = $this->CommonModal->getRowByMoreId('products', array('category_id'=>$category_id,'subcategory_id'=>$subcategory_id,'status'=>'0'));
         echo '<option>Select Product  </option>';
         foreach ($data as $da) {
             echo '<option value="' . $da['product_id'] . '">' . $da['pro_name'] . '</option>';
@@ -457,7 +457,7 @@ class Ajax extends CI_Controller
                 $arr[] = "( date(`create_date_only`) >= '" . $todate . "' )";
             }
             // print_R($arr);
-            echo  implode(' AND ', $arr);
+            // echo  implode(' AND ', $arr);
             $data['checkout'] = $this->CommonModal->getRowByMoreIdInOrder('checkout', implode(' AND ', $arr), 'id', 'DESC');
         }
         $this->load->view('ajax/get_records', $data);
@@ -493,7 +493,7 @@ class Ajax extends CI_Controller
     public function user_redirect()
     {
         if (count($this->cart->contents()) > 0) {
-            redirect(base_url('Index/checkoutpay'));
+            redirect(base_url('Index/cart'));
         } else {
             redirect($this->agent->referrer());
         }
@@ -542,6 +542,13 @@ class Ajax extends CI_Controller
     }
     public function guest_login()
     {
-        $this->session->set_userdata(array('login_user_id' => '0', 'login_user_name' => 'Guest', 'login_user_emailid' => ' ', 'login_user_contact' => ' '));
+        echo 1;
+        $this->session->set_userdata(array('login_user_id' => '0', 'login_user_name' => 'Guest', 'login_user_emailid' => ' ', 'login_user_contact' => ' ', 'login_user_guest' => '0'));
+    }
+    
+    public function user_login()
+    {
+        echo 1;
+        $this->session->set_userdata(array('login_user_guest' => '1'));
     }
 }
